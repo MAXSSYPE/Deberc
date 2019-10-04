@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "948401650637",
+    "firebase_url": "https://mydeb-774dd.firebaseio.com",
+    "project_id": "mydeb-774dd",
+    "storage_bucket": "mydeb-774dd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:948401650637:android:63531897549ae0ab",
+        "android_client_info": {
+          "package_name": "app.first.my_deb"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "948401650637-piu24uffdjhtoi2jqh4eqao0970qvocs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvZnt7g33B3rR44FCO4tc5kNGGZ3PFg78"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "948401650637-piu24uffdjhtoi2jqh4eqao0970qvocs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

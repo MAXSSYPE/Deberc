@@ -1,0 +1,22 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowFullscreen">true</item>
+        <item name="colorPrimary">#9BE0E7</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:navigationBarColor" tools:targetApi="lollipop">#000000</item>
+    </style>
+    <style name="MyRad"
+        parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">
+            @android:color/black
+        </item>
+        <item name="colorControlActivated">
+            @android:color/holo_red_light
+        </item>
+    </style>
+
+</resources>
