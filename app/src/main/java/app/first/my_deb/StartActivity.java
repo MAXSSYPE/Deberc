@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class StartActivity extends AppCompatActivity {
     private int count = 0;
     private final Handler handler = new Handler();
+    static boolean flag = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,8 +24,9 @@ public class StartActivity extends AppCompatActivity {
             count++;
             int limit = 3;
             if (count == limit) {
-                Intent intent = new Intent(StartActivity.this, MainActivity.class);
+                Intent intent = new Intent("app.first.my_deb.SHOW_2x2_ACTIVITY");
                 startActivity(intent);
+                overridePendingTransition(R.anim.appear, R.anim.disappear);
                 finish();
             } else {
                 handler.postDelayed(onEverySecond, 1000);

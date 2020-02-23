@@ -1,138 +1,181 @@
 package app.first.my_deb;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+import com.google.gson.Gson;
+import com.special.ResideMenu.ResideMenu;
+import com.special.ResideMenu.ResideMenuItem;
 
-import static app.first.my_deb.MainActivity.context;
-import static app.first.my_deb.MainActivity.sPref;
+import java.util.ArrayList;
 
 public class Activity2x2 extends AppCompatActivity {
-    private static TextView resultField1;
-    private static TextView resultField2;
+    private final ArrayList<String> arrPlayer1 = new ArrayList<>();
+    private final ArrayList<String> arrPlayer2 = new ArrayList<>();
+    private TextView resultField1;
+    private TextView resultField2;
     private EditText numberField1;
     private EditText numberField2;
-    private static TextView name1;
-    private static TextView name2;
-    private final String score = "app.first.my_deb.score2x2";
-    private final Intent intent2 = new Intent(score);
-    private int count = 1;
-
+    private TextView name1;
+    private TextView name2;
+    private ResideMenu resideMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_2x2);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         MobileAds.initialize(this, "ca-app-pub-5807744662830254~2797692226");
         AdView mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
-
+        LinearLayout linearLayout = findViewById(R.id.main);
         resultField1 = findViewById(R.id.resultField1);
         resultField2 = findViewById(R.id.resultField2);
         numberField1 = findViewById(R.id.numberField1);
         numberField2 = findViewById(R.id.numberField2);
         name1 = findViewById(R.id.name1);
         name2 = findViewById(R.id.name2);
-        context = this;
-        if (MainActivity.getS() == 1) {
-            loadText(context);
+        loadText(this);
+
+        AnimationDrawable animDrawable = (AnimationDrawable) linearLayout.getBackground();
+        animDrawable.setEnterFadeDuration(10);
+        animDrawable.setExitFadeDuration(5000);
+        animDrawable.start();
+
+        resideMenu = new ResideMenu(this);
+        resideMenu.setBackground(R.drawable.dark);
+        resideMenu.setSwipeDirectionDisable(ResideMenu.DIRECTION_RIGHT);
+        resideMenu.attachToActivity(this);
+
+        String[] titles = {"Новая игра", "Cчет", "Hа 4", "Hа 3", "Hа 2"};
+        int[] icon = {R.drawable.newg, R.drawable.score, R.drawable.for1, R.drawable.for2, R.drawable.for3};
+        ResideMenuItem item1 = new ResideMenuItem(this, icon[0], titles[0]);
+        item1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AlertDialog.Builder(Activity2x2.this).setIcon(android.R.drawable.ic_dialog_alert).setTitle("Новая игра")
+                        .setMessage("Вы уверены?")
+                        .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                resideMenu.closeMenu();
+                                resultField1.setText("0");
+                                resultField2.setText("0");
+                                numberField1.setText("");
+                                numberField2.setText("");
+                                name1.setText("");
+                                name2.setText("");
+                                SharedPreferences scoreSharPref = getSharedPreferences("Score2x2.txt", MODE_PRIVATE);
+                                Editor editor = scoreSharPref.edit().clear();
+                                editor.apply();
+                                arrPlayer1.clear();
+                                arrPlayer2.clear();
+                            }
+                        }).setNegativeButton("Нет", null).show();
+            }
+        });
+        resideMenu.addMenuItem(item1, ResideMenu.DIRECTION_LEFT);
+
+        ResideMenuItem item2 = new ResideMenuItem(this, icon[1], titles[1]);
+        item2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent("app.first.my_deb.score2x2"));
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+            }
+        });
+        resideMenu.addMenuItem(item2, ResideMenu.DIRECTION_LEFT);
+
+        ResideMenuItem item3 = new ResideMenuItem(this, icon[2], titles[2]);
+        item3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent("app.first.my_deb.SHOW_4_ACTIVITY"));
+                finish();
+                overridePendingTransition(R.anim.slide_in_right, R.anim.exit_to_left);
+            }
+        });
+        resideMenu.addMenuItem(item3, ResideMenu.DIRECTION_LEFT);
+
+        ResideMenuItem item4 = new ResideMenuItem(this, icon[3], titles[3]);
+        item4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent("app.first.my_deb.SHOW_3_ACTIVITY"));
+                finish();
+                overridePendingTransition(R.anim.slide_in_right, R.anim.exit_to_left);
+            }
+        });
+        resideMenu.addMenuItem(item4, ResideMenu.DIRECTION_LEFT);
+
+        ResideMenuItem item5 = new ResideMenuItem(this, icon[4], titles[4]);
+        item5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent("app.first.my_deb.SHOW_2_ACTIVITY"));
+                finish();
+                overridePendingTransition(R.anim.slide_in_right, R.anim.exit_to_left);
+            }
+        });
+        resideMenu.addMenuItem(item5, ResideMenu.DIRECTION_LEFT);
+
+        if (StartActivity.flag) {
+            StartActivity.flag = false;
+            resideMenu.openMenu(0);
         }
     }
-    @SuppressLint("WrongConstant")
+
     public void onClick(View view) {
         try {
             int prev1 = Integer.valueOf(resultField1.getText().toString());
             int prev2 = Integer.valueOf(resultField2.getText().toString());
-            int now1 = Integer.valueOf(numberField1.getText().toString());
-            int now2 = Integer.valueOf(numberField2.getText().toString());
+            int now1 = 0;
+            int now2 = 0;
+            if (!numberField1.getText().toString().equals(""))
+                now1 = Integer.valueOf(numberField1.getText().toString());
+            else
+                numberField1.setText("0");
+            if (!numberField2.getText().toString().equals(""))
+                now2 = Integer.valueOf(numberField2.getText().toString());
+            else
+                numberField2.setText("0");
+
             resultField1.setText(String.valueOf(prev1 + now1));
             resultField2.setText(String.valueOf(prev2 + now2));
-            Editor editor;
-            SharedPreferences scoreSharPref;
-            if (count == 1 && Score2x2.s == 0)
-            {
-                scoreSharPref = getSharedPreferences("Score2x2.txt", MODE_APPEND);
-                editor = scoreSharPref.edit().clear();
-            }
-            else
-            {
-                scoreSharPref = getSharedPreferences("Score2x2.txt", MODE_APPEND);
-                editor = scoreSharPref.edit();
-            }
-            if (count % 8 == 1) {
-                editor.putString("val1", numberField1.getText().toString());
-                editor.putString("val2", numberField2.getText().toString());
-                editor.putString("n1", String.valueOf(count));
-                count++;
-                Score2x2.s = 1;
-            } else if (count % 8 == 2) {
-                editor.putString("val3", numberField1.getText().toString());
-                editor.putString("val4", numberField2.getText().toString());
-                editor.putString("n2", String.valueOf(count));
-                count++;
-                Score2x2.s = 1;
-            } else if (count % 8 == 3) {
-                editor.putString("val5", numberField1.getText().toString());
-                editor.putString("val6", numberField2.getText().toString());
-                editor.putString("n3", String.valueOf(count));
-                count++;
-                Score2x2.s = 1;
-            } else if (count % 8 == 4) {
-                editor.putString("val7", numberField1.getText().toString());
-                editor.putString("val8", numberField2.getText().toString());
-                editor.putString("n4", String.valueOf(count));
-                count++;
-                Score2x2.s = 1;
-            } else if (count % 8 == 5) {
-                editor.putString("val9", numberField1.getText().toString());
-                editor.putString("val10", numberField2.getText().toString());
-                editor.putString("n5", String.valueOf(count));
-                count++;
-                Score2x2.s = 1;
-            } else if (count % 8 == 6) {
-                editor.putString("val11", numberField1.getText().toString());
-                editor.putString("val12", numberField2.getText().toString());
-                editor.putString("n6", String.valueOf(count));
-                count++;
-                Score2x2.s = 1;
-            } else if (count % 8 == 7) {
-                editor.putString("val13", numberField1.getText().toString());
-                editor.putString("val14", numberField2.getText().toString());
-                editor.putString("n7", String.valueOf(count));
-                count++;
-                Score2x2.s = 1;
-            } else if (count % 8 == 0) {
-                editor.putString("val15", numberField1.getText().toString());
-                editor.putString("val16", numberField2.getText().toString());
-                editor.putString("n8", String.valueOf(count));
-                count++;
-                Score2x2.s = 1;
-            }
+            SharedPreferences scoreSharPref = getSharedPreferences("Score2x2.txt", MODE_PRIVATE);
+            Editor editor = scoreSharPref.edit();
+            arrPlayer1.add(numberField1.getText().toString());
+            arrPlayer2.add(numberField2.getText().toString());
+            Gson gson = new Gson();
+            String listStr1 = gson.toJson(arrPlayer1);
+            String listStr2 = gson.toJson(arrPlayer2);
+            editor.putString("pl1", listStr1);
+            editor.putString("pl2", listStr2);
             editor.apply();
             numberField1.setText("");
             numberField2.setText("");
         } catch (Exception ignored) {
 
         }
-    }
-
-    public void onSuppClick(View view) {
-        startActivityForResult(intent2, 1);
-        finish();
     }
 
     @Override
@@ -147,35 +190,48 @@ public class Activity2x2 extends AppCompatActivity {
     }
 
     private void saveText() {
-        sPref = getSharedPreferences("Save2x2.txt", MODE_PRIVATE);
+        SharedPreferences sPref = getSharedPreferences("Save2x2.txt", MODE_PRIVATE);
         Editor ed = sPref.edit();
         ed.putString("res1", resultField1.getText().toString());
         ed.putString("res2", resultField2.getText().toString());
         ed.putString("name1", name1.getText().toString());
         ed.putString("name2", name2.getText().toString());
-        ed.putInt("count", count);
         ed.apply();
     }
 
     private void loadText(Context context) {
-        sPref = context.getSharedPreferences("Save2x2.txt", MODE_PRIVATE);
+        SharedPreferences sPref = context.getSharedPreferences("Save2x2.txt", MODE_PRIVATE);
         name1.setText(sPref.getString("name1", ""));
         name2.setText(sPref.getString("name2", ""));
-        resultField1.setText(sPref.getString("res1", ""));
-        resultField2.setText(sPref.getString("res2", ""));
-        count = sPref.getInt("count", 0);    }
+        resultField1.setText(sPref.getString("res1", "0"));
+        resultField2.setText(sPref.getString("res2", "0"));
+    }
 
     @Override
     public void onBackPressed() {
-        String main = "app.first.my_deb.main";
-        Intent intent1 = new Intent(main);
-        startActivity(intent1);
-        finish();
+        new AlertDialog.Builder(this).setIcon(android.R.drawable.ic_dialog_alert).setTitle("Выход")
+                .setMessage("Вы уверены что хотите выйти?")
+                .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        Intent intent = new Intent(Intent.ACTION_MAIN);
+                        intent.addCategory(Intent.CATEGORY_HOME);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        finish();
+                    }
+                }).setNegativeButton("Нет", null).show();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         saveText();
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        return resideMenu.dispatchTouchEvent(ev);
     }
 }
