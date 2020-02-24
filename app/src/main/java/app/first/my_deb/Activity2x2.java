@@ -5,7 +5,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.ActivityInfo;
 import android.graphics.drawable.AnimationDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,14 +23,15 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.special.ResideMenu.ResideMenu;
 import com.special.ResideMenu.ResideMenuItem;
 
 import java.util.ArrayList;
 
 public class Activity2x2 extends AppCompatActivity {
-    private final ArrayList<String> arrPlayer1 = new ArrayList<>();
-    private final ArrayList<String> arrPlayer2 = new ArrayList<>();
+    private ArrayList<String> arrPlayer1 = new ArrayList<>();
+    private ArrayList<String> arrPlayer2 = new ArrayList<>();
     private TextView resultField1;
     private TextView resultField2;
     private EditText numberField1;
@@ -41,6 +44,8 @@ public class Activity2x2 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_2x2);
+        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O)
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         MobileAds.initialize(this, "ca-app-pub-5807744662830254~2797692226");
         AdView mAdView = findViewById(R.id.adView);
@@ -203,8 +208,15 @@ public class Activity2x2 extends AppCompatActivity {
         SharedPreferences sPref = context.getSharedPreferences("Save2x2.txt", MODE_PRIVATE);
         name1.setText(sPref.getString("name1", ""));
         name2.setText(sPref.getString("name2", ""));
-        resultField1.setText(sPref.getString("res1", "0"));
-        resultField2.setText(sPref.getString("res2", "0"));
+        if (sPref.getString("res1", "0").equals(""))
+            resultField1.setText("0");
+        else
+            resultField1.setText(sPref.getString("res1", "0"));
+
+        if (sPref.getString("res2", "0").equals(""))
+            resultField2.setText("0");
+        else
+            resultField2.setText(sPref.getString("res2", "0"));
     }
 
     @Override

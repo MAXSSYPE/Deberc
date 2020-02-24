@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowFullscreen">true</item>
         <item name="colorPrimary">#9BE0E7</item>
         <item name="windowNoTitle">true</item>
@@ -13,6 +13,7 @@
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="buttonBarButtonStyle">@style/button_dark_dialog</item>
+        <item name="android:windowIsFloating">false</item>
     </style>
     <style name="MyRad"
         parent="Theme.AppCompat.Light">

@@ -2,8 +2,10 @@ package app.first.my_deb;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.widget.LinearLayout;
@@ -25,6 +27,8 @@ public class Score3 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score);
+        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O)
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         Slidr.attach(this);
         ScrollView scrollView = findViewById(R.id.main);
         linearLayout = findViewById(R.id.lin);
@@ -77,7 +81,7 @@ public class Score3 extends AppCompatActivity {
         up1.setTextColor(Color.BLACK);
         up1.setTextSize(18);
         up1.setGravity(Gravity.CENTER_HORIZONTAL);
-        up1.setText("Расдача");
+        up1.setText("Раздача");
 
         TextView up2 = new TextView(this);
         up2.setLayoutParams(params);

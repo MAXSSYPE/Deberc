@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.graphics.drawable.AnimationDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -50,6 +52,8 @@ public class Activity4 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_4);
+        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O)
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         MobileAds.initialize(this, "ca-app-pub-5807744662830254~2797692226");
         AdView mAdView = findViewById(R.id.adView);
@@ -287,6 +291,7 @@ public class Activity4 extends AppCompatActivity {
             resultField3.setText("0");
         else
             resultField3.setText(sPref.getString("res3", "0"));
+
         if (sPref.getString("res4", "0").equals(""))
             resultField4.setText("0");
         else
