@@ -15,15 +15,6 @@
         <item name="buttonBarButtonStyle">@style/button_dark_dialog</item>
         <item name="android:windowIsFloating">false</item>
     </style>
-    <style name="MyRad"
-        parent="Theme.AppCompat.Light">
-        <item name="colorControlNormal">
-            @android:color/black
-        </item>
-        <item name="colorControlActivated">
-            @android:color/holo_red_light
-        </item>
-    </style>
 
     <style name="TextviewStyle" parent="@android:style/Widget.TextView">
         <item name="android:layout_width">wrap_content</item>
@@ -42,7 +33,7 @@
     <style name="button_dark" parent="@style/Widget.MaterialComponents.Button">
         <item name="android:textColor">#fff</item>
         <item name="android:textSize">22sp</item>
-        <item name="backgroundTint">#87CEFA</item>
+        <item name="backgroundTint">#FFFFE0</item>
     </style>
 
 </resources>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Belote: score</string>
+    <string name="exit">Сигурни ли сте, че искате да излезете?</string>
+    <string name="yes">Да</string>
+    <string name="no">Не</string>
+    <string name="exitTitle">Изход</string>
+    <string name="new_game">Нова игра</string>
+    <string name="sure">Сигурен ли си?</string>
+    <string name="count">Разход</string>
+    <string name="vs22">2 за 2</string>
+    <string name="vs2">За 2</string>
+    <string name="vs3">За 3</string>
+    <string name="vs4">За 4</string>
+    <string name="distribution">Разпределение</string>
+    <string name="gamer1">Плейър 1</string>
+    <string name="gamer2">Плейър 2</string>
+    <string name="gamer3">Плейър 3</string>
+    <string name="gamer4">Плейър 4</string>
+    <string name="team1">Екипът 1</string>
+    <string name="team2">Екипът 2</string>
+    <string name="add">Добавяне към фактура</string>
+    <string name="points_for_distribution">Точки за разпространение:</string>
+    <string name="language">Езици</string>
+    <string name="title_activity_settings">Настройки</string>
+    <string name="apply">Презареждане</string>
+</resources>

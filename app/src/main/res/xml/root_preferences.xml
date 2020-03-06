@@ -1,0 +1,11 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory android:title="@string/language">
+        <ListPreference
+            app:defaultValue="false"
+            app:entries="@array/langs"
+            app:entryValues="@array/entryvalues_lang"
+            app:key="langs"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+</PreferenceScreen>

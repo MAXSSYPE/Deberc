@@ -5,13 +5,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
-import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
+import androidx.preference.PreferenceManager;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -32,10 +33,6 @@ public class Score extends Activity {
         ScrollView scrollView = findViewById(R.id.main);
         linearLayout = findViewById(R.id.lin);
         loadText(this);
-        AnimationDrawable animDrawable = (AnimationDrawable) scrollView.getBackground();
-        animDrawable.setEnterFadeDuration(10);
-        animDrawable.setExitFadeDuration(5000);
-        animDrawable.start();
     }
 
     @Override
@@ -79,21 +76,21 @@ public class Score extends Activity {
         up1.setTextColor(Color.BLACK);
         up1.setTextSize(24);
         up1.setGravity(Gravity.CENTER_HORIZONTAL);
-        up1.setText("Раздача");
+        up1.setText(getResources().getString(R.string.distribution));
 
         TextView up2 = new TextView(this);
         up2.setLayoutParams(params);
         up2.setTextColor(Color.BLACK);
         up2.setTextSize(24);
         up2.setGravity(Gravity.CENTER_HORIZONTAL);
-        up2.setText("Игрок 1");
+        up2.setText(getResources().getString(R.string.gamer1));
 
         TextView up3 = new TextView(this);
         up3.setLayoutParams(params);
         up3.setTextColor(Color.BLACK);
         up3.setTextSize(24);
         up3.setGravity(Gravity.CENTER_HORIZONTAL);
-        up3.setText("Игрок 2");
+        up3.setText(getResources().getString(R.string.gamer2));
         up.addView(up1);
         up.addView(up2);
         up.addView(up3);
@@ -129,6 +126,17 @@ public class Score extends Activity {
                 supp.addView(textView2);
                 supp.addView(textView3);
                 linearLayout.addView(supp);
+        }
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(newBase);
+        String lang = pref.getString("langs", "");
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
+            super.attachBaseContext(ContextWrapper.wrap(newBase, lang));
+        } else {
+            super.attachBaseContext(newBase);
         }
     }
 }

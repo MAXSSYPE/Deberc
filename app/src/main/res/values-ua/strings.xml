@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Деберц: запис баллів</string>
+    <string name="exit">Вы впевнені, що хочете вийти?</string>
+    <string name="yes">Так</string>
+    <string name="no">Ні</string>
+    <string name="exitTitle">Вихід</string>
+    <string name="new_game">Нова гра</string>
+    <string name="sure">Ви впевнені?</string>
+    <string name="count">Рахунок</string>
+    <string name="vs22">2 на 2</string>
+    <string name="vs2">На 2</string>
+    <string name="vs3">На 3</string>
+    <string name="vs4">На 4</string>
+    <string name="distribution">Роздача</string>
+    <string name="gamer1">Гравець 1</string>
+    <string name="gamer2">Гравець 2</string>
+    <string name="gamer3">Гравець 3</string>
+    <string name="gamer4">Гравець 4</string>
+    <string name="team1">Команда 1</string>
+    <string name="team2">Команда 2</string>
+    <string name="add">Додати до рахунку</string>
+    <string name="points_for_distribution">Бали за роздачу:</string>
+    <string name="language">Мови</string>
+    <string name="title_activity_settings">Налаштування</string>
+    <string name="apply">Перезавантажити</string>
+</resources>

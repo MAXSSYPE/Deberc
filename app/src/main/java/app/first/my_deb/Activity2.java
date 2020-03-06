@@ -9,29 +9,32 @@ import android.content.pm.ActivityInfo;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.special.ResideMenu.ResideMenu;
 import com.special.ResideMenu.ResideMenuItem;
 
 import java.util.ArrayList;
 
 public class Activity2 extends AppCompatActivity implements View.OnClickListener {
-    private ArrayList<String> arrPlayer1= new ArrayList<>();
-    private ArrayList<String> arrPlayer2= new ArrayList<>();
+    private ArrayList<String> arrPlayer1 = new ArrayList<>();
+    private ArrayList<String> arrPlayer2 = new ArrayList<>();
     private TextView resultField1;
     private TextView resultField2;
     private EditText numberField1;
@@ -39,7 +42,6 @@ public class Activity2 extends AppCompatActivity implements View.OnClickListener
     private TextView name1;
     private TextView name2;
     private final String score = "app.first.my_deb.activity_score";
-    private final Intent intent2 = new Intent(score);
     private ResideMenu resideMenu;
 
 
@@ -64,6 +66,36 @@ public class Activity2 extends AppCompatActivity implements View.OnClickListener
         name2 = findViewById(R.id.name2);
         loadText(this);
 
+        numberField1.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                boolean handle = false;
+                if (i == EditorInfo.IME_ACTION_DONE) {
+                    onClick(numberField1);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    assert imm != null;
+                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    handle = true;
+                }
+                return false;
+            }
+        });
+
+        numberField2.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                boolean handle = false;
+                if (i == EditorInfo.IME_ACTION_DONE) {
+                    onClick(numberField2);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    assert imm != null;
+                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    handle = true;
+                }
+                return false;
+            }
+        });
+
         AnimationDrawable animDrawable = (AnimationDrawable) linearLayout.getBackground();
         animDrawable.setEnterFadeDuration(10);
         animDrawable.setExitFadeDuration(5000);
@@ -74,15 +106,15 @@ public class Activity2 extends AppCompatActivity implements View.OnClickListener
         resideMenu.setSwipeDirectionDisable(ResideMenu.DIRECTION_RIGHT);
         resideMenu.attachToActivity(this);
 
-        String[] titles = {"Новая игра", "Cчет", "2 на 2", "Hа 4", "Hа 3"};
-        int[] icon = {R.drawable.newg, R.drawable.score, R.drawable.for1, R.drawable.for2, R.drawable.for3};
+        String[] titles = {getResources().getString(R.string.new_game), getResources().getString(R.string.count), getResources().getString(R.string.language), getResources().getString(R.string.vs22), getResources().getString(R.string.vs4), getResources().getString(R.string.vs3)};
+        int[] icon = {R.drawable.newg, R.drawable.score, R.drawable.settings, R.drawable.for1, R.drawable.for2, R.drawable.for3};
         ResideMenuItem item1 = new ResideMenuItem(this, icon[0], titles[0]);
         item1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new AlertDialog.Builder(Activity2.this).setIcon(android.R.drawable.ic_dialog_alert).setTitle("Новая игра")
-                        .setMessage("Вы уверены?")
-                        .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                new AlertDialog.Builder(Activity2.this).setIcon(android.R.drawable.ic_dialog_alert).setTitle(getResources().getString(R.string.new_game))
+                        .setMessage(getResources().getString(R.string.sure))
+                        .setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 resideMenu.closeMenu();
@@ -98,10 +130,10 @@ public class Activity2 extends AppCompatActivity implements View.OnClickListener
                                 arrPlayer1.clear();
                                 arrPlayer2.clear();
                             }
-                        }).setNegativeButton("Нет", null).show();
+                        }).setNegativeButton(getResources().getString(R.string.no), null).show();
             }
         });
-        resideMenu.addMenuItem(item1,  ResideMenu.DIRECTION_LEFT);
+        resideMenu.addMenuItem(item1, ResideMenu.DIRECTION_LEFT);
 
         ResideMenuItem item2 = new ResideMenuItem(this, icon[1], titles[1]);
         item2.setOnClickListener(new View.OnClickListener() {
@@ -111,10 +143,20 @@ public class Activity2 extends AppCompatActivity implements View.OnClickListener
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
             }
         });
-        resideMenu.addMenuItem(item2,  ResideMenu.DIRECTION_LEFT);
+        resideMenu.addMenuItem(item2, ResideMenu.DIRECTION_LEFT);
 
         ResideMenuItem item3 = new ResideMenuItem(this, icon[2], titles[2]);
         item3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent("app.first.my_deb.settings"));
+                overridePendingTransition(R.anim.slide_in_right, R.anim.exit_to_left);
+            }
+        });
+        resideMenu.addMenuItem(item3, ResideMenu.DIRECTION_LEFT);
+
+        ResideMenuItem item4 = new ResideMenuItem(this, icon[3], titles[3]);
+        item4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent("app.first.my_deb.SHOW_2x2_ACTIVITY"));
@@ -122,10 +164,10 @@ public class Activity2 extends AppCompatActivity implements View.OnClickListener
                 overridePendingTransition(R.anim.slide_in_right, R.anim.exit_to_left);
             }
         });
-        resideMenu.addMenuItem(item3,  ResideMenu.DIRECTION_LEFT);
+        resideMenu.addMenuItem(item4, ResideMenu.DIRECTION_LEFT);
 
-        ResideMenuItem item4 = new ResideMenuItem(this, icon[3], titles[3]);
-        item4.setOnClickListener(new View.OnClickListener() {
+        ResideMenuItem item5 = new ResideMenuItem(this, icon[4], titles[4]);
+        item5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent("app.first.my_deb.SHOW_4_ACTIVITY"));
@@ -133,10 +175,10 @@ public class Activity2 extends AppCompatActivity implements View.OnClickListener
                 overridePendingTransition(R.anim.slide_in_right, R.anim.exit_to_left);
             }
         });
-        resideMenu.addMenuItem(item4,  ResideMenu.DIRECTION_LEFT);
+        resideMenu.addMenuItem(item5, ResideMenu.DIRECTION_LEFT);
 
-        ResideMenuItem item5 = new ResideMenuItem(this, icon[4], titles[4]);
-        item5.setOnClickListener(new View.OnClickListener() {
+        ResideMenuItem item6 = new ResideMenuItem(this, icon[5], titles[5]);
+        item6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent("app.first.my_deb.SHOW_3_ACTIVITY"));
@@ -144,7 +186,7 @@ public class Activity2 extends AppCompatActivity implements View.OnClickListener
                 overridePendingTransition(R.anim.slide_in_right, R.anim.exit_to_left);
             }
         });
-        resideMenu.addMenuItem(item5,  ResideMenu.DIRECTION_LEFT);
+        resideMenu.addMenuItem(item6, ResideMenu.DIRECTION_LEFT);
     }
 
     public void onClick(View view) {
@@ -219,19 +261,23 @@ public class Activity2 extends AppCompatActivity implements View.OnClickListener
 
     @Override
     public void onBackPressed() {
-        new AlertDialog.Builder(this).setIcon(android.R.drawable.ic_dialog_alert).setTitle("Выход")
-                .setMessage("Вы уверены что хотите выйти?")
-                .setPositiveButton("Да", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+        if (resideMenu.isOpened()) {
+            new AlertDialog.Builder(this).setIcon(android.R.drawable.ic_dialog_alert).setTitle(getResources().getString(R.string.exitTitle))
+                    .setMessage(getResources().getString(R.string.exit))
+                    .setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
-                        Intent intent = new Intent(Intent.ACTION_MAIN);
-                        intent.addCategory(Intent.CATEGORY_HOME);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-                        finish();
-                    }
-                }).setNegativeButton("Нет", null).show();
+                            Intent intent = new Intent(Intent.ACTION_MAIN);
+                            intent.addCategory(Intent.CATEGORY_HOME);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }).setNegativeButton(getResources().getString(R.string.no), null).show();
+        } else {
+            resideMenu.openMenu(ResideMenu.DIRECTION_LEFT);
+        }
     }
 
     @Override
@@ -243,5 +289,37 @@ public class Activity2 extends AppCompatActivity implements View.OnClickListener
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         return resideMenu.dispatchTouchEvent(ev);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(newBase);
+        String lang = pref.getString("langs", "");
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
+            super.attachBaseContext(ContextWrapper.wrap(newBase, lang));
+        } else {
+            super.attachBaseContext(newBase);
+        }
+    }
+
+    public void onNewClick(View view) {
+        new AlertDialog.Builder(Activity2.this).setIcon(android.R.drawable.ic_dialog_alert).setTitle(getResources().getString(R.string.new_game))
+                .setMessage(getResources().getString(R.string.sure))
+                .setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        resultField1.setText("0");
+                        resultField2.setText("0");
+                        numberField1.setText("");
+                        numberField2.setText("");
+                        name1.setText("");
+                        name2.setText("");
+                        SharedPreferences scoreSharPref = getSharedPreferences("Score.txt", MODE_PRIVATE);
+                        Editor editor = scoreSharPref.edit().clear();
+                        editor.apply();
+                        arrPlayer1.clear();
+                        arrPlayer2.clear();
+                    }
+                }).setNegativeButton(getResources().getString(R.string.no), null).show();
     }
 }

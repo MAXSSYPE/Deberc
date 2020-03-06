@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Belote: score</string>
+    <string name="exit">Êtes-vous sûr de vouloir sortir?</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
+    <string name="exitTitle">Quitter</string>
+    <string name="new_game">Nouveau jeu</string>
+    <string name="sure">Êtes-vous sûr?</string>
+    <string name="count">Score</string>
+    <string name="vs22">2 vs 2</string>
+    <string name="vs2">2 joueurs</string>
+    <string name="vs3">3 joueurs</string>
+    <string name="vs4">4 joueurs</string>
+    <string name="distribution">Distribution</string>
+    <string name="gamer1">Joueur 1</string>
+    <string name="gamer2">Joueur 2</string>
+    <string name="gamer3">Joueur 3</string>
+    <string name="gamer4">Joueur 4</string>
+    <string name="team1">L\'équipe 1</string>
+    <string name="team2">L\'équipe 2</string>
+    <string name="add">Ajouter à la facture</string>
+    <string name="points_for_distribution">Points de distribution:</string>
+    <string name="language">Les langues</string>
+    <string name="title_activity_settings">Paramètres</string>
+    <string name="apply">Recharger</string>
+</resources>

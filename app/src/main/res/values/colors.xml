@@ -4,7 +4,7 @@
     <color name="colorAccent">#9BE0E7</color>
     <color name="colorPrimary">#FFFFFF</color>
     <color name="colorTransparent">#00ffffff</color>
-    <color name="colorGradientStart">#FFFFFF</color>
-    <color name="colorGradientCenter">#00BFFF</color>
-    <color name="colorGradientEnd">#1E90FF</color>
+    <color name="colorGradientStart">#FFFACD</color>
+    <color name="colorGradientCenter">#FFE4B5</color>
+    <color name="colorGradientEnd">#EEE8AA</color>
 </resources>

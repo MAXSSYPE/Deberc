@@ -1,12 +1,15 @@
 package app.first.my_deb;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
 public class StartActivity extends AppCompatActivity {
     private int count = 0;
@@ -37,4 +40,15 @@ public class StartActivity extends AppCompatActivity {
             }
         }
     };
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(newBase);
+        String lang = pref.getString("langs", "");
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N_MR1) {
+            super.attachBaseContext(ContextWrapper.wrap(newBase, lang));
+        } else {
+            super.attachBaseContext(newBase);
+        }
+    }
 }

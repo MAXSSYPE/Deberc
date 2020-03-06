@@ -8,16 +8,18 @@
         android:icon="@drawable/cards"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-5807744662830254~2797692226" />
-        <meta-data
-            android:name="android.max_aspect"
-            android:value="2.1"/>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings">
+            <intent-filter>
+                <action android:name="app.first.my_deb.settings" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
         <activity android:name=".Score2x2">
             <intent-filter>
@@ -26,78 +28,69 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Score4"
-            >
+        <activity android:name=".Score4">
             <intent-filter>
                 <action android:name="app.first.my_deb.score4" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Score3"
-            >
+
+        <activity android:name=".Score3">
             <intent-filter>
                 <action android:name="app.first.my_deb.score3" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Score"
-            >
+        <activity android:name=".Score">
             <intent-filter>
                 <action android:name="app.first.my_deb.score" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Activity4"
-            >
+        <activity android:name=".Activity4">
             <intent-filter>
                 <action android:name="app.first.my_deb.SHOW_4_ACTIVITY" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Activity3"
-            >
+        <activity android:name=".Activity3">
             <intent-filter>
                 <action android:name="app.first.my_deb.SHOW_3_ACTIVITY" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Activity2x2"
-            >
+        <activity android:name=".Activity2x2">
             <intent-filter>
                 <action android:name="app.first.my_deb.SHOW_2x2_ACTIVITY" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Activity2"
-            >
+        <activity android:name=".Activity2">
             <intent-filter>
                 <action android:name="app.first.my_deb.SHOW_2_ACTIVITY" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".StartActivity"
-            >
+        <activity android:name=".StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-5807744662830254~2797692226" />
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.1" />
     </application>
 
 </manifest>

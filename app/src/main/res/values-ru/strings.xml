@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Деберц: подсчет очков</string>
+    <string name="exit">Вы уверены что хотите выйти?</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="exitTitle">Выход</string>
+    <string name="new_game">Новая игра</string>
+    <string name="sure">Вы уверены?</string>
+    <string name="count">Счёт</string>
+    <string name="vs22">2 на 2</string>
+    <string name="vs2">На 2</string>
+    <string name="vs3">На 3</string>
+    <string name="vs4">На 4</string>
+    <string name="distribution">Раздача</string>
+    <string name="gamer1">Игрок 1</string>
+    <string name="gamer2">Игрок 2</string>
+    <string name="gamer3">Игрок 3</string>
+    <string name="gamer4">Игрок 4</string>
+    <string name="team1">Команда 1</string>
+    <string name="team2">Команда 2</string>
+    <string name="add">Добавить к счету</string>
+    <string name="points_for_distribution">Баллы за раздачу:</string>
+    <string name="language">Языки</string>
+    <string name="title_activity_settings">Настройки</string>
+    <string name="apply">Перезагрузить</string>
+</resources>
