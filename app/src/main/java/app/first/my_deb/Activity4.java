@@ -148,6 +148,7 @@ public class Activity4 extends AppCompatActivity {
         resideMenu.setBackground(R.drawable.dark);
         resideMenu.setSwipeDirectionDisable(ResideMenu.DIRECTION_RIGHT);
         resideMenu.attachToActivity(this);
+        resideMenu.setMenuListener(menuListener);
 
         String[] titles = {getResources().getString(R.string.new_game), getResources().getString(R.string.count), getResources().getString(R.string.language), getResources().getString(R.string.vs22), getResources().getString(R.string.vs3), getResources().getString(R.string.vs2)};
         int[] icon = {R.drawable.newg, R.drawable.score, R.drawable.settings, R.drawable.for1, R.drawable.for2, R.drawable.for3};
@@ -200,8 +201,9 @@ public class Activity4 extends AppCompatActivity {
         item3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent("app.first.my_deb.settings"));
+                startActivity(new Intent("app.first.my_deb.settings4"));
                 overridePendingTransition(R.anim.slide_in_right, R.anim.exit_to_left);
+                finish();
             }
         });
         resideMenu.addMenuItem(item3,  ResideMenu.DIRECTION_LEFT);
@@ -241,6 +243,11 @@ public class Activity4 extends AppCompatActivity {
     }
 
     public void onClick(View view) {
+        InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm.isAcceptingText()) {
+            assert imm != null;
+            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
         try {
             int prev1 = Integer.valueOf(resultField1.getText().toString());
             int prev2 = Integer.valueOf(resultField2.getText().toString());
@@ -420,4 +427,20 @@ public class Activity4 extends AppCompatActivity {
                     }
                 }).setNegativeButton(getResources().getString(R.string.no), null).show();
     }
+
+    private ResideMenu.OnMenuListener menuListener = new ResideMenu.OnMenuListener() {
+        @Override
+        public void openMenu() {
+            InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (imm.isAcceptingText()) {
+                assert imm != null;
+                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        }
+
+        @Override
+        public void closeMenu() {
+
+        }
+    };
 }

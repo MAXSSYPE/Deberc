@@ -11,6 +11,30 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".SettingsActivity4"
+            android:label="@string/title_activity_settings">
+            <intent-filter>
+                <action android:name="app.first.my_deb.settings4" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".SettingsActivity3"
+            android:label="@string/title_activity_settings">
+            <intent-filter>
+                <action android:name="app.first.my_deb.settings3" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".SettingsActivity2"
+            android:label="@string/title_activity_settings">
+            <intent-filter>
+                <action android:name="app.first.my_deb.settings2" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings">
@@ -20,7 +44,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity android:name=".Score2x2">
             <intent-filter>
                 <action android:name="app.first.my_deb.score2x2" />
@@ -35,7 +58,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity android:name=".Score3">
             <intent-filter>
                 <action android:name="app.first.my_deb.score3" />
@@ -85,6 +107,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-5807744662830254~2797692226" />

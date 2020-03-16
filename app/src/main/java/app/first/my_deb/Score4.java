@@ -9,7 +9,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,7 +30,6 @@ public class Score4 extends AppCompatActivity {
         if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O)
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         Slidr.attach(this);
-        ScrollView scrollView = findViewById(R.id.main);
         linearLayout = findViewById(R.id.lin);
         loadText(this);
     }

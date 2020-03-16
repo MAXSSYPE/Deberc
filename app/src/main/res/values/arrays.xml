@@ -5,6 +5,7 @@
         <item>ua</item>
         <item>es</item>
         <item>fr</item>
+        <item>it</item>
         <item>ru</item>
         <item>bg</item>
     </string-array>
@@ -12,8 +13,9 @@
     <string-array name="langs">
         <item>English</item>
         <item>Українська</item>
-        <item>Française</item>
         <item>Español</item>
+        <item>Française</item>
+        <item>Italiano</item>
         <item>Русский</item>
         <item>Български</item>
     </string-array>

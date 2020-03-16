@@ -1,6 +1,7 @@
 package app.first.my_deb;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -46,7 +47,9 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public void onClick(View view) {
-        finishAffinity();
+        finish();
+        startActivity(new Intent("app.first.my_deb.SHOW_2x2_ACTIVITY"));
+        overridePendingTransition(R.anim.enter_from_left, R.anim.exit_to_right);
     }
 
     @Override

@@ -126,6 +126,7 @@ public class Activity3 extends AppCompatActivity {
         resideMenu.setBackground(R.drawable.dark);
         resideMenu.setSwipeDirectionDisable(ResideMenu.DIRECTION_RIGHT);
         resideMenu.attachToActivity(this);
+        resideMenu.setMenuListener(menuListener);
 
         String[] titles = {getResources().getString(R.string.new_game), getResources().getString(R.string.count), getResources().getString(R.string.language), getResources().getString(R.string.vs22), getResources().getString(R.string.vs4), getResources().getString(R.string.vs2)};
         int[] icon = {R.drawable.newg, R.drawable.score, R.drawable.settings, R.drawable.for1, R.drawable.for2, R.drawable.for3};
@@ -158,7 +159,7 @@ public class Activity3 extends AppCompatActivity {
                         }).setNegativeButton(getResources().getString(R.string.no), null).show();
             }
         });
-        resideMenu.addMenuItem(item1,  ResideMenu.DIRECTION_LEFT);
+        resideMenu.addMenuItem(item1, ResideMenu.DIRECTION_LEFT);
 
         ResideMenuItem item2 = new ResideMenuItem(this, icon[1], titles[1]);
         item2.setOnClickListener(new View.OnClickListener() {
@@ -168,17 +169,18 @@ public class Activity3 extends AppCompatActivity {
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
             }
         });
-        resideMenu.addMenuItem(item2,  ResideMenu.DIRECTION_LEFT);
+        resideMenu.addMenuItem(item2, ResideMenu.DIRECTION_LEFT);
 
         ResideMenuItem item3 = new ResideMenuItem(this, icon[2], titles[2]);
         item3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent("app.first.my_deb.settings"));
+                startActivity(new Intent("app.first.my_deb.settings3"));
                 overridePendingTransition(R.anim.slide_in_right, R.anim.exit_to_left);
+                finish();
             }
         });
-        resideMenu.addMenuItem(item3,  ResideMenu.DIRECTION_LEFT);
+        resideMenu.addMenuItem(item3, ResideMenu.DIRECTION_LEFT);
 
         ResideMenuItem item4 = new ResideMenuItem(this, icon[3], titles[3]);
         item4.setOnClickListener(new View.OnClickListener() {
@@ -189,7 +191,7 @@ public class Activity3 extends AppCompatActivity {
                 overridePendingTransition(R.anim.slide_in_right, R.anim.exit_to_left);
             }
         });
-        resideMenu.addMenuItem(item4,  ResideMenu.DIRECTION_LEFT);
+        resideMenu.addMenuItem(item4, ResideMenu.DIRECTION_LEFT);
 
         ResideMenuItem item5 = new ResideMenuItem(this, icon[4], titles[4]);
         item5.setOnClickListener(new View.OnClickListener() {
@@ -200,7 +202,7 @@ public class Activity3 extends AppCompatActivity {
                 overridePendingTransition(R.anim.slide_in_right, R.anim.exit_to_left);
             }
         });
-        resideMenu.addMenuItem(item5,  ResideMenu.DIRECTION_LEFT);
+        resideMenu.addMenuItem(item5, ResideMenu.DIRECTION_LEFT);
 
         ResideMenuItem item6 = new ResideMenuItem(this, icon[5], titles[5]);
         item6.setOnClickListener(new View.OnClickListener() {
@@ -211,12 +213,16 @@ public class Activity3 extends AppCompatActivity {
                 overridePendingTransition(R.anim.slide_in_right, R.anim.exit_to_left);
             }
         });
-        resideMenu.addMenuItem(item6,  ResideMenu.DIRECTION_LEFT);
+        resideMenu.addMenuItem(item6, ResideMenu.DIRECTION_LEFT);
     }
 
-    public void onClick(View view)
-    {
-        try{
+    public void onClick(View view) {
+        InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm.isAcceptingText()) {
+            assert imm != null;
+            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+        try {
             int prev1 = Integer.valueOf(resultField1.getText().toString());
             int prev2 = Integer.valueOf(resultField2.getText().toString());
             int prev3 = Integer.valueOf(resultField3.getText().toString());
@@ -256,9 +262,7 @@ public class Activity3 extends AppCompatActivity {
             numberField1.setText("");
             numberField2.setText("");
             numberField3.setText("");
-        }
-        catch (Exception ignored)
-        {
+        } catch (Exception ignored) {
 
         }
     }
@@ -295,6 +299,7 @@ public class Activity3 extends AppCompatActivity {
         super.onStop();
         saveText();
     }
+
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
@@ -373,4 +378,20 @@ public class Activity3 extends AppCompatActivity {
                     }
                 }).setNegativeButton(getResources().getString(R.string.no), null).show();
     }
+
+    private ResideMenu.OnMenuListener menuListener = new ResideMenu.OnMenuListener() {
+        @Override
+        public void openMenu() {
+            InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (imm.isAcceptingText()) {
+                assert imm != null;
+                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        }
+
+        @Override
+        public void closeMenu() {
+
+        }
+    };
 }
