@@ -23,5 +23,5 @@
     <string name="points_for_distribution">Бали за роздачу:</string>
     <string name="language">Мови</string>
     <string name="title_activity_settings">Налаштування</string>
-    <string name="apply">Перезавантажити</string>
+    <string name="apply">Підтвердити</string>
 </resources>

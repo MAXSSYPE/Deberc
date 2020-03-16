@@ -23,5 +23,5 @@
     <string name="points_for_distribution">Punti di distribuzione:</string>
     <string name="language">Lingue</string>
     <string name="title_activity_settings">Impostazioni</string>
-    <string name="apply">Ricarica</string>
+    <string name="apply">Conferma</string>
 </resources>
