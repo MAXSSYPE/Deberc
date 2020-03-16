@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Belote: punktacja</string>
+    <string name="exit">Czy na pewno chcesz wyjść?</string>
+    <string name="yes">Tak</string>
+    <string name="no">Nie</string>
+    <string name="exitTitle">Wyjdź</string>
+    <string name="new_game">Nowa gra</string>
+    <string name="sure">Jesteś pewien?</string>
+    <string name="count">Konto</string>
+    <string name="vs22">2 vs 2</string>
+    <string name="vs2">Dla 2</string>
+    <string name="vs3">Dla 3</string>
+    <string name="vs4">Dla 4</string>
+    <string name="distribution">Dystrybucja</string>
+    <string name="gamer1">Gracz 1</string>
+    <string name="gamer2">Gracz 2</string>
+    <string name="gamer3">Gracz 3</string>
+    <string name="gamer4">Gracz 4</string>
+    <string name="team1">Zespół 1</string>
+    <string name="team2">Zespół 2</string>
+    <string name="add">Dodaj do faktury</string>
+    <string name="points_for_distribution">Punkty dystrybucji:</string>
+    <string name="language">Języki</string>
+    <string name="title_activity_settings">Ustawienia</string>
+    <string name="apply">Potwierdź</string>
+</resources>

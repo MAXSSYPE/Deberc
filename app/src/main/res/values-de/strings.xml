@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Belote: wertung</string>
+    <string name="exit">Bist du sicher, dass du ausgehen willst?</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
+    <string name="exitTitle">Beenden</string>
+    <string name="new_game">Neues Spiel</string>
+    <string name="sure">Sind sie sicher?</string>
+    <string name="count">Konto</string>
+    <string name="vs22">2 vs 2</string>
+    <string name="vs2">Für 2</string>
+    <string name="vs3">Für 3</string>
+    <string name="vs4">Für 4</string>
+    <string name="distribution">Verteilung</string>
+    <string name="gamer1">Spieler 1</string>
+    <string name="gamer2">Spieler 2</string>
+    <string name="gamer3">Spieler 3</string>
+    <string name="gamer4">Spieler 4</string>
+    <string name="team1">Das Team 1</string>
+    <string name="team2">Das Team 2</string>
+    <string name="add">Zur Rechnung hinzufügen</string>
+    <string name="points_for_distribution">Verteilungspunkte:</string>
+    <string name="language">Sprachen</string>
+    <string name="title_activity_settings">Einstellungen</string>
+    <string name="apply">Bestätigen Sie</string>
+</resources>
