@@ -150,6 +150,7 @@ public class Activity2x2 extends AppCompatActivity {
             public void onClick(View view) {
                 startActivity(new Intent("app.first.my_deb.settings"));
                 overridePendingTransition(R.anim.slide_in_right, R.anim.exit_to_left);
+                finish();
             }
         });
         resideMenu.addMenuItem(item3, ResideMenu.DIRECTION_LEFT);
