@@ -140,7 +140,6 @@ public class Activity2x2 extends AppCompatActivity {
             public void onClick(View view) {
                 startActivity(new Intent("app.first.my_deb.score2x2"));
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
-                finish();
             }
         });
         resideMenu.addMenuItem(item2, ResideMenu.DIRECTION_LEFT);
