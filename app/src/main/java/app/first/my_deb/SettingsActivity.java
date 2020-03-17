@@ -56,6 +56,7 @@ public class SettingsActivity extends AppCompatActivity {
     public void onBackPressed() {
         try {
             finish();
+            startActivity(new Intent("app.first.my_deb.SHOW_2x2_ACTIVITY"));
             overridePendingTransition(R.anim.enter_from_left, R.anim.exit_to_right);
         } catch (Exception ignored) {
         }
