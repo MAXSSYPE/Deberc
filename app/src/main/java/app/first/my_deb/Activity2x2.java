@@ -56,6 +56,10 @@ public class Activity2x2 extends AppCompatActivity {
         mAdView.loadAd(adRequest);
 
         LinearLayout linearLayout = findViewById(R.id.main);
+        AnimationDrawable animDrawable = (AnimationDrawable) linearLayout.getBackground();
+        animDrawable.setEnterFadeDuration(10);
+        animDrawable.setExitFadeDuration(5000);
+        animDrawable.start();
         resultField1 = findViewById(R.id.resultField1);
         resultField2 = findViewById(R.id.resultField2);
         numberField1 = findViewById(R.id.numberField1);
@@ -93,11 +97,6 @@ public class Activity2x2 extends AppCompatActivity {
                 return false;
             }
         });
-
-        AnimationDrawable animDrawable = (AnimationDrawable) linearLayout.getBackground();
-        animDrawable.setEnterFadeDuration(10);
-        animDrawable.setExitFadeDuration(5000);
-        animDrawable.start();
 
         resideMenu = new ResideMenu(this);
         resideMenu.setBackground(R.drawable.dark);
