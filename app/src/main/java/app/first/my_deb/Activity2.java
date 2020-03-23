@@ -75,7 +75,6 @@ public class Activity2 extends AppCompatActivity implements View.OnClickListener
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     assert imm != null;
                     imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                    handle = true;
                 }
                 return false;
             }
@@ -90,7 +89,6 @@ public class Activity2 extends AppCompatActivity implements View.OnClickListener
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     assert imm != null;
                     imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                    handle = true;
                 }
                 return false;
             }

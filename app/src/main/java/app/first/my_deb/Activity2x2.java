@@ -77,7 +77,6 @@ public class Activity2x2 extends AppCompatActivity {
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     assert imm != null;
                     imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                    handle = true;
                 }
                 return false;
             }
@@ -92,7 +91,6 @@ public class Activity2x2 extends AppCompatActivity {
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     assert imm != null;
                     imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                    handle = true;
                 }
                 return false;
             }
