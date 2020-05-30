@@ -25,4 +25,8 @@
     <string name="title_activity_settings">Paramètres</string>
     <string name="apply">Confirmer</string>
     <string name="nums">Soustrayez le nombre entré de (pour deux)</string>
+    <string name="theme">Thème d\'application</string>
+    <string name="dark">Thème sombre (bêta)</string>
+    <string name="light">Thème léger</string>
+    <string name="settings">Réglages</string>
 </resources>

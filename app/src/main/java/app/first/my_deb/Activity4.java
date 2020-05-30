@@ -1,5 +1,6 @@
 package app.first.my_deb;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -32,7 +33,7 @@ import com.special.ResideMenu.ResideMenuItem;
 import java.util.ArrayList;
 
 
-public class Activity4 extends AppCompatActivity {
+public class Activity4 extends Activity {
     private TextView resultField1;
     private TextView resultField2;
     private TextView resultField3;
@@ -54,6 +55,16 @@ public class Activity4 extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        String supp;
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        supp = sharedPreferences.getString("theme", "");
+        if (supp.equals("light")) {
+            setTheme(R.style.AppTheme);
+        } else if (supp.equals("dark")) {
+            setTheme(R.style.AppTheme_Dark);
+        } else {
+            setTheme(R.style.AppTheme);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_4);
         if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O)
@@ -77,6 +88,8 @@ public class Activity4 extends AppCompatActivity {
         name3 = findViewById(R.id.name3);
         name4 = findViewById(R.id.name4);
         LinearLayout linearLayout = findViewById(R.id.main);
+        if (supp.equals("dark"))
+            linearLayout.setBackground(getDrawable(R.drawable.gradient_animation_dark));
         loadText(this);
 
         numberField1.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -146,7 +159,7 @@ public class Activity4 extends AppCompatActivity {
         resideMenu.attachToActivity(this);
         resideMenu.setMenuListener(menuListener);
 
-        String[] titles = {getResources().getString(R.string.new_game), getResources().getString(R.string.count), getResources().getString(R.string.language), getResources().getString(R.string.vs22), getResources().getString(R.string.vs3), getResources().getString(R.string.vs2)};
+        String[] titles = {getResources().getString(R.string.new_game), getResources().getString(R.string.count), getResources().getString(R.string.settings), getResources().getString(R.string.vs22), getResources().getString(R.string.vs3), getResources().getString(R.string.vs2)};
         int[] icon = {R.drawable.newg, R.drawable.score, R.drawable.settings, R.drawable.for1, R.drawable.for2, R.drawable.for3};
         ResideMenuItem item1 = new ResideMenuItem(this, icon[0], titles[0]);
         item1.setOnClickListener(new View.OnClickListener() {

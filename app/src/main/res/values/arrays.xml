@@ -34,4 +34,13 @@
         <item>150</item>
         <item>162</item>
     </string-array>
+
+    <string-array name="theme">
+        <item>@string/light</item>
+        <item>@string/dark</item>
+    </string-array>
+    <string-array name="theme_save">
+        <item>light</item>
+        <item>dark</item>
+    </string-array>
 </resources>

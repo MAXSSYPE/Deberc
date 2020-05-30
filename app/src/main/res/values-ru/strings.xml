@@ -25,4 +25,8 @@
     <string name="title_activity_settings">Настройки</string>
     <string name="apply">Подтвердить</string>
     <string name="nums">Отнимать введенное число от (для двоих)</string>
+    <string name="theme">Тема</string>
+    <string name="dark">Темная тема(бета)</string>
+    <string name="light">Светлая тема</string>
+    <string name="settings">Настройки</string>
 </resources>

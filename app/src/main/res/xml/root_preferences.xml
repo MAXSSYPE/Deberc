@@ -9,9 +9,20 @@
             app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/theme">
+
+        <ListPreference
+            android:defaultValue="false"
+            android:entries="@array/theme"
+            android:entryValues="@array/theme_save"
+            android:key="theme"
+            app:allowDividerAbove="false"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/nums">
         <ListPreference
-            app:defaultValue="false"
+            app:defaultValue="@string/light"
             app:entries="@array/num"
             app:entryValues="@array/entryvalues_num"
             app:key="num"

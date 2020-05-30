@@ -25,4 +25,8 @@
     <string name="title_activity_settings">Einstellungen</string>
     <string name="apply">Bestätigen Sie</string>
     <string name="nums">Subtrahieren Sie die eingegebene Zahl von (für zwei)</string>
+    <string name="theme">Anwendungsthema</string>
+    <string name="dark">Dunkles Thema (Beta)</string>
+    <string name="light">Lichtthema</string>
+    <string name="settings">die Einstellungen</string>
 </resources>

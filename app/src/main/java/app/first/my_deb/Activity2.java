@@ -1,5 +1,6 @@
 package app.first.my_deb;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,7 +23,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
 import com.google.android.gms.ads.AdRequest;
@@ -34,7 +34,7 @@ import com.special.ResideMenu.ResideMenuItem;
 
 import java.util.ArrayList;
 
-public class Activity2 extends AppCompatActivity implements View.OnClickListener {
+public class Activity2 extends Activity {
     private ArrayList<String> arrPlayer1 = new ArrayList<>();
     private ArrayList<String> arrPlayer2 = new ArrayList<>();
     private TextView resultField1;
@@ -50,6 +50,16 @@ public class Activity2 extends AppCompatActivity implements View.OnClickListener
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
+        String supp;
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        supp = sharedPreferences.getString("theme", "");
+        if (supp.equals("light")) {
+            setTheme(R.style.AppTheme);
+        } else if (supp.equals("dark")) {
+            setTheme(R.style.AppTheme_Dark);
+        } else {
+            setTheme(R.style.AppTheme);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_2);
         context = this;
@@ -166,6 +176,8 @@ public class Activity2 extends AppCompatActivity implements View.OnClickListener
             }
         });
 
+        if (supp.equals("dark"))
+            linearLayout.setBackground(getDrawable(R.drawable.gradient_animation_dark));
         AnimationDrawable animDrawable = (AnimationDrawable) linearLayout.getBackground();
         animDrawable.setEnterFadeDuration(10);
         animDrawable.setExitFadeDuration(5000);
@@ -177,7 +189,7 @@ public class Activity2 extends AppCompatActivity implements View.OnClickListener
         resideMenu.attachToActivity(this);
         resideMenu.setMenuListener(menuListener);
 
-        String[] titles = {getResources().getString(R.string.new_game), getResources().getString(R.string.count), getResources().getString(R.string.language), getResources().getString(R.string.vs22), getResources().getString(R.string.vs4), getResources().getString(R.string.vs3)};
+        String[] titles = {getResources().getString(R.string.new_game), getResources().getString(R.string.count), getResources().getString(R.string.settings), getResources().getString(R.string.vs22), getResources().getString(R.string.vs4), getResources().getString(R.string.vs3)};
         int[] icon = {R.drawable.newg, R.drawable.score, R.drawable.settings, R.drawable.for1, R.drawable.for2, R.drawable.for3};
         ResideMenuItem item1 = new ResideMenuItem(this, icon[0], titles[0]);
         item1.setOnClickListener(new View.OnClickListener() {

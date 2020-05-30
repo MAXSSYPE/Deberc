@@ -1,5 +1,6 @@
 package app.first.my_deb;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -8,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,17 +21,30 @@ import com.r0adkll.slidr.Slidr;
 
 import java.util.ArrayList;
 
-public class Score2x2 extends AppCompatActivity {
+public class Score2x2 extends Activity {
     private LinearLayout linearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        String supp;
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        supp = sharedPreferences.getString("theme", "");
+        if (supp.equals("light")) {
+            setTheme(R.style.AppTheme);
+        } else if (supp.equals("dark")) {
+            setTheme(R.style.AppTheme_Dark);
+        } else {
+            setTheme(R.style.AppTheme);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score);
         if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O)
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         Slidr.attach(this);
         linearLayout = findViewById(R.id.lin);
+        ScrollView scrollView = findViewById(R.id.main);
+        if (supp.equals("dark"))
+            scrollView.setBackground(getDrawable(R.drawable.field_dark));
         loadText(this);
     }
 

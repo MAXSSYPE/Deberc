@@ -25,4 +25,8 @@
     <string name="title_activity_settings">Ustawienia</string>
     <string name="apply">Potwierdź</string>
     <string name="nums">Odejmij wprowadzoną liczbę od (dla dwóch)</string>
+    <string name="theme">Motyw aplikacji</string>
+    <string name="dark">Ciemny motyw (beta)</string>
+    <string name="light">Lekki motyw</string>
+    <string name="settings">Ustawienia</string>
 </resources>

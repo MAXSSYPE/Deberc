@@ -25,4 +25,8 @@
     <string name="title_activity_settings">Настройки</string>
     <string name="apply">Потвърждаване</string>
     <string name="nums">Извадете въведеното число от (за двама)</string>
+    <string name="theme">Тема на приложението</string>
+    <string name="dark">Тъмна тема (бета)</string>
+    <string name="light">Лека тема</string>
+    <string name="settings">Настройки</string>
 </resources>

@@ -8,7 +8,7 @@
         <item name="colorPrimaryDark">#000000</item>
         <item name="colorAccent">#000000</item>
         <item name="android:navigationBarColor">#000000</item>
-        <item name="android:textViewStyle">@style/TextviewStyle</item>
+        <item name="android:textViewStyle">@style/TextViewStyle</item>
         <item name="buttonStyle">@style/button_dark</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
@@ -16,7 +16,7 @@
         <item name="android:windowIsFloating">false</item>
     </style>
 
-    <style name="TextviewStyle" parent="@android:style/Widget.TextView">
+    <style name="TextViewStyle" parent="@android:style/Widget.TextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginLeft">100dp</item>
@@ -30,10 +30,21 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <style name="AppTheme_Dark" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimaryDark">@color/colorAccentAma</item>
+        <item name="colorAccent">@color/colorAccentAma</item>
+        <item name="buttonStyle">@style/button_dark</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsFloating">false</item>
+    </style>
+
     <style name="button_dark" parent="@style/Widget.MaterialComponents.Button">
         <item name="android:textColor">#fff</item>
         <item name="android:textSize">22sp</item>
-        <item name="backgroundTint">#FFFFE0</item>
+        <item name="backgroundTint">#FFEEE0</item>
     </style>
 
 </resources>

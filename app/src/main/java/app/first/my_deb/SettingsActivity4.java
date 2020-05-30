@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +17,16 @@ public class SettingsActivity4 extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        String supp;
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        supp = sharedPreferences.getString("theme", "");
+        if (supp.equals("light")) {
+            setTheme(R.style.AppTheme);
+        } else if (supp.equals("dark")) {
+            setTheme(R.style.AppTheme_Dark);
+        } else {
+            setTheme(R.style.AppTheme);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
         getSupportFragmentManager()
@@ -26,6 +37,9 @@ public class SettingsActivity4 extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+        LinearLayout linearLayout = findViewById(R.id.lin);
+        if (supp.equals("dark"))
+            linearLayout.setBackground(getDrawable(R.drawable.field_dark));
     }
 
     public static class SettingsFragment extends PreferenceFragmentCompat {

@@ -1,5 +1,6 @@
 package app.first.my_deb;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,13 +12,23 @@ import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
-public class StartActivity extends AppCompatActivity {
+public class StartActivity extends Activity {
     private int count = 0;
     private final Handler handler = new Handler();
     static boolean flag = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        String supp;
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        supp = sharedPreferences.getString("theme", "");
+        if (supp.equals("light")) {
+            setTheme(R.style.AppTheme);
+        } else if (supp.equals("dark")) {
+            setTheme(R.style.AppTheme_Dark);
+        } else {
+            setTheme(R.style.AppTheme);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
         if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O)
