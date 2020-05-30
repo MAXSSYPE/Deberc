@@ -24,4 +24,5 @@
     <string name="language">Les langues</string>
     <string name="title_activity_settings">Paramètres</string>
     <string name="apply">Confirmer</string>
+    <string name="nums">Soustrayez le nombre entré de (pour deux)</string>
 </resources>

@@ -244,60 +244,61 @@ public class Activity4 extends AppCompatActivity {
             assert imm != null;
             imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
-        try {
-            int prev1 = Integer.valueOf(resultField1.getText().toString());
-            int prev2 = Integer.valueOf(resultField2.getText().toString());
-            int prev3 = Integer.valueOf(resultField3.getText().toString());
-            int prev4 = Integer.valueOf(resultField4.getText().toString());
-            int now1 = 0;
-            int now2 = 0;
-            int now3 = 0;
-            int now4 = 0;
+        if (!numberField1.getText().toString().equals("") && !numberField2.getText().toString().equals("") && !numberField3.getText().toString().equals("") && !numberField4.getText().toString().equals(""))
+            try {
+                int prev1 = Integer.valueOf(resultField1.getText().toString());
+                int prev2 = Integer.valueOf(resultField2.getText().toString());
+                int prev3 = Integer.valueOf(resultField3.getText().toString());
+                int prev4 = Integer.valueOf(resultField4.getText().toString());
+                int now1 = 0;
+                int now2 = 0;
+                int now3 = 0;
+                int now4 = 0;
 
-            if (!numberField1.getText().toString().equals(""))
-                now1 = Integer.valueOf(numberField1.getText().toString());
-            else
-                numberField1.setText("0");
-            if (!numberField2.getText().toString().equals(""))
-                now2 = Integer.valueOf(numberField2.getText().toString());
-            else
-                numberField2.setText("0");
-            if (!numberField3.getText().toString().equals(""))
-                now3 = Integer.valueOf(numberField3.getText().toString());
-            else
-                numberField3.setText("0");
-            if (!numberField4.getText().toString().equals(""))
-                now4 = Integer.valueOf(numberField4.getText().toString());
-            else
-                numberField4.setText("0");
+                if (!numberField1.getText().toString().equals(""))
+                    now1 = Integer.valueOf(numberField1.getText().toString());
+                else
+                    numberField1.setText("0");
+                if (!numberField2.getText().toString().equals(""))
+                    now2 = Integer.valueOf(numberField2.getText().toString());
+                else
+                    numberField2.setText("0");
+                if (!numberField3.getText().toString().equals(""))
+                    now3 = Integer.valueOf(numberField3.getText().toString());
+                else
+                    numberField3.setText("0");
+                if (!numberField4.getText().toString().equals(""))
+                    now4 = Integer.valueOf(numberField4.getText().toString());
+                else
+                    numberField4.setText("0");
 
-            resultField1.setText(String.valueOf(prev1 + now1));
-            resultField2.setText(String.valueOf(prev2 + now2));
-            resultField3.setText(String.valueOf(prev3 + now3));
-            resultField4.setText(String.valueOf(prev4 + now4));
-            SharedPreferences scoreSharPref = getSharedPreferences("Score4.txt", MODE_PRIVATE);
-            SharedPreferences.Editor editor = scoreSharPref.edit();
-            arrPlayer1.add(numberField1.getText().toString());
-            arrPlayer2.add(numberField2.getText().toString());
-            arrPlayer3.add(numberField3.getText().toString());
-            arrPlayer4.add(numberField4.getText().toString());
-            Gson gson = new Gson();
-            String listStr1 = gson.toJson(arrPlayer1);
-            String listStr2 = gson.toJson(arrPlayer2);
-            String listStr3 = gson.toJson(arrPlayer3);
-            String listStr4 = gson.toJson(arrPlayer4);
-            editor.putString("pl1", listStr1);
-            editor.putString("pl2", listStr2);
-            editor.putString("pl3", listStr3);
-            editor.putString("pl4", listStr4);
-            editor.apply();
-            numberField1.setText("");
-            numberField2.setText("");
-            numberField3.setText("");
-            numberField4.setText("");
-        } catch (Exception ignored) {
+                resultField1.setText(String.valueOf(prev1 + now1));
+                resultField2.setText(String.valueOf(prev2 + now2));
+                resultField3.setText(String.valueOf(prev3 + now3));
+                resultField4.setText(String.valueOf(prev4 + now4));
+                SharedPreferences scoreSharPref = getSharedPreferences("Score4.txt", MODE_PRIVATE);
+                SharedPreferences.Editor editor = scoreSharPref.edit();
+                arrPlayer1.add(numberField1.getText().toString());
+                arrPlayer2.add(numberField2.getText().toString());
+                arrPlayer3.add(numberField3.getText().toString());
+                arrPlayer4.add(numberField4.getText().toString());
+                Gson gson = new Gson();
+                String listStr1 = gson.toJson(arrPlayer1);
+                String listStr2 = gson.toJson(arrPlayer2);
+                String listStr3 = gson.toJson(arrPlayer3);
+                String listStr4 = gson.toJson(arrPlayer4);
+                editor.putString("pl1", listStr1);
+                editor.putString("pl2", listStr2);
+                editor.putString("pl3", listStr3);
+                editor.putString("pl4", listStr4);
+                editor.apply();
+                numberField1.setText("");
+                numberField2.setText("");
+                numberField3.setText("");
+                numberField4.setText("");
+            } catch (Exception ignored) {
 
-        }
+            }
     }
 
     @Override
@@ -409,10 +410,6 @@ public class Activity4 extends AppCompatActivity {
                         numberField2.setText("");
                         numberField3.setText("");
                         numberField4.setText("");
-                        name1.setText("");
-                        name2.setText("");
-                        name3.setText("");
-                        name4.setText("");
                         SharedPreferences scoreSharPref = getSharedPreferences("Score4.txt", MODE_PRIVATE);
                         SharedPreferences.Editor editor = scoreSharPref.edit().clear();
                         editor.apply();

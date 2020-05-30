@@ -9,6 +9,8 @@ import android.content.pm.ActivityInfo;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -43,12 +45,14 @@ public class Activity2 extends AppCompatActivity implements View.OnClickListener
     private TextView name2;
     private final String score = "app.first.my_deb.activity_score";
     private ResideMenu resideMenu;
+    private Context context;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_2);
+        context = this;
         if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O)
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -65,6 +69,74 @@ public class Activity2 extends AppCompatActivity implements View.OnClickListener
         name1 = findViewById(R.id.name1);
         name2 = findViewById(R.id.name2);
         loadText(this);
+
+        numberField1.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+                if (!sharedPreferences.getString("num", "").equals("-")) {
+                    if (sharedPreferences.getString("num", "").equals("150") || sharedPreferences.getString("num", "").equals("162")) {
+                        try {
+                            if (!numberField1.getText().toString().equals("") && !numberField1.getText().toString().equals("-") && Integer.valueOf(numberField1.getText().toString()) >= 0 && Integer.valueOf(numberField1.getText().toString()) <= Integer.valueOf(sharedPreferences.getString("num", ""))) {
+                                numberField2.setHint(String.valueOf(Integer.valueOf(sharedPreferences.getString("num", "")) - Integer.valueOf(numberField1.getText().toString())));
+                            } else {
+                                numberField1.setHint("0");
+                                numberField2.setHint("0");
+                            }
+                        } catch (Exception ignored) {
+
+                        }
+                    } else {
+                        numberField1.setHint("0");
+                        numberField2.setHint("0");
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        numberField2.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+                if (!sharedPreferences.getString("num", "").equals("-")) {
+                    if (sharedPreferences.getString("num", "").equals("150") || sharedPreferences.getString("num", "").equals("162")) {
+                        try {
+                            if (!numberField2.getText().toString().equals("") && !numberField2.getText().toString().equals("-") && Integer.valueOf(numberField2.getText().toString()) >= 0 && Integer.valueOf(numberField2.getText().toString()) <= Integer.valueOf(sharedPreferences.getString("num", ""))) {
+                                numberField1.setHint(String.valueOf(Integer.valueOf(sharedPreferences.getString("num", "")) - Integer.valueOf(numberField2.getText().toString())));
+                            } else {
+                                numberField1.setHint("0");
+                                numberField2.setHint("0");
+                            }
+                        } catch (Exception ignored) {
+
+                        }
+                    } else {
+                        numberField1.setHint("0");
+                        numberField2.setHint("0");
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
         numberField1.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -194,37 +266,40 @@ public class Activity2 extends AppCompatActivity implements View.OnClickListener
             assert imm != null;
             imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
-        try {
-            int prev1 = Integer.valueOf(resultField1.getText().toString());
-            int prev2 = Integer.valueOf(resultField2.getText().toString());
-            int now1 = 0;
-            int now2 = 0;
-            if (!numberField1.getText().toString().equals(""))
-                now1 = Integer.valueOf(numberField1.getText().toString());
-            else
-                numberField1.setText("0");
-            if (!numberField2.getText().toString().equals(""))
-                now2 = Integer.valueOf(numberField2.getText().toString());
-            else
-                numberField2.setText("0");
+        if (!numberField1.getText().toString().equals("") && !numberField2.getText().toString().equals(""))
+            try {
+                int prev1 = Integer.valueOf(resultField1.getText().toString());
+                int prev2 = Integer.valueOf(resultField2.getText().toString());
+                int now1 = 0;
+                int now2 = 0;
+                if (!numberField1.getText().toString().equals(""))
+                    now1 = Integer.valueOf(numberField1.getText().toString());
+                else
+                    now1 = Integer.valueOf(numberField1.getHint().toString());
+                if (!numberField2.getText().toString().equals(""))
+                    now2 = Integer.valueOf(numberField2.getText().toString());
+                else
+                    now2 = Integer.valueOf(numberField2.getHint().toString());
 
-            resultField1.setText(String.valueOf(prev1 + now1));
-            resultField2.setText(String.valueOf(prev2 + now2));
-            SharedPreferences scoreSharPref = getSharedPreferences("Score.txt", MODE_PRIVATE);
-            Editor editor = scoreSharPref.edit();
-            arrPlayer1.add(numberField1.getText().toString());
-            arrPlayer2.add(numberField2.getText().toString());
-            Gson gson = new Gson();
-            String listStr1 = gson.toJson(arrPlayer1);
-            String listStr2 = gson.toJson(arrPlayer2);
-            editor.putString("pl1", listStr1);
-            editor.putString("pl2", listStr2);
-            editor.apply();
-            numberField1.setText("");
-            numberField2.setText("");
-        } catch (Exception ignored) {
+                resultField1.setText(String.valueOf(prev1 + now1));
+                resultField2.setText(String.valueOf(prev2 + now2));
+                SharedPreferences scoreSharPref = getSharedPreferences("Score.txt", MODE_PRIVATE);
+                Editor editor = scoreSharPref.edit();
+                arrPlayer1.add(numberField1.getText().toString());
+                arrPlayer2.add(numberField2.getText().toString());
+                Gson gson = new Gson();
+                String listStr1 = gson.toJson(arrPlayer1);
+                String listStr2 = gson.toJson(arrPlayer2);
+                editor.putString("pl1", listStr1);
+                editor.putString("pl2", listStr2);
+                editor.apply();
+                numberField1.setText("");
+                numberField2.setText("");
+                numberField1.setHint("0");
+                numberField2.setHint("0");
+            } catch (Exception ignored) {
 
-        }
+            }
     }
 
     @Override
@@ -316,8 +391,6 @@ public class Activity2 extends AppCompatActivity implements View.OnClickListener
                         resultField2.setText("0");
                         numberField1.setText("");
                         numberField2.setText("");
-                        name1.setText("");
-                        name2.setText("");
                         SharedPreferences scoreSharPref = getSharedPreferences("Score.txt", MODE_PRIVATE);
                         Editor editor = scoreSharPref.edit().clear();
                         editor.apply();

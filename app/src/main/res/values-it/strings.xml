@@ -24,4 +24,5 @@
     <string name="language">Lingue</string>
     <string name="title_activity_settings">Impostazioni</string>
     <string name="apply">Conferma</string>
+    <string name="nums">Sottrai il numero inserito da (per due)</string>
 </resources>

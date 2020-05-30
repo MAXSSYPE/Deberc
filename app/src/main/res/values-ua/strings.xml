@@ -24,4 +24,5 @@
     <string name="language">Мови</string>
     <string name="title_activity_settings">Налаштування</string>
     <string name="apply">Підтвердити</string>
+    <string name="nums">Віднімати введене число від (для двох)</string>
 </resources>

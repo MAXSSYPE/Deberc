@@ -22,4 +22,16 @@
         <item>Polski</item>
         <item>Русский</item>
     </string-array>
+
+    <string-array name="entryvalues_num">
+        <item>0</item>
+        <item>150</item>
+        <item>162</item>
+    </string-array>
+
+    <string-array name="num">
+        <item>-</item>
+        <item>150</item>
+        <item>162</item>
+    </string-array>
 </resources>

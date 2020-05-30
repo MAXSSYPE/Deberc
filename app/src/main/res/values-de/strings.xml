@@ -24,4 +24,5 @@
     <string name="language">Sprachen</string>
     <string name="title_activity_settings">Einstellungen</string>
     <string name="apply">Bestätigen Sie</string>
+    <string name="nums">Subtrahieren Sie die eingegebene Zahl von (für zwei)</string>
 </resources>
