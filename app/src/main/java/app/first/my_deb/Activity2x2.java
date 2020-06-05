@@ -23,13 +23,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.gson.Gson;
+import com.shawnlin.numberpicker.NumberPicker;
 import com.special.ResideMenu.ResideMenu;
 import com.special.ResideMenu.ResideMenuItem;
 
@@ -45,7 +45,7 @@ public class Activity2x2 extends Activity {
     private TextView name1;
     private TextView name2;
     private ResideMenu resideMenu;
-    private Context context;
+    private NumberPicker numberPicker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +61,6 @@ public class Activity2x2 extends Activity {
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_2x2);
-        context = this;
         if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O)
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -70,6 +69,114 @@ public class Activity2x2 extends Activity {
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
+        numberField1 = findViewById(R.id.numberField1);
+        numberField2 = findViewById(R.id.numberField2);
+        resultField1 = findViewById(R.id.resultField1);
+        resultField2 = findViewById(R.id.resultField2);
+        name1 = findViewById(R.id.name1);
+        name2 = findViewById(R.id.name2);
+        numberPicker = findViewById(R.id.number_picker);
+        final String[] data = {"162", "182", "202", "212", "222", "232", "242", "252", "262", "272", "282", "302", "322"};
+        numberPicker.setMinValue(1);
+        numberPicker.setMaxValue(13);
+        numberPicker.setDisplayedValues(data);
+        if (supp.equals("dark")) {
+            numberPicker.setDividerColor(getColor(R.color.white));
+            numberPicker.setTextColor(getColor(R.color.white));
+            numberPicker.setSelectedTextColor(getColor(R.color.white));
+            name1.setTextColor(getColor(R.color.white));
+            name2.setTextColor(getColor(R.color.white));
+            numberField1.setHintTextColor(getColor(R.color.grey));
+            numberField2.setHintTextColor(getColor(R.color.grey));
+            numberField1.setTextColor(getColor(R.color.white));
+            numberField2.setTextColor(getColor(R.color.white));
+            resultField1.setHintTextColor(getColor(R.color.grey));
+            resultField2.setHintTextColor(getColor(R.color.grey));
+            name1.setHintTextColor(getColor(R.color.grey));
+            name2.setHintTextColor(getColor(R.color.grey));
+        }
+        numberPicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    if (!(numberField1.getText().toString().length() == 0 && numberField2.getText().toString().length() == 0) || !(numberField1.getText().toString().length() != 0 && numberField2.getText().toString().length() != 0)) {
+                        if (numberField1.getText().toString().length() != 0 && Integer.valueOf(numberField1.getText().toString()) > 0) {
+                            if (!numberField1.getText().toString().equals("") && !numberField1.getText().toString().equals("-") && Integer.valueOf(numberField1.getText().toString()) >= 0 && Integer.valueOf(numberField1.getText().toString()) <= Integer.valueOf(data[numberPicker.getValue() - 1])) {
+                                numberField2.setHint(String.valueOf(Integer.valueOf(data[numberPicker.getValue() - 1]) - Integer.valueOf(numberField1.getText().toString())));
+                            } else {
+                                numberField1.setHint("0");
+                                numberField2.setHint("0");
+                            }
+                        }
+                        if (numberField2.getText().toString().length() != 0 && Integer.valueOf(numberField2.getText().toString()) > 0) {
+                            if (!numberField2.getText().toString().equals("") && !numberField2.getText().toString().equals("-") && Integer.valueOf(numberField2.getText().toString()) >= 0 && Integer.valueOf(numberField2.getText().toString()) <= Integer.valueOf(data[numberPicker.getValue() - 1])) {
+                                numberField1.setHint(String.valueOf(Integer.valueOf(data[numberPicker.getValue() - 1]) - Integer.valueOf(numberField2.getText().toString())));
+                            } else {
+                                numberField1.setHint("0");
+                                numberField2.setHint("0");
+                            }
+                        }
+                    }
+                } catch (Exception ignored) {
+
+                }
+            }
+        });
+        numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                try {
+                    if (!(numberField1.getText().toString().length() == 0 && numberField2.getText().toString().length() == 0) || !(numberField1.getText().toString().length() != 0 && numberField2.getText().toString().length() != 0)) {
+                        if (numberField1.getText().toString().length() != 0 && Integer.valueOf(numberField1.getText().toString()) > 0) {
+                            if (!numberField1.getText().toString().equals("") && !numberField1.getText().toString().equals("-") && Integer.valueOf(numberField1.getText().toString()) >= 0 && Integer.valueOf(numberField1.getText().toString()) <= Integer.valueOf(data[picker.getValue() - 1])) {
+                                numberField2.setHint(String.valueOf(Integer.valueOf(data[picker.getValue() - 1]) - Integer.valueOf(numberField1.getText().toString())));
+                            } else {
+                                numberField1.setHint("0");
+                                numberField2.setHint("0");
+                            }
+                        }
+                        if (numberField2.getText().toString().length() != 0 && Integer.valueOf(numberField2.getText().toString()) > 0) {
+                            if (!numberField2.getText().toString().equals("") && !numberField2.getText().toString().equals("-") && Integer.valueOf(numberField2.getText().toString()) >= 0 && Integer.valueOf(numberField2.getText().toString()) <= Integer.valueOf(data[picker.getValue() - 1])) {
+                                numberField1.setHint(String.valueOf(Integer.valueOf(data[picker.getValue() - 1]) - Integer.valueOf(numberField2.getText().toString())));
+                            } else {
+                                numberField1.setHint("0");
+                                numberField2.setHint("0");
+                            }
+                        }
+                    }
+                } catch (Exception ignored) {
+
+                }
+            }
+        });
+        numberPicker.setOnScrollListener(new NumberPicker.OnScrollListener() {
+            @Override
+            public void onScrollStateChange(NumberPicker view, int scrollState) {
+                try {
+                    if (!(numberField1.getText().toString().length() == 0 && numberField2.getText().toString().length() == 0) || !(numberField1.getText().toString().length() != 0 && numberField2.getText().toString().length() != 0)) {
+                        if (numberField1.getText().toString().length() != 0 && Integer.valueOf(numberField1.getText().toString()) > 0) {
+                            if (!numberField1.getText().toString().equals("") && !numberField1.getText().toString().equals("-") && Integer.valueOf(numberField1.getText().toString()) >= 0 && Integer.valueOf(numberField1.getText().toString()) <= Integer.valueOf(data[view.getValue() - 1])) {
+                                numberField2.setHint(String.valueOf(Integer.valueOf(data[view.getValue() - 1]) - Integer.valueOf(numberField1.getText().toString())));
+                            } else {
+                                numberField1.setHint("0");
+                                numberField2.setHint("0");
+                            }
+                        }
+                        if (numberField2.getText().toString().length() != 0 && Integer.valueOf(numberField2.getText().toString()) > 0) {
+                            if (!numberField2.getText().toString().equals("") && !numberField2.getText().toString().equals("-") && Integer.valueOf(numberField2.getText().toString()) >= 0 && Integer.valueOf(numberField2.getText().toString()) <= Integer.valueOf(data[view.getValue() - 1])) {
+                                numberField1.setHint(String.valueOf(Integer.valueOf(data[view.getValue() - 1]) - Integer.valueOf(numberField2.getText().toString())));
+                            } else {
+                                numberField1.setHint("0");
+                                numberField2.setHint("0");
+                            }
+                        }
+                    }
+                } catch (Exception ignored) {
+
+                }
+            }
+        });
+
         LinearLayout linearLayout = findViewById(R.id.main);
         if (supp.equals("dark"))
             linearLayout.setBackground(getDrawable(R.drawable.gradient_animation_dark));
@@ -77,12 +184,6 @@ public class Activity2x2 extends Activity {
         animDrawable.setEnterFadeDuration(10);
         animDrawable.setExitFadeDuration(5000);
         animDrawable.start();
-        resultField1 = findViewById(R.id.resultField1);
-        resultField2 = findViewById(R.id.resultField2);
-        numberField1 = findViewById(R.id.numberField1);
-        numberField2 = findViewById(R.id.numberField2);
-        name1 = findViewById(R.id.name1);
-        name2 = findViewById(R.id.name2);
         loadText(this);
 
         numberField1.addTextChangedListener(new TextWatcher() {
@@ -93,23 +194,15 @@ public class Activity2x2 extends Activity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-                if (!sharedPreferences.getString("num", "").equals("-")) {
-                    if (sharedPreferences.getString("num", "").equals("150") || sharedPreferences.getString("num", "").equals("162")) {
-                        try {
-                            if (!numberField1.getText().toString().equals("") && !numberField1.getText().toString().equals("-") && Integer.valueOf(numberField1.getText().toString()) >= 0 && Integer.valueOf(numberField1.getText().toString()) <= Integer.valueOf(sharedPreferences.getString("num", ""))) {
-                                numberField2.setHint(String.valueOf(Integer.valueOf(sharedPreferences.getString("num", "")) - Integer.valueOf(numberField1.getText().toString())));
-                            } else {
-                                numberField1.setHint("0");
-                                numberField2.setHint("0");
-                            }
-                        } catch (Exception ignored) {
-
-                        }
+                try {
+                    if (!numberField1.getText().toString().equals("") && !numberField1.getText().toString().equals("-") && Integer.valueOf(numberField1.getText().toString()) >= 0 && Integer.valueOf(numberField1.getText().toString()) <= Integer.valueOf(data[numberPicker.getValue() - 1])) {
+                        numberField2.setHint(String.valueOf(Integer.valueOf(data[numberPicker.getValue() - 1]) - Integer.valueOf(numberField1.getText().toString())));
                     } else {
                         numberField1.setHint("0");
                         numberField2.setHint("0");
                     }
+                } catch (Exception ignored) {
+
                 }
             }
 
@@ -127,23 +220,15 @@ public class Activity2x2 extends Activity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-                if (!sharedPreferences.getString("num", "").equals("-")) {
-                    if (sharedPreferences.getString("num", "").equals("150") || sharedPreferences.getString("num", "").equals("162")) {
-                        try {
-                            if (!numberField2.getText().toString().equals("") && !numberField2.getText().toString().equals("-") && Integer.valueOf(numberField2.getText().toString()) >= 0 && Integer.valueOf(numberField2.getText().toString()) <= Integer.valueOf(sharedPreferences.getString("num", ""))) {
-                                numberField1.setHint(String.valueOf(Integer.valueOf(sharedPreferences.getString("num", "")) - Integer.valueOf(numberField2.getText().toString())));
-                            } else {
-                                numberField1.setHint("0");
-                                numberField2.setHint("0");
-                            }
-                        } catch (Exception ignored) {
-
-                        }
+                try {
+                    if (!numberField2.getText().toString().equals("") && !numberField2.getText().toString().equals("-") && Integer.valueOf(numberField2.getText().toString()) >= 0 && Integer.valueOf(numberField2.getText().toString()) <= Integer.valueOf(data[numberPicker.getValue() - 1])) {
+                        numberField1.setHint(String.valueOf(Integer.valueOf(data[numberPicker.getValue() - 1]) - Integer.valueOf(numberField2.getText().toString())));
                     } else {
                         numberField1.setHint("0");
                         numberField2.setHint("0");
                     }
+                } catch (Exception ignored) {
+
                 }
             }
 
@@ -282,7 +367,7 @@ public class Activity2x2 extends Activity {
             assert imm != null;
             imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
-        if (!numberField1.getText().toString().equals("") && !numberField2.getText().toString().equals(""))
+        if (!(numberField1.getText().toString().equals("") && numberField2.getText().toString().equals("")))
             try {
                 int prev1 = Integer.valueOf(resultField1.getText().toString());
                 int prev2 = Integer.valueOf(resultField2.getText().toString());
@@ -290,14 +375,17 @@ public class Activity2x2 extends Activity {
                 int now2 = 0;
                 if (!numberField1.getText().toString().equals(""))
                     now1 = Integer.valueOf(numberField1.getText().toString());
-                else
+                else {
                     now1 = Integer.valueOf(numberField1.getHint().toString());
+                    numberField1.setText(numberField1.getHint().toString());
+                }
 
                 if (!numberField2.getText().toString().equals(""))
                     now2 = Integer.valueOf(numberField2.getText().toString());
-                else
+                else {
                     now2 = Integer.valueOf(numberField2.getHint().toString());
-
+                    numberField2.setText(numberField2.getHint().toString());
+                }
                 resultField1.setText(String.valueOf(prev1 + now1));
                 resultField2.setText(String.valueOf(prev2 + now2));
                 SharedPreferences scoreSharPref = getSharedPreferences("Score2x2.txt", MODE_PRIVATE);
@@ -312,6 +400,7 @@ public class Activity2x2 extends Activity {
                 editor.apply();
                 numberField1.setText("");
                 numberField2.setText("");
+                numberPicker.setValue(1);
             } catch (Exception ignored) {
 
             }

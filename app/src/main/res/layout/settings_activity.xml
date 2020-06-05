@@ -9,12 +9,12 @@
         android:id="@+id/settings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150sp">
+        android:layout_marginTop="80sp">
 
     </FrameLayout>
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -23,6 +23,5 @@
         android:layout_marginRight="20sp"
         android:onClick="onClick"
         android:text="@string/apply"
-        android:textColor="@android:color/black"
         android:textSize="24sp" />
 </LinearLayout>

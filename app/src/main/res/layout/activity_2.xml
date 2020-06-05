@@ -51,7 +51,6 @@
         android:layout_gravity="center_horizontal"
         android:text="@string/count"
         android:textAlignment="center"
-        android:textColor="@android:color/black"
         android:textSize="30sp" />
 
     <LinearLayout
@@ -67,7 +66,6 @@
             android:layout_weight="1"
             android:text="0"
             android:textAlignment="center"
-            android:textColor="@android:color/black"
             android:textSize="36sp" />
 
         <TextView
@@ -78,7 +76,6 @@
             android:layout_weight="1"
             android:text="0"
             android:textAlignment="center"
-            android:textColor="@android:color/black"
             android:textSize="36sp" />
     </LinearLayout>
 
@@ -89,7 +86,6 @@
         android:layout_gravity="center_horizontal"
         android:text="@string/points_for_distribution"
         android:textAlignment="center"
-        android:textColor="@android:color/black"
         android:textSize="30sp" />
 
     <LinearLayout
@@ -99,25 +95,36 @@
 
         <EditText
             android:id="@+id/numberField1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10sp"
             android:layout_weight="1"
+            android:focusable="auto"
             android:hint="0"
             android:inputType="numberSigned"
             android:textAlignment="center"
-            android:textSize="36sp" />
+            android:textSize="36sp"
+            android:visibility="visible" />
+
+        <com.shawnlin.numberpicker.NumberPicker
+            android:id="@+id/number_picker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
         <EditText
             android:id="@+id/numberField2"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10sp"
             android:layout_weight="1"
+            android:focusable="auto"
             android:hint="0"
             android:inputType="numberSigned"
             android:textAlignment="center"
-            android:textSize="36sp" />
+            android:textSize="36sp"
+            android:visibility="visible" />
+
     </LinearLayout>
 
     <Button
@@ -130,7 +137,6 @@
         android:layout_marginRight="20sp"
         android:onClick="onClick"
         android:text="@string/add"
-        android:textColor="@android:color/black"
         android:textSize="24sp" />
 
     <Button
@@ -143,7 +149,6 @@
         android:layout_marginRight="20sp"
         android:onClick="onNewClick"
         android:text="@string/new_game"
-        android:textColor="@android:color/black"
         android:textSize="24sp" />
 
 </LinearLayout>

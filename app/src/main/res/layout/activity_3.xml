@@ -62,7 +62,6 @@
         android:layout_gravity="center_horizontal"
         android:text="@string/count"
         android:textAlignment="center"
-        android:textColor="@android:color/black"
         android:textSize="30sp" />
 
     <LinearLayout
@@ -78,7 +77,6 @@
             android:layout_weight="1"
             android:text="0"
             android:textAlignment="center"
-            android:textColor="@android:color/black"
             android:textSize="36sp" />
 
         <TextView
@@ -89,7 +87,6 @@
             android:layout_weight="1"
             android:text="0"
             android:textAlignment="center"
-            android:textColor="@android:color/black"
             android:textSize="36sp" />
 
         <TextView
@@ -100,7 +97,6 @@
             android:layout_weight="1"
             android:text="0"
             android:textAlignment="center"
-            android:textColor="@android:color/black"
             android:textSize="36sp" />
     </LinearLayout>
 
@@ -111,7 +107,6 @@
         android:layout_gravity="center_horizontal"
         android:text="@string/points_for_distribution"
         android:textAlignment="center"
-        android:textColor="@android:color/black"
         android:textSize="30sp" />
 
     <LinearLayout
@@ -163,7 +158,6 @@
         android:layout_marginRight="20sp"
         android:onClick="onClick"
         android:text="@string/add"
-        android:textColor="@android:color/black"
         android:textSize="24sp" />
 
     <Button
@@ -176,7 +170,6 @@
         android:layout_marginRight="20sp"
         android:onClick="onNewClick"
         android:text="@string/new_game"
-        android:textColor="@android:color/black"
         android:textSize="24sp" />
 
 </LinearLayout>

@@ -232,7 +232,7 @@ public class Activity3 extends Activity {
             assert imm != null;
             imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
-        if (!numberField1.getText().toString().equals("") && !numberField2.getText().toString().equals("") && !numberField3.getText().toString().equals(""))
+        if (!(numberField1.getText().toString().equals("") && numberField2.getText().toString().equals("") && numberField3.getText().toString().equals("")))
             try {
                 int prev1 = Integer.valueOf(resultField1.getText().toString());
                 int prev2 = Integer.valueOf(resultField2.getText().toString());

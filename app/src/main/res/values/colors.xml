@@ -8,7 +8,9 @@
     <color name="colorGradientCenter">#FFE4B5</color>
     <color name="colorGradientEnd">#EEE8AA</color>
     <color name="colorAccentAma">#ee2820</color>
-    <color name="colorGradientStartDark">#0070ba</color>
-    <color name="colorGradientCenterDark">#0076c4</color>
-    <color name="colorGradientEndDark">#61c0ff</color>
+    <color name="colorGradientStartDark">#505050</color>
+    <color name="colorGradientCenterDark">#505050</color>
+    <color name="colorGradientEndDark">#505050</color>
+    <color name="white">#ffffff</color>
+    <color name="grey">#a8a8a8</color>
 </resources>

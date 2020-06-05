@@ -17,15 +17,7 @@
             android:entryValues="@array/theme_save"
             android:key="theme"
             app:allowDividerAbove="false"
-            app:useSimpleSummaryProvider="true" />
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="@string/nums">
-        <ListPreference
-            app:defaultValue="@string/light"
-            app:entries="@array/num"
-            app:entryValues="@array/entryvalues_num"
-            app:key="num"
             app:useSimpleSummaryProvider="true"/>
     </PreferenceCategory>
+
 </PreferenceScreen>
