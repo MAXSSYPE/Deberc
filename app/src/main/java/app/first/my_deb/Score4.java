@@ -22,6 +22,10 @@ import com.r0adkll.slidr.Slidr;
 
 import java.util.ArrayList;
 
+import ir.androidexception.datatable.DataTable;
+import ir.androidexception.datatable.model.DataTableHeader;
+import ir.androidexception.datatable.model.DataTableRow;
+
 public class Score4 extends Activity {
     private LinearLayout linearLayout;
 
@@ -59,6 +63,7 @@ public class Score4 extends Activity {
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
     }
+
     @Override
     public void onBackPressed() {
         try {
@@ -67,6 +72,7 @@ public class Score4 extends Activity {
         } catch (Exception ignored) {
         }
     }
+
     @SuppressLint("WrongConstant")
     private void loadText(Context context) {
         SharedPreferences sPref = context.getSharedPreferences("Score4.txt", MODE_APPEND);
@@ -79,102 +85,27 @@ public class Score4 extends Activity {
         ArrayList<String> pl4 = new Gson().fromJson(sPref.getString("pl4", ""), new TypeToken<ArrayList<String>>() {
         }.getType());
 
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.setMargins(0, 30, 0, 10);
-        params.weight = 1;
-        params.width = 0;
-        params.gravity = Gravity.CENTER;
+        DataTable dataTable = findViewById(R.id.data_table);
+        DataTableHeader header = new DataTableHeader.Builder()
+                .item(getString(R.string.gamer1), 1)
+                .item(getString(R.string.gamer2), 1)
+                .item(getString(R.string.gamer3), 1)
+                .item(getString(R.string.gamer4), 1).build();
 
-        LinearLayout up = new LinearLayout(this);
-        up.setOrientation(LinearLayout.HORIZONTAL);
-        TextView up1 = new TextView(this);
-        up1.setLayoutParams(params);
-        up1.setTextColor(Color.BLACK);
-        up1.setTextSize(14);
-        up1.setGravity(Gravity.CENTER_HORIZONTAL);
-        up1.setText(getResources().getString(R.string.distribution));
-
-        TextView up2 = new TextView(this);
-        up2.setLayoutParams(params);
-        up2.setTextColor(Color.BLACK);
-        up2.setTextSize(14);
-        up2.setGravity(Gravity.CENTER_HORIZONTAL);
-        up2.setText(getResources().getString(R.string.gamer1));
-
-        TextView up3 = new TextView(this);
-        up3.setLayoutParams(params);
-        up3.setTextColor(Color.BLACK);
-        up3.setTextSize(14);
-        up3.setGravity(Gravity.CENTER_HORIZONTAL);
-        up3.setText(getResources().getString(R.string.gamer2));
-
-        TextView up4 = new TextView(this);
-        up4.setLayoutParams(params);
-        up4.setTextColor(Color.BLACK);
-        up4.setTextSize(14);
-        up4.setGravity(Gravity.CENTER_HORIZONTAL);
-        up4.setText(getResources().getString(R.string.gamer3));
-
-        TextView up5 = new TextView(this);
-        up5.setLayoutParams(params);
-        up5.setTextColor(Color.BLACK);
-        up5.setTextSize(14);
-        up5.setGravity(Gravity.CENTER_HORIZONTAL);
-        up5.setText(getResources().getString(R.string.gamer4));
-        up.addView(up1);
-        up.addView(up2);
-        up.addView(up3);
-        up.addView(up4);
-        up.addView(up5);
-        linearLayout.addView(up);
-
-        if (pl1 != null)
+        ArrayList<DataTableRow> rows = new ArrayList<>();
+        if (pl1 != null && pl2 != null && pl3 != null && pl4 != null && !pl1.isEmpty() && !pl2.isEmpty() && !pl3.isEmpty() && !pl4.isEmpty()) {
             for (int i = 0; i < pl1.size(); i++) {
-                LinearLayout supp = new LinearLayout(this);
-                supp.setOrientation(LinearLayout.HORIZONTAL);
-
-                TextView textView1 = new TextView(this);
-                textView1.setLayoutParams(params);
-                textView1.setTextColor(Color.BLACK);
-                textView1.setTextSize(24);
-                textView1.setGravity(Gravity.CENTER_HORIZONTAL);
-                textView1.setText(String.valueOf(i + 1));
-
-                TextView textView2 = new TextView(this);
-                textView2.setLayoutParams(params);
-                textView2.setTextColor(Color.BLACK);
-                textView2.setTextSize(24);
-                textView2.setGravity(Gravity.CENTER_HORIZONTAL);
-                textView2.setText(pl1.get(i));
-
-                TextView textView3 = new TextView(this);
-                textView3.setLayoutParams(params);
-                textView3.setTextColor(Color.BLACK);
-                textView3.setTextSize(24);
-                textView3.setGravity(Gravity.CENTER_HORIZONTAL);
-                textView3.setText(pl2.get(i));
-
-                TextView textView4 = new TextView(this);
-                textView4.setLayoutParams(params);
-                textView4.setTextColor(Color.BLACK);
-                textView4.setTextSize(24);
-                textView4.setGravity(Gravity.CENTER_HORIZONTAL);
-                textView4.setText(pl3.get(i));
-
-                TextView textView5 = new TextView(this);
-                textView5.setLayoutParams(params);
-                textView5.setTextColor(Color.BLACK);
-                textView5.setTextSize(24);
-                textView5.setGravity(Gravity.CENTER_HORIZONTAL);
-                textView5.setText(pl4.get(i));
-
-                supp.addView(textView1);
-                supp.addView(textView2);
-                supp.addView(textView3);
-                supp.addView(textView4);
-                supp.addView(textView5);
-                linearLayout.addView(supp);
+                DataTableRow row = new DataTableRow.Builder()
+                        .value(pl1.get(i))
+                        .value(pl2.get(i))
+                        .value(pl3.get(i))
+                        .value(pl4.get(i)).build();
+                rows.add(row);
             }
+        }
+        dataTable.setHeader(header);
+        dataTable.setRows(rows);
+        dataTable.inflate(context);
     }
 
     @Override

@@ -6,8 +6,8 @@ android {
         applicationId "app.first.my_deb"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 11
-        versionName "3.1"
+        versionCode 12
+        versionName "4.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -27,11 +27,12 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.google.android.gms:play-services-ads:19.1.0'
-    implementation 'com.google.firebase:firebase-core:17.4.2'
+    implementation 'com.google.firebase:firebase-core:17.4.3'
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.specyci:residemenu:1.6'
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'com.r0adkll:slidableactivity:2.1.0'
     implementation 'com.shawnlin:number-picker:2.4.9'
+    implementation 'com.github.salehyarahmadi:DataTable:v1.0.0'
 }
 apply plugin: 'com.google.gms.google-services'
