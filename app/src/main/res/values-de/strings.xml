@@ -29,4 +29,6 @@
     <string name="dark">Dunkles Thema (Beta)</string>
     <string name="light">Lichtthema</string>
     <string name="settings">die Einstellungen</string>
+    <string name="cancel">Stornieren</string>
+    <string name="clear">Löschen</string>
 </resources>

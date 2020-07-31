@@ -1,6 +1,5 @@
 package app.first.my_deb;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,9 +15,11 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
@@ -27,13 +28,15 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.gson.Gson;
+import com.maltaisn.calcdialog.CalcDialog;
 import com.special.ResideMenu.ResideMenu;
 import com.special.ResideMenu.ResideMenuItem;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 
-public class Activity4 extends Activity {
+public class Activity4 extends AppCompatActivity implements CalcDialog.CalcDialogCallback {
     private TextView resultField1;
     private TextView resultField2;
     private TextView resultField3;
@@ -52,6 +55,10 @@ public class Activity4 extends Activity {
     private final ArrayList<String> arrPlayer3 = new ArrayList<>();
     private final ArrayList<String> arrPlayer4 = new ArrayList<>();
 
+    @Nullable
+    private BigDecimal value = null;
+    final CalcDialog calcDialog = new CalcDialog();
+    private ImageButton calc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +94,7 @@ public class Activity4 extends Activity {
         name2 = findViewById(R.id.name2);
         name3 = findViewById(R.id.name3);
         name4 = findViewById(R.id.name4);
+        calc = findViewById(R.id.but_calc);
         LinearLayout linearLayout = findViewById(R.id.main);
         if (supp.equals("dark"))
             linearLayout.setBackground(getDrawable(R.drawable.gradient_animation_dark));
@@ -259,29 +267,29 @@ public class Activity4 extends Activity {
         }
         if (!(numberField1.getText().toString().equals("") && numberField2.getText().toString().equals("") && numberField3.getText().toString().equals("") && numberField4.getText().toString().equals("")))
             try {
-                int prev1 = Integer.valueOf(resultField1.getText().toString());
-                int prev2 = Integer.valueOf(resultField2.getText().toString());
-                int prev3 = Integer.valueOf(resultField3.getText().toString());
-                int prev4 = Integer.valueOf(resultField4.getText().toString());
+                int prev1 = Integer.parseInt(resultField1.getText().toString());
+                int prev2 = Integer.parseInt(resultField2.getText().toString());
+                int prev3 = Integer.parseInt(resultField3.getText().toString());
+                int prev4 = Integer.parseInt(resultField4.getText().toString());
                 int now1 = 0;
                 int now2 = 0;
                 int now3 = 0;
                 int now4 = 0;
 
                 if (!numberField1.getText().toString().equals(""))
-                    now1 = Integer.valueOf(numberField1.getText().toString());
+                    now1 = Integer.parseInt(numberField1.getText().toString());
                 else
                     numberField1.setText("0");
                 if (!numberField2.getText().toString().equals(""))
-                    now2 = Integer.valueOf(numberField2.getText().toString());
+                    now2 = Integer.parseInt(numberField2.getText().toString());
                 else
                     numberField2.setText("0");
                 if (!numberField3.getText().toString().equals(""))
-                    now3 = Integer.valueOf(numberField3.getText().toString());
+                    now3 = Integer.parseInt(numberField3.getText().toString());
                 else
                     numberField3.setText("0");
                 if (!numberField4.getText().toString().equals(""))
-                    now4 = Integer.valueOf(numberField4.getText().toString());
+                    now4 = Integer.parseInt(numberField4.getText().toString());
                 else
                     numberField4.setText("0");
 
@@ -349,6 +357,12 @@ public class Activity4 extends Activity {
     @Override
     protected void onStop() {
         super.onStop();
+        saveText();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
         saveText();
     }
 
@@ -434,7 +448,7 @@ public class Activity4 extends Activity {
                 }).setNegativeButton(getResources().getString(R.string.no), null).show();
     }
 
-    private ResideMenu.OnMenuListener menuListener = new ResideMenu.OnMenuListener() {
+    private final ResideMenu.OnMenuListener menuListener = new ResideMenu.OnMenuListener() {
         @Override
         public void openMenu() {
             InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -449,4 +463,15 @@ public class Activity4 extends Activity {
 
         }
     };
+
+    public void onCalcClick(View view) {
+        calcDialog.getSettings().setExpressionShown(true)
+                .setInitialValue(value);
+        calcDialog.show(getSupportFragmentManager(), "calc_dialog");
+    }
+
+    @Override
+    public void onValueEntered(int requestCode, @Nullable BigDecimal value) {
+        this.value = value;
+    }
 }

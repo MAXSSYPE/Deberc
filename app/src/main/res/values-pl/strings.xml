@@ -29,4 +29,6 @@
     <string name="dark">Ciemny motyw (beta)</string>
     <string name="light">Lekki motyw</string>
     <string name="settings">Ustawienia</string>
+    <string name="cancel">Cancel</string>
+    <string name="clear">Oczyścić</string>
 </resources>

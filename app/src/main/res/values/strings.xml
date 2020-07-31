@@ -28,4 +28,6 @@
     <string name="dark">Dark theme(beta)</string>
     <string name="light">Light theme</string>
     <string name="settings">Settings</string>
+    <string name="cancel">Cancel</string>
+    <string name="clear">Clear</string>
 </resources>

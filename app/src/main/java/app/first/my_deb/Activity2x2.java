@@ -1,6 +1,5 @@
 package app.first.my_deb;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,25 +18,30 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.gson.Gson;
+import com.maltaisn.calcdialog.CalcDialog;
 import com.shawnlin.numberpicker.NumberPicker;
 import com.special.ResideMenu.ResideMenu;
 import com.special.ResideMenu.ResideMenuItem;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
-public class Activity2x2 extends Activity {
-    private ArrayList<String> arrPlayer1 = new ArrayList<>();
-    private ArrayList<String> arrPlayer2 = new ArrayList<>();
+public class Activity2x2 extends AppCompatActivity implements CalcDialog.CalcDialogCallback {
+    private final ArrayList<String> arrPlayer1 = new ArrayList<>();
+    private final ArrayList<String> arrPlayer2 = new ArrayList<>();
     private TextView resultField1;
     private TextView resultField2;
     private EditText numberField1;
@@ -46,6 +50,11 @@ public class Activity2x2 extends Activity {
     private TextView name2;
     private ResideMenu resideMenu;
     private NumberPicker numberPicker;
+    @Nullable
+    private BigDecimal value = null;
+    final CalcDialog calcDialog = new CalcDialog();
+    private ImageButton calc;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +84,7 @@ public class Activity2x2 extends Activity {
         resultField2 = findViewById(R.id.resultField2);
         name1 = findViewById(R.id.name1);
         name2 = findViewById(R.id.name2);
+        calc = findViewById(R.id.but_calc);
         numberPicker = findViewById(R.id.number_picker);
         final String[] data = {"162", "182", "202", "212", "222", "232", "242", "252", "262", "272", "282", "302", "322"};
         numberPicker.setMinValue(1);
@@ -100,17 +110,17 @@ public class Activity2x2 extends Activity {
             public void onClick(View view) {
                 try {
                     if (!(numberField1.getText().toString().length() == 0 && numberField2.getText().toString().length() == 0) || !(numberField1.getText().toString().length() != 0 && numberField2.getText().toString().length() != 0)) {
-                        if (numberField1.getText().toString().length() != 0 && Integer.valueOf(numberField1.getText().toString()) > 0) {
-                            if (!numberField1.getText().toString().equals("") && !numberField1.getText().toString().equals("-") && Integer.valueOf(numberField1.getText().toString()) >= 0 && Integer.valueOf(numberField1.getText().toString()) <= Integer.valueOf(data[numberPicker.getValue() - 1])) {
-                                numberField2.setHint(String.valueOf(Integer.valueOf(data[numberPicker.getValue() - 1]) - Integer.valueOf(numberField1.getText().toString())));
+                        if (numberField1.getText().toString().length() != 0 && Integer.parseInt(numberField1.getText().toString()) > 0) {
+                            if (!numberField1.getText().toString().equals("") && !numberField1.getText().toString().equals("-") && Integer.parseInt(numberField1.getText().toString()) >= 0 && Integer.parseInt(numberField1.getText().toString()) <= Integer.parseInt(data[numberPicker.getValue() - 1])) {
+                                numberField2.setHint(String.valueOf(Integer.parseInt(data[numberPicker.getValue() - 1]) - Integer.parseInt(numberField1.getText().toString())));
                             } else {
                                 numberField1.setHint("0");
                                 numberField2.setHint("0");
                             }
                         }
-                        if (numberField2.getText().toString().length() != 0 && Integer.valueOf(numberField2.getText().toString()) > 0) {
-                            if (!numberField2.getText().toString().equals("") && !numberField2.getText().toString().equals("-") && Integer.valueOf(numberField2.getText().toString()) >= 0 && Integer.valueOf(numberField2.getText().toString()) <= Integer.valueOf(data[numberPicker.getValue() - 1])) {
-                                numberField1.setHint(String.valueOf(Integer.valueOf(data[numberPicker.getValue() - 1]) - Integer.valueOf(numberField2.getText().toString())));
+                        if (numberField2.getText().toString().length() != 0 && Integer.parseInt(numberField2.getText().toString()) > 0) {
+                            if (!numberField2.getText().toString().equals("") && !numberField2.getText().toString().equals("-") && Integer.parseInt(numberField2.getText().toString()) >= 0 && Integer.parseInt(numberField2.getText().toString()) <= Integer.parseInt(data[numberPicker.getValue() - 1])) {
+                                numberField1.setHint(String.valueOf(Integer.parseInt(data[numberPicker.getValue() - 1]) - Integer.parseInt(numberField2.getText().toString())));
                             } else {
                                 numberField1.setHint("0");
                                 numberField2.setHint("0");
@@ -127,17 +137,17 @@ public class Activity2x2 extends Activity {
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
                 try {
                     if (!(numberField1.getText().toString().length() == 0 && numberField2.getText().toString().length() == 0) || !(numberField1.getText().toString().length() != 0 && numberField2.getText().toString().length() != 0)) {
-                        if (numberField1.getText().toString().length() != 0 && Integer.valueOf(numberField1.getText().toString()) > 0) {
-                            if (!numberField1.getText().toString().equals("") && !numberField1.getText().toString().equals("-") && Integer.valueOf(numberField1.getText().toString()) >= 0 && Integer.valueOf(numberField1.getText().toString()) <= Integer.valueOf(data[picker.getValue() - 1])) {
-                                numberField2.setHint(String.valueOf(Integer.valueOf(data[picker.getValue() - 1]) - Integer.valueOf(numberField1.getText().toString())));
+                        if (numberField1.getText().toString().length() != 0 && Integer.parseInt(numberField1.getText().toString()) > 0) {
+                            if (!numberField1.getText().toString().equals("") && !numberField1.getText().toString().equals("-") && Integer.parseInt(numberField1.getText().toString()) >= 0 && Integer.parseInt(numberField1.getText().toString()) <= Integer.parseInt(data[picker.getValue() - 1])) {
+                                numberField2.setHint(String.valueOf(Integer.parseInt(data[picker.getValue() - 1]) - Integer.parseInt(numberField1.getText().toString())));
                             } else {
                                 numberField1.setHint("0");
                                 numberField2.setHint("0");
                             }
                         }
-                        if (numberField2.getText().toString().length() != 0 && Integer.valueOf(numberField2.getText().toString()) > 0) {
-                            if (!numberField2.getText().toString().equals("") && !numberField2.getText().toString().equals("-") && Integer.valueOf(numberField2.getText().toString()) >= 0 && Integer.valueOf(numberField2.getText().toString()) <= Integer.valueOf(data[picker.getValue() - 1])) {
-                                numberField1.setHint(String.valueOf(Integer.valueOf(data[picker.getValue() - 1]) - Integer.valueOf(numberField2.getText().toString())));
+                        if (numberField2.getText().toString().length() != 0 && Integer.parseInt(numberField2.getText().toString()) > 0) {
+                            if (!numberField2.getText().toString().equals("") && !numberField2.getText().toString().equals("-") && Integer.parseInt(numberField2.getText().toString()) >= 0 && Integer.parseInt(numberField2.getText().toString()) <= Integer.parseInt(data[picker.getValue() - 1])) {
+                                numberField1.setHint(String.valueOf(Integer.parseInt(data[picker.getValue() - 1]) - Integer.parseInt(numberField2.getText().toString())));
                             } else {
                                 numberField1.setHint("0");
                                 numberField2.setHint("0");
@@ -154,17 +164,17 @@ public class Activity2x2 extends Activity {
             public void onScrollStateChange(NumberPicker view, int scrollState) {
                 try {
                     if (!(numberField1.getText().toString().length() == 0 && numberField2.getText().toString().length() == 0) || !(numberField1.getText().toString().length() != 0 && numberField2.getText().toString().length() != 0)) {
-                        if (numberField1.getText().toString().length() != 0 && Integer.valueOf(numberField1.getText().toString()) > 0) {
-                            if (!numberField1.getText().toString().equals("") && !numberField1.getText().toString().equals("-") && Integer.valueOf(numberField1.getText().toString()) >= 0 && Integer.valueOf(numberField1.getText().toString()) <= Integer.valueOf(data[view.getValue() - 1])) {
-                                numberField2.setHint(String.valueOf(Integer.valueOf(data[view.getValue() - 1]) - Integer.valueOf(numberField1.getText().toString())));
+                        if (numberField1.getText().toString().length() != 0 && Integer.parseInt(numberField1.getText().toString()) > 0) {
+                            if (!numberField1.getText().toString().equals("") && !numberField1.getText().toString().equals("-") && Integer.parseInt(numberField1.getText().toString()) >= 0 && Integer.parseInt(numberField1.getText().toString()) <= Integer.parseInt(data[view.getValue() - 1])) {
+                                numberField2.setHint(String.valueOf(Integer.parseInt(data[view.getValue() - 1]) - Integer.parseInt(numberField1.getText().toString())));
                             } else {
                                 numberField1.setHint("0");
                                 numberField2.setHint("0");
                             }
                         }
-                        if (numberField2.getText().toString().length() != 0 && Integer.valueOf(numberField2.getText().toString()) > 0) {
-                            if (!numberField2.getText().toString().equals("") && !numberField2.getText().toString().equals("-") && Integer.valueOf(numberField2.getText().toString()) >= 0 && Integer.valueOf(numberField2.getText().toString()) <= Integer.valueOf(data[view.getValue() - 1])) {
-                                numberField1.setHint(String.valueOf(Integer.valueOf(data[view.getValue() - 1]) - Integer.valueOf(numberField2.getText().toString())));
+                        if (numberField2.getText().toString().length() != 0 && Integer.parseInt(numberField2.getText().toString()) > 0) {
+                            if (!numberField2.getText().toString().equals("") && !numberField2.getText().toString().equals("-") && Integer.parseInt(numberField2.getText().toString()) >= 0 && Integer.parseInt(numberField2.getText().toString()) <= Integer.parseInt(data[view.getValue() - 1])) {
+                                numberField1.setHint(String.valueOf(Integer.parseInt(data[view.getValue() - 1]) - Integer.parseInt(numberField2.getText().toString())));
                             } else {
                                 numberField1.setHint("0");
                                 numberField2.setHint("0");
@@ -195,8 +205,8 @@ public class Activity2x2 extends Activity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 try {
-                    if (!numberField1.getText().toString().equals("") && !numberField1.getText().toString().equals("-") && Integer.valueOf(numberField1.getText().toString()) >= 0 && Integer.valueOf(numberField1.getText().toString()) <= Integer.valueOf(data[numberPicker.getValue() - 1])) {
-                        numberField2.setHint(String.valueOf(Integer.valueOf(data[numberPicker.getValue() - 1]) - Integer.valueOf(numberField1.getText().toString())));
+                    if (!numberField1.getText().toString().equals("") && !numberField1.getText().toString().equals("-") && Integer.parseInt(numberField1.getText().toString()) >= 0 && Integer.parseInt(numberField1.getText().toString()) <= Integer.parseInt(data[numberPicker.getValue() - 1])) {
+                        numberField2.setHint(String.valueOf(Integer.parseInt(data[numberPicker.getValue() - 1]) - Integer.parseInt(numberField1.getText().toString())));
                     } else {
                         numberField1.setHint("0");
                         numberField2.setHint("0");
@@ -221,8 +231,8 @@ public class Activity2x2 extends Activity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 try {
-                    if (!numberField2.getText().toString().equals("") && !numberField2.getText().toString().equals("-") && Integer.valueOf(numberField2.getText().toString()) >= 0 && Integer.valueOf(numberField2.getText().toString()) <= Integer.valueOf(data[numberPicker.getValue() - 1])) {
-                        numberField1.setHint(String.valueOf(Integer.valueOf(data[numberPicker.getValue() - 1]) - Integer.valueOf(numberField2.getText().toString())));
+                    if (!numberField2.getText().toString().equals("") && !numberField2.getText().toString().equals("-") && Integer.parseInt(numberField2.getText().toString()) >= 0 && Integer.parseInt(numberField2.getText().toString()) <= Integer.parseInt(data[numberPicker.getValue() - 1])) {
+                        numberField1.setHint(String.valueOf(Integer.parseInt(data[numberPicker.getValue() - 1]) - Integer.parseInt(numberField2.getText().toString())));
                     } else {
                         numberField1.setHint("0");
                         numberField2.setHint("0");
@@ -369,21 +379,21 @@ public class Activity2x2 extends Activity {
         }
         if (!(numberField1.getText().toString().equals("") && numberField2.getText().toString().equals("")))
             try {
-                int prev1 = Integer.valueOf(resultField1.getText().toString());
-                int prev2 = Integer.valueOf(resultField2.getText().toString());
-                int now1 = 0;
-                int now2 = 0;
+                int prev1 = Integer.parseInt(resultField1.getText().toString());
+                int prev2 = Integer.parseInt(resultField2.getText().toString());
+                int now1;
+                int now2;
                 if (!numberField1.getText().toString().equals(""))
-                    now1 = Integer.valueOf(numberField1.getText().toString());
+                    now1 = Integer.parseInt(numberField1.getText().toString());
                 else {
-                    now1 = Integer.valueOf(numberField1.getHint().toString());
+                    now1 = Integer.parseInt(numberField1.getHint().toString());
                     numberField1.setText(numberField1.getHint().toString());
                 }
 
                 if (!numberField2.getText().toString().equals(""))
-                    now2 = Integer.valueOf(numberField2.getText().toString());
+                    now2 = Integer.parseInt(numberField2.getText().toString());
                 else {
-                    now2 = Integer.valueOf(numberField2.getHint().toString());
+                    now2 = Integer.parseInt(numberField2.getHint().toString());
                     numberField2.setText(numberField2.getHint().toString());
                 }
                 resultField1.setText(String.valueOf(prev1 + now1));
@@ -470,6 +480,12 @@ public class Activity2x2 extends Activity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        saveText();
+    }
+
+    @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         return resideMenu.dispatchTouchEvent(ev);
     }
@@ -504,7 +520,7 @@ public class Activity2x2 extends Activity {
                 }).setNegativeButton(getResources().getString(R.string.no), null).show();
     }
 
-    private ResideMenu.OnMenuListener menuListener = new ResideMenu.OnMenuListener() {
+    private final ResideMenu.OnMenuListener menuListener = new ResideMenu.OnMenuListener() {
         @Override
         public void openMenu() {
             InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -519,4 +535,15 @@ public class Activity2x2 extends Activity {
 
         }
     };
+
+    public void onCalcClick(View view) {
+        calcDialog.getSettings().setExpressionShown(true)
+                .setInitialValue(value);
+        calcDialog.show(getSupportFragmentManager(), "calc_dialog");
+    }
+
+    @Override
+    public void onValueEntered(int requestCode, @Nullable BigDecimal value) {
+        this.value = value;
+    }
 }

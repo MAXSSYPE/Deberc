@@ -29,4 +29,6 @@
     <string name="dark">Темна тема(бета)</string>
     <string name="light">Світла тема</string>
     <string name="settings">Налаштування</string>
+    <string name="cancel">Відміна</string>
+    <string name="clear">Очистити</string>
 </resources>

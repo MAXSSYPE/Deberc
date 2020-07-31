@@ -29,4 +29,6 @@
     <string name="dark">Tema oscuro (beta)</string>
     <string name="light">Tema ligero</string>
     <string name="settings">Configuraciones</string>
+    <string name="cancel">Cancelar</string>
+    <string name="clear">Limpiar</string>
 </resources>

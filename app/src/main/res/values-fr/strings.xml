@@ -29,4 +29,6 @@
     <string name="dark">Thème sombre (bêta)</string>
     <string name="light">Thème léger</string>
     <string name="settings">Réglages</string>
+    <string name="cancel">Annuler</string>
+    <string name="clear">Nettoyer</string>
 </resources>
