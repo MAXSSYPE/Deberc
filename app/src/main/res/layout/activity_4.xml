@@ -4,15 +4,15 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_animation"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/colorGradientCenter">
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="#9BE0E7"
         ads:adSize="SMART_BANNER"
+        android:backgroundTint="#9BE0E7"
         ads:adUnitId="ca-app-pub-5807744662830254/7731288859" />
 
     <LinearLayout
@@ -191,7 +191,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5sp"
-            android:background="#fffacd"
+            android:background="@color/colorGradientStart"
             android:elevation="5sp"
             android:onClick="onCalcClick"
             ads:srcCompat="@drawable/calculator" />
@@ -199,20 +199,22 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginLeft="10sp"
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/button_add"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginEnd="24sp"
                 android:onClick="onClick"
                 android:text="@string/add"
+                android:textColor="#000"
                 android:textSize="24sp" />
 
             <Button
-                android:id="@+id/button4"
+                android:id="@+id/button_new"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -222,6 +224,7 @@
                 android:layout_marginRight="20sp"
                 android:onClick="onNewClick"
                 android:text="@string/new_game"
+                android:textColor="#000"
                 android:textSize="24sp" />
         </LinearLayout>
 

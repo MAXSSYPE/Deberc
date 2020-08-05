@@ -16,28 +16,34 @@ public class StartActivity extends Activity {
     private final Handler handler = new Handler();
     static boolean flag = true;
 
+    public static final String PREF_COLOR = "pref_color";
+    public static final String COLOR_SELECTED = "selected";
+    public static final String COLOR_LIGHT_SELECTED = "color_light_selected";
+    public static final String THEME_SELECTED = "theme_selected";
+    public static final String BUTTON_COLOR = "button_color";
+
+    public static SharedPreferences mSharedPreferences;
+    public static SharedPreferences.Editor editor;
+    public static int colorSelected;
+    public static int colorSelectedLight;
+    public static int buttonColor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        String supp;
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        supp = sharedPreferences.getString("theme", "");
-        if (supp.equals("light")) {
-            setTheme(R.style.AppTheme);
-        } else if (supp.equals("dark")) {
-            setTheme(R.style.AppTheme_Dark);
-        } else {
-            setTheme(R.style.AppTheme);
-        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
         if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O)
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        mSharedPreferences = getSharedPreferences(PREF_COLOR, MODE_PRIVATE);
+        colorSelected = mSharedPreferences.getInt(COLOR_SELECTED, R.color.colorGradientCenter);
+        colorSelectedLight = mSharedPreferences.getInt(COLOR_LIGHT_SELECTED, R.color.black);
+        buttonColor = mSharedPreferences.getInt(BUTTON_COLOR, R.color.colorGradientCenter);
+        defaultSettings();
         onEverySecond.run();
     }
 
     private final Runnable onEverySecond = new Runnable() {
         public void run() {
-
             count++;
             int limit = 3;
             if (count == limit) {
@@ -59,6 +65,17 @@ public class StartActivity extends Activity {
             super.attachBaseContext(ContextWrapper.wrap(newBase, lang));
         } else {
             super.attachBaseContext(newBase);
+        }
+    }
+
+    private void defaultSettings() {
+        if (!mSharedPreferences.contains(COLOR_SELECTED)) {
+            editor = mSharedPreferences.edit();
+            editor.putInt(THEME_SELECTED, R.style.AppTheme);
+            editor.putInt(COLOR_SELECTED, R.color.colorGradientCenter);
+            editor.putInt(COLOR_LIGHT_SELECTED, R.color.black);
+            editor.putInt(BUTTON_COLOR, R.color.colorGradientStart);
+            editor.apply();
         }
     }
 }

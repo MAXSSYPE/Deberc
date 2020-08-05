@@ -1,12 +1,10 @@
 package app.first.my_deb;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
-import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -17,13 +15,13 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
@@ -38,6 +36,15 @@ import com.special.ResideMenu.ResideMenuItem;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+
+import akndmr.github.io.colorprefutil.ColorPrefUtil;
+import id.ionbit.ionalert.IonAlert;
+import studio.carbonylgroup.textfieldboxes.TextFieldBoxes;
+
+import static app.first.my_deb.StartActivity.THEME_SELECTED;
+import static app.first.my_deb.StartActivity.buttonColor;
+import static app.first.my_deb.StartActivity.colorSelected;
+import static app.first.my_deb.StartActivity.mSharedPreferences;
 
 public class Activity2 extends AppCompatActivity implements CalcDialog.CalcDialogCallback {
     private final ArrayList<String> arrPlayer1 = new ArrayList<>();
@@ -58,17 +65,11 @@ public class Activity2 extends AppCompatActivity implements CalcDialog.CalcDialo
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
-        String supp;
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        supp = sharedPreferences.getString("theme", "");
-        if (supp.equals("light")) {
-            setTheme(R.style.AppTheme);
-        } else if (supp.equals("dark")) {
-            setTheme(R.style.AppTheme_Dark);
-        } else {
-            setTheme(R.style.AppTheme);
-        }
         super.onCreate(savedInstanceState);
+
+        int themeSelected = mSharedPreferences.getInt(THEME_SELECTED, R.style.AppTheme);
+        ColorPrefUtil.changeThemeStyle(this, themeSelected);
+
         setContentView(R.layout.activity_2);
         if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O)
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -90,21 +91,6 @@ public class Activity2 extends AppCompatActivity implements CalcDialog.CalcDialo
         numberPicker.setMinValue(1);
         numberPicker.setMaxValue(13);
         numberPicker.setDisplayedValues(data);
-        if (supp.equals("dark")) {
-            numberPicker.setDividerColor(getColor(R.color.white));
-            numberPicker.setTextColor(getColor(R.color.white));
-            numberPicker.setSelectedTextColor(getColor(R.color.white));
-            name1.setTextColor(getColor(R.color.white));
-            name2.setTextColor(getColor(R.color.white));
-            numberField1.setHintTextColor(getColor(R.color.grey));
-            numberField2.setHintTextColor(getColor(R.color.grey));
-            numberField1.setTextColor(getColor(R.color.white));
-            numberField2.setTextColor(getColor(R.color.white));
-            resultField1.setHintTextColor(getColor(R.color.grey));
-            resultField2.setHintTextColor(getColor(R.color.grey));
-            name1.setHintTextColor(getColor(R.color.grey));
-            name2.setHintTextColor(getColor(R.color.grey));
-        }
         numberPicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -186,8 +172,6 @@ public class Activity2 extends AppCompatActivity implements CalcDialog.CalcDialo
                 }
             }
         });
-
-        LinearLayout linearLayout = findViewById(R.id.main);
         loadText(this);
 
         numberField1.addTextChangedListener(new TextWatcher() {
@@ -270,13 +254,6 @@ public class Activity2 extends AppCompatActivity implements CalcDialog.CalcDialo
             }
         });
 
-        if (supp.equals("dark"))
-            linearLayout.setBackground(getDrawable(R.drawable.gradient_animation_dark));
-        AnimationDrawable animDrawable = (AnimationDrawable) linearLayout.getBackground();
-        animDrawable.setEnterFadeDuration(10);
-        animDrawable.setExitFadeDuration(5000);
-        animDrawable.start();
-
         resideMenu = new ResideMenu(this);
         resideMenu.setBackground(R.drawable.dark);
         resideMenu.setSwipeDirectionDisable(ResideMenu.DIRECTION_RIGHT);
@@ -289,25 +266,26 @@ public class Activity2 extends AppCompatActivity implements CalcDialog.CalcDialo
         item1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new AlertDialog.Builder(Activity2.this).setIcon(android.R.drawable.ic_dialog_alert).setTitle(getResources().getString(R.string.new_game))
-                        .setMessage(getResources().getString(R.string.sure))
-                        .setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                resideMenu.closeMenu();
-                                resultField1.setText("0");
-                                resultField2.setText("0");
-                                numberField1.setText("");
-                                numberField2.setText("");
-                                name1.setText("");
-                                name2.setText("");
-                                SharedPreferences scoreSharPref = getSharedPreferences("Score.txt", MODE_PRIVATE);
-                                Editor editor = scoreSharPref.edit().clear();
-                                editor.apply();
-                                arrPlayer1.clear();
-                                arrPlayer2.clear();
-                            }
-                        }).setNegativeButton(getResources().getString(R.string.no), null).show();
+                new IonAlert(Activity2.this, IonAlert.WARNING_TYPE)
+                        .setTitleText(getResources().getString(R.string.sure))
+                        .setContentText(getResources().getString(R.string.new_game))
+                        .setCancelText(getResources().getString(R.string.no))
+                        .setConfirmText(getResources().getString(R.string.yes))
+                        .showCancelButton(true)
+                        .setConfirmClickListener(sDialog -> {
+                            resideMenu.closeMenu();
+                            resultField1.setText("0");
+                            resultField2.setText("0");
+                            numberField1.setText("");
+                            numberField2.setText("");
+                            SharedPreferences scoreSharPref = getSharedPreferences("Score.txt", MODE_PRIVATE);
+                            Editor editor = scoreSharPref.edit().clear();
+                            editor.apply();
+                            arrPlayer1.clear();
+                            arrPlayer2.clear();
+                            sDialog.cancel();
+                        })
+                        .show();
             }
         });
         resideMenu.addMenuItem(item1, ResideMenu.DIRECTION_LEFT);
@@ -328,6 +306,7 @@ public class Activity2 extends AppCompatActivity implements CalcDialog.CalcDialo
             public void onClick(View view) {
                 startActivity(new Intent("app.first.my_deb.settings2"));
                 overridePendingTransition(R.anim.slide_in_right, R.anim.exit_to_left);
+                finish();
             }
         });
         resideMenu.addMenuItem(item3, ResideMenu.DIRECTION_LEFT);
@@ -364,6 +343,8 @@ public class Activity2 extends AppCompatActivity implements CalcDialog.CalcDialo
             }
         });
         resideMenu.addMenuItem(item6, ResideMenu.DIRECTION_LEFT);
+
+        setTheme();
     }
 
     public void onClick(View view) {
@@ -451,19 +432,21 @@ public class Activity2 extends AppCompatActivity implements CalcDialog.CalcDialo
     @Override
     public void onBackPressed() {
         if (resideMenu.isOpened()) {
-            new AlertDialog.Builder(this).setIcon(android.R.drawable.ic_dialog_alert).setTitle(getResources().getString(R.string.exitTitle))
-                    .setMessage(getResources().getString(R.string.exit))
-                    .setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                            Intent intent = new Intent(Intent.ACTION_MAIN);
-                            intent.addCategory(Intent.CATEGORY_HOME);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intent);
-                            finish();
-                        }
-                    }).setNegativeButton(getResources().getString(R.string.no), null).show();
+            new IonAlert(this, IonAlert.WARNING_TYPE)
+                    .setTitleText(getResources().getString(R.string.exitTitle))
+                    .setContentText(getResources().getString(R.string.exit))
+                    .setCancelText(getResources().getString(R.string.no))
+                    .setConfirmText(getResources().getString(R.string.yes))
+                    .showCancelButton(true)
+                    .setConfirmClickListener(sDialog -> {
+                        Intent intent = new Intent(Intent.ACTION_MAIN);
+                        intent.addCategory(Intent.CATEGORY_HOME);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        finishAffinity();
+                        sDialog.cancel();
+                    })
+                    .show();
         } else {
             resideMenu.openMenu(ResideMenu.DIRECTION_LEFT);
         }
@@ -498,22 +481,25 @@ public class Activity2 extends AppCompatActivity implements CalcDialog.CalcDialo
     }
 
     public void onNewClick(View view) {
-        new AlertDialog.Builder(Activity2.this).setIcon(android.R.drawable.ic_dialog_alert).setTitle(getResources().getString(R.string.new_game))
-                .setMessage(getResources().getString(R.string.sure))
-                .setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        resultField1.setText("0");
-                        resultField2.setText("0");
-                        numberField1.setText("");
-                        numberField2.setText("");
-                        SharedPreferences scoreSharPref = getSharedPreferences("Score.txt", MODE_PRIVATE);
-                        Editor editor = scoreSharPref.edit().clear();
-                        editor.apply();
-                        arrPlayer1.clear();
-                        arrPlayer2.clear();
-                    }
-                }).setNegativeButton(getResources().getString(R.string.no), null).show();
+        new IonAlert(this, IonAlert.WARNING_TYPE)
+                .setTitleText(getResources().getString(R.string.sure))
+                .setContentText(getResources().getString(R.string.new_game))
+                .setCancelText(getResources().getString(R.string.no))
+                .setConfirmText(getResources().getString(R.string.yes))
+                .showCancelButton(true)
+                .setConfirmClickListener(sDialog -> {
+                    resultField1.setText("0");
+                    resultField2.setText("0");
+                    numberField1.setText("");
+                    numberField2.setText("");
+                    SharedPreferences scoreSharPref = getSharedPreferences("Score.txt", MODE_PRIVATE);
+                    Editor editor = scoreSharPref.edit().clear();
+                    editor.apply();
+                    arrPlayer1.clear();
+                    arrPlayer2.clear();
+                    sDialog.cancel();
+                })
+                .show();
     }
 
     private final ResideMenu.OnMenuListener menuListener = new ResideMenu.OnMenuListener() {
@@ -541,5 +527,26 @@ public class Activity2 extends AppCompatActivity implements CalcDialog.CalcDialo
     @Override
     public void onValueEntered(int requestCode, @Nullable BigDecimal value) {
         this.value = value;
+    }
+
+    private void setTheme() {
+        LinearLayout linearLayout = findViewById(R.id.main);
+        calc = findViewById(R.id.but_calc);
+        Button buttonAdd = findViewById(R.id.button_add);
+        Button buttonNew = findViewById(R.id.button_new);
+        TextFieldBoxes box1 = findViewById(R.id.text_box1);
+        TextFieldBoxes box2 = findViewById(R.id.text_box2);
+        if (mSharedPreferences.getInt(THEME_SELECTED, 0) == R.style.AppThemeDark) {
+            ColorPrefUtil.changeBackgroundColorOfSingleView(this, calc, buttonColor);
+            ColorPrefUtil.changeBackgroundColorOfSingleView(this, buttonAdd, buttonColor);
+            ColorPrefUtil.changeBackgroundColorOfSingleView(this, buttonNew, buttonColor);
+            ColorPrefUtil.changeBackgroundColorOfSingleView(this, linearLayout, colorSelected);
+            box1.setPanelBackgroundColor(getColor(R.color.colorGradientStartDark));
+            box2.setPanelBackgroundColor(getColor(R.color.colorGradientStartDark));
+            numberPicker.setDividerColor(getColor(R.color.colorAccentAma));
+            numberPicker.setTextColor(getColor(R.color.white));
+            numberPicker.setSelectedTextColor(getColor(R.color.white));
+            resideMenu.setBackground(R.drawable.dark2);
+        }
     }
 }

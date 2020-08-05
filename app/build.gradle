@@ -16,6 +16,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    android {
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
+    }
 }
 
 dependencies {
@@ -35,5 +41,8 @@ dependencies {
     implementation 'com.shawnlin:number-picker:2.4.9'
     implementation 'com.github.salehyarahmadi:DataTable:v1.0.0'
     implementation "com.maltaisn:calcdialog:2.2.1"
+    implementation 'com.github.oktavianto:ionalert:1.0.4'
+    implementation 'com.github.HITGIF:TextFieldBoxes:1.4.5'
+    implementation 'com.github.akndmr:ColorPrefUtil:1.0.1'
 }
 apply plugin: 'com.google.gms.google-services'

@@ -1,10 +1,10 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light">
         <item name="android:windowFullscreen">true</item>
         <item name="windowNoTitle">true</item>
-        <item name="colorPrimaryDark">#000000</item>
+        <item name="colorPrimaryDark">@color/colorGradientCenter</item>
         <item name="colorAccent">#000000</item>
         <item name="colorPrimary">@color/colorGradientStart</item>
         <item name="android:navigationBarColor">#000000</item>
@@ -24,7 +24,7 @@
         <item name="calcDialogButtonStyle">@style/dialog_but</item>
     </style>
 
-    <style name="dialog_but">
+    <style name="dialog_but" parent="MaterialAlertDialog.MaterialComponents.Title.Panel">
         <item name="android:textColor">#000</item>
         <item name="android:textSize">16sp</item>
         <item name="android:background">@color/colorGradientStart</item>
@@ -35,23 +35,39 @@
     </style>
 
     <style name="button_light" parent="Widget.MaterialComponents.Button">
-        <item name="android:textColor">#000</item>
         <item name="android:textSize">22sp</item>
         <item name="android:background">@color/colorGradientStart</item>
+        <item name="android:textColor">#000</item>
+        <item name="android:textColorPrimary">#000</item>
     </style>
 
-    <style name="AppTheme_Dark" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppThemeDark" parent="Theme.MaterialComponents">
         <item name="android:windowFullscreen">true</item>
         <item name="windowNoTitle">true</item>
-        <item name="colorPrimaryDark">@color/colorAccentAma</item>
+        <item name="colorPrimaryDark">@color/colorGradientStartDark</item>
         <item name="colorAccent">@color/colorAccentAma</item>
-        <item name="colorPrimary">@color/colorGradientStartDark</item>
+        <item name="colorPrimary">@color/colorGradientCenterDark</item>
         <item name="android:buttonStyle">@style/button_dark</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsFloating">false</item>
         <item name="android:navigationBarColor">#000000</item>
         <item name="android:textViewStyle">@style/text_view_dark</item>
+        <item name="calcDialogStyle">@style/calcStyleDark</item>
+    </style>
+
+    <style name="calcStyleDark" parent="CalcDialogStyle">
+        <item name="calcButtonTextCancel">@string/cancel</item>
+        <item name="calcButtonTextClear">@string/clear</item>
+        <item name="calcButtonTextOk">OK</item>
+        <item name="calcBackgroundColor">@color/colorGradientStartDark</item>
+        <item name="calcDialogButtonStyle">@style/dialog_but_dark</item>
+    </style>
+
+    <style name="dialog_but_dark" parent="MaterialAlertDialog.MaterialComponents.Title.Panel">
+        <item name="android:textSize">16sp</item>
+        <item name="android:background">@color/colorGradientStartDark</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="text_view_dark">
@@ -65,7 +81,7 @@
     <style name="button_dark" parent="Widget.MaterialComponents.Button">
         <item name="android:textColor">#fff</item>
         <item name="android:textSize">22sp</item>
-        <item name="android:background">#454545</item>
+        <item name="android:background">@color/colorGradientStartDark</item>
     </style>
 
 </resources>

@@ -25,7 +25,7 @@
     <string name="apply">Confirm</string>
     <string name="nums">Subtract the entered number from (for two)</string>
     <string name="theme">Theme</string>
-    <string name="dark">Dark theme(beta)</string>
+    <string name="dark">Dark theme</string>
     <string name="light">Light theme</string>
     <string name="settings">Settings</string>
     <string name="cancel">Cancel</string>

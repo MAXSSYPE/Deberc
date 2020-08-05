@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import androidx.preference.PreferenceManager;
@@ -21,30 +20,19 @@ import ir.androidexception.datatable.DataTable;
 import ir.androidexception.datatable.model.DataTableHeader;
 import ir.androidexception.datatable.model.DataTableRow;
 
+import static app.first.my_deb.StartActivity.THEME_SELECTED;
+import static app.first.my_deb.StartActivity.mSharedPreferences;
+
 public class Score extends Activity {
-    private LinearLayout linearLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        String supp;
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        supp = sharedPreferences.getString("theme", "");
-        if (supp.equals("light")) {
-            setTheme(R.style.AppTheme);
-        } else if (supp.equals("dark")) {
-            setTheme(R.style.AppTheme_Dark);
-        } else {
-            setTheme(R.style.AppTheme);
-        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score);
         if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O)
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setTheme();
         Slidr.attach(this);
-        linearLayout = findViewById(R.id.lin);
-        ScrollView scrollView = findViewById(R.id.main);
-        if (supp.equals("dark"))
-            scrollView.setBackground(getDrawable(R.drawable.field_dark));
         loadText(this);
     }
 
@@ -102,6 +90,16 @@ public class Score extends Activity {
             super.attachBaseContext(ContextWrapper.wrap(newBase, lang));
         } else {
             super.attachBaseContext(newBase);
+        }
+    }
+
+    private void setTheme() {
+        ScrollView scrollView = findViewById(R.id.main);
+        if (mSharedPreferences.getInt(THEME_SELECTED, 0) == R.style.AppThemeDark) {
+            scrollView.setBackground(getDrawable(R.drawable.field_dark));
+            DataTable dataTable = findViewById(R.id.data_table);
+            dataTable.setHeaderBackgroundColor(R.color.colorGradientStartDark);
+            dataTable.setRowBackgroundColor(R.color.colorGradientStartDark);
         }
     }
 }

@@ -111,9 +111,9 @@
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-5807744662830254~2797692226" />
-        <meta-data
+        <!--<meta-data
             android:name="android.max_aspect"
-            android:value="2.1" />
+            android:value="2.1" />-->
     </application>
 
 </manifest>
