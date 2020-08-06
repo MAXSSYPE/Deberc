@@ -209,7 +209,7 @@
                 android:onClick="onClick"
                 android:text="@string/add"
                 android:textColor="#000"
-                android:textSize="24sp" />
+                android:textSize="20sp" />
 
             <Button
                 android:id="@+id/button_new"
@@ -223,7 +223,7 @@
                 android:onClick="onNewClick"
                 android:text="@string/new_game"
                 android:textColor="#000"
-                android:textSize="24sp" />
+                android:textSize="20sp" />
         </LinearLayout>
 
     </LinearLayout>
