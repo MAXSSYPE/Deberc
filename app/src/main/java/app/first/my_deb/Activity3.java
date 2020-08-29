@@ -186,9 +186,9 @@ public class Activity3 extends AppCompatActivity implements CalcDialog.CalcDialo
         item3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                finish();
                 startActivity(new Intent("app.first.my_deb.settings3"));
                 overridePendingTransition(R.anim.slide_in_right, R.anim.exit_to_left);
-                finish();
             }
         });
         resideMenu.addMenuItem(item3, ResideMenu.DIRECTION_LEFT);
@@ -197,8 +197,8 @@ public class Activity3 extends AppCompatActivity implements CalcDialog.CalcDialo
         item4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent("app.first.my_deb.SHOW_2x2_ACTIVITY"));
                 finish();
+                startActivity(new Intent("app.first.my_deb.SHOW_2x2_ACTIVITY"));
                 overridePendingTransition(R.anim.slide_in_right, R.anim.exit_to_left);
             }
         });
@@ -208,8 +208,8 @@ public class Activity3 extends AppCompatActivity implements CalcDialog.CalcDialo
         item5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent("app.first.my_deb.SHOW_4_ACTIVITY"));
                 finish();
+                startActivity(new Intent("app.first.my_deb.SHOW_4_ACTIVITY"));
                 overridePendingTransition(R.anim.slide_in_right, R.anim.exit_to_left);
             }
         });
@@ -219,8 +219,8 @@ public class Activity3 extends AppCompatActivity implements CalcDialog.CalcDialo
         item6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent("app.first.my_deb.SHOW_2_ACTIVITY"));
                 finish();
+                startActivity(new Intent("app.first.my_deb.SHOW_2_ACTIVITY"));
                 overridePendingTransition(R.anim.slide_in_right, R.anim.exit_to_left);
             }
         });
