@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -59,11 +58,9 @@ public class Activity3 extends AppCompatActivity implements CalcDialog.CalcDialo
     @Nullable
     private BigDecimal value = null;
     final CalcDialog calcDialog = new CalcDialog();
-    private ImageButton calc;
-
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         int themeSelected = mSharedPreferences.getInt(THEME_SELECTED, R.style.AppTheme);
@@ -88,49 +85,39 @@ public class Activity3 extends AppCompatActivity implements CalcDialog.CalcDialo
         name1 = findViewById(R.id.name1);
         name2 = findViewById(R.id.name2);
         name3 = findViewById(R.id.name3);
-        calc = findViewById(R.id.but_calc);
         loadText(this);
 
-        numberField1.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                boolean handle = false;
-                if (i == EditorInfo.IME_ACTION_DONE) {
-                    onClick(numberField1);
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    assert imm != null;
-                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                }
-                return false;
+        numberField1.setOnEditorActionListener((textView, i, keyEvent) -> {
+            boolean handle = false;
+            if (i == EditorInfo.IME_ACTION_DONE) {
+                onClick(numberField1);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                assert imm != null;
+                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             }
+            return false;
         });
 
-        numberField2.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                boolean handle = false;
-                if (i == EditorInfo.IME_ACTION_DONE) {
-                    onClick(numberField2);
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    assert imm != null;
-                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                }
-                return false;
+        numberField2.setOnEditorActionListener((textView, i, keyEvent) -> {
+            boolean handle = false;
+            if (i == EditorInfo.IME_ACTION_DONE) {
+                onClick(numberField2);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                assert imm != null;
+                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             }
+            return false;
         });
 
-        numberField3.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                boolean handle = false;
-                if (i == EditorInfo.IME_ACTION_DONE) {
-                    onClick(numberField3);
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    assert imm != null;
-                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                }
-                return false;
+        numberField3.setOnEditorActionListener((textView, i, keyEvent) -> {
+            boolean handle = false;
+            if (i == EditorInfo.IME_ACTION_DONE) {
+                onClick(numberField3);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                assert imm != null;
+                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             }
+            return false;
         });
 
         resideMenu = new ResideMenu(this);
@@ -173,56 +160,41 @@ public class Activity3 extends AppCompatActivity implements CalcDialog.CalcDialo
         resideMenu.addMenuItem(item1, ResideMenu.DIRECTION_LEFT);
 
         ResideMenuItem item2 = new ResideMenuItem(this, icon[1], titles[1]);
-        item2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent("app.first.my_deb.score3"));
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
-            }
+        item2.setOnClickListener(view -> {
+            startActivity(new Intent("app.first.my_deb.score3"));
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
         });
         resideMenu.addMenuItem(item2, ResideMenu.DIRECTION_LEFT);
 
         ResideMenuItem item3 = new ResideMenuItem(this, icon[2], titles[2]);
-        item3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-                startActivity(new Intent("app.first.my_deb.settings3"));
-                overridePendingTransition(R.anim.slide_in_right, R.anim.exit_to_left);
-            }
+        item3.setOnClickListener(view -> {
+            finish();
+            startActivity(new Intent("app.first.my_deb.settings3"));
+            overridePendingTransition(R.anim.slide_in_right, R.anim.exit_to_left);
         });
         resideMenu.addMenuItem(item3, ResideMenu.DIRECTION_LEFT);
 
         ResideMenuItem item4 = new ResideMenuItem(this, icon[3], titles[3]);
-        item4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-                startActivity(new Intent("app.first.my_deb.SHOW_2x2_ACTIVITY"));
-                overridePendingTransition(R.anim.slide_in_right, R.anim.exit_to_left);
-            }
+        item4.setOnClickListener(view -> {
+            finish();
+            startActivity(new Intent("app.first.my_deb.SHOW_2x2_ACTIVITY"));
+            overridePendingTransition(R.anim.slide_in_right, R.anim.exit_to_left);
         });
         resideMenu.addMenuItem(item4, ResideMenu.DIRECTION_LEFT);
 
         ResideMenuItem item5 = new ResideMenuItem(this, icon[4], titles[4]);
-        item5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-                startActivity(new Intent("app.first.my_deb.SHOW_4_ACTIVITY"));
-                overridePendingTransition(R.anim.slide_in_right, R.anim.exit_to_left);
-            }
+        item5.setOnClickListener(view -> {
+            finish();
+            startActivity(new Intent("app.first.my_deb.SHOW_4_ACTIVITY"));
+            overridePendingTransition(R.anim.slide_in_right, R.anim.exit_to_left);
         });
         resideMenu.addMenuItem(item5, ResideMenu.DIRECTION_LEFT);
 
         ResideMenuItem item6 = new ResideMenuItem(this, icon[5], titles[5]);
-        item6.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-                startActivity(new Intent("app.first.my_deb.SHOW_2_ACTIVITY"));
-                overridePendingTransition(R.anim.slide_in_right, R.anim.exit_to_left);
-            }
+        item6.setOnClickListener(view -> {
+            finish();
+            startActivity(new Intent("app.first.my_deb.SHOW_2_ACTIVITY"));
+            overridePendingTransition(R.anim.slide_in_right, R.anim.exit_to_left);
         });
         resideMenu.addMenuItem(item6, ResideMenu.DIRECTION_LEFT);
 
@@ -430,7 +402,7 @@ public class Activity3 extends AppCompatActivity implements CalcDialog.CalcDialo
 
     private void setTheme() {
         LinearLayout linearLayout = findViewById(R.id.main);
-        calc = findViewById(R.id.but_calc);
+        ImageButton calc = findViewById(R.id.but_calc);
         Button buttonAdd = findViewById(R.id.button_add);
         Button buttonNew = findViewById(R.id.button_new);
         TextFieldBoxes box1 = findViewById(R.id.text_box1);

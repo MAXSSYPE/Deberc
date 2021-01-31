@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.widget.ScrollView;
 
+import androidx.annotation.Nullable;
 import androidx.preference.PreferenceManager;
 
 import com.google.gson.Gson;
@@ -26,7 +27,7 @@ import static app.first.my_deb.StartActivity.mSharedPreferences;
 public class Score2x2 extends Activity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score);
         if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O)

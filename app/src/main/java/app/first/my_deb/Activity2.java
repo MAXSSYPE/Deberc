@@ -55,16 +55,14 @@ public class Activity2 extends AppCompatActivity implements CalcDialog.CalcDialo
     private EditText numberField2;
     private TextView name1;
     private TextView name2;
-    private final String score = "app.first.my_deb.activity_score";
     private ResideMenu resideMenu;
     private NumberPicker numberPicker;
     @Nullable
     private BigDecimal value = null;
     final CalcDialog calcDialog = new CalcDialog();
-    private ImageButton calc;
 
     @Override
-    protected void onCreate(final Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         int themeSelected = mSharedPreferences.getInt(THEME_SELECTED, R.style.AppTheme);
@@ -74,8 +72,11 @@ public class Activity2 extends AppCompatActivity implements CalcDialog.CalcDialo
         if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O)
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        MobileAds.initialize(this, "ca-app-pub-5807744662830254~2797692226");
+
         AdView mAdView = findViewById(R.id.adView);
+        MobileAds.initialize(this, initializationStatus -> {
+        });
+
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
@@ -85,91 +86,85 @@ public class Activity2 extends AppCompatActivity implements CalcDialog.CalcDialo
         resultField2 = findViewById(R.id.resultField2);
         name1 = findViewById(R.id.name1);
         name2 = findViewById(R.id.name2);
-        calc = findViewById(R.id.but_calc);
         numberPicker = findViewById(R.id.number_picker);
-        final String[] data = {"162", "182", "202", "212", "222", "232", "242", "252", "262", "272", "282", "302", "322"};
+        final String[] data = {"162", "182", "202", "212", "222", "232", "242", "252", "262", "272", "282", "292", "302", "312", "322", "332", "342", "362", "382"};
         numberPicker.setMinValue(1);
-        numberPicker.setMaxValue(13);
+        numberPicker.setMaxValue(19);
         numberPicker.setDisplayedValues(data);
-        numberPicker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    if (!(numberField1.getText().toString().length() == 0 && numberField2.getText().toString().length() == 0) || !(numberField1.getText().toString().length() != 0 && numberField2.getText().toString().length() != 0)) {
-                        if (numberField1.getText().toString().length() != 0 && Integer.parseInt(numberField1.getText().toString()) > 0) {
-                            if (!numberField1.getText().toString().equals("") && !numberField1.getText().toString().equals("-") && Integer.parseInt(numberField1.getText().toString()) >= 0 && Integer.parseInt(numberField1.getText().toString()) <= Integer.parseInt(data[numberPicker.getValue() - 1])) {
-                                numberField2.setHint(String.valueOf(Integer.parseInt(data[numberPicker.getValue() - 1]) - Integer.parseInt(numberField1.getText().toString())));
-                            } else {
-                                numberField1.setHint("0");
-                                numberField2.setHint("0");
-                            }
-                        }
-                        if (numberField2.getText().toString().length() != 0 && Integer.parseInt(numberField2.getText().toString()) > 0) {
-                            if (!numberField2.getText().toString().equals("") && !numberField2.getText().toString().equals("-") && Integer.parseInt(numberField2.getText().toString()) >= 0 && Integer.parseInt(numberField2.getText().toString()) <= Integer.parseInt(data[numberPicker.getValue() - 1])) {
-                                numberField1.setHint(String.valueOf(Integer.parseInt(data[numberPicker.getValue() - 1]) - Integer.parseInt(numberField2.getText().toString())));
-                            } else {
-                                numberField1.setHint("0");
-                                numberField2.setHint("0");
-                            }
+        numberPicker.setOnClickListener(view -> {
+            try {
+                if (!(numberField1.getText().toString().length() == 0 && numberField2.getText().toString().length() == 0) || !(numberField1.getText().toString().length() != 0 && numberField2.getText().toString().length() != 0)) {
+                    if (numberField1.getText().toString().length() != 0 && Integer.parseInt(numberField1.getText().toString()) > 0) {
+                        if (!numberField1.getText().toString().equals("") && !numberField1.getText().toString().equals("-") && Integer.parseInt(numberField1.getText().toString()) >= 0 && Integer.parseInt(numberField1.getText().toString()) <= Integer.parseInt(data[numberPicker.getValue() - 1])) {
+                            numberField2.setHint(String.valueOf(Integer.parseInt(data[numberPicker.getValue() - 1]) - Integer.parseInt(numberField1.getText().toString())));
+                        } else {
+                            numberField1.setHint("0");
+                            numberField2.setHint("0");
                         }
                     }
-                } catch (Exception ignored) {
-
+                    if (numberField2.getText().toString().length() != 0 && Integer.parseInt(numberField2.getText().toString()) > 0) {
+                        if (!numberField2.getText().toString().equals("") && !numberField2.getText().toString().equals("-") && Integer.parseInt(numberField2.getText().toString()) >= 0 && Integer.parseInt(numberField2.getText().toString()) <= Integer.parseInt(data[numberPicker.getValue() - 1])) {
+                            numberField1.setHint(String.valueOf(Integer.parseInt(data[numberPicker.getValue() - 1]) - Integer.parseInt(numberField2.getText().toString())));
+                        } else {
+                            numberField1.setHint("0");
+                            numberField2.setHint("0");
+                        }
+                    }
                 }
+            } catch (Exception ignored) {
+
             }
         });
-        numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                try {
-                    if (!(numberField1.getText().toString().length() == 0 && numberField2.getText().toString().length() == 0) || !(numberField1.getText().toString().length() != 0 && numberField2.getText().toString().length() != 0)) {
-                        if (numberField1.getText().toString().length() != 0 && Integer.parseInt(numberField1.getText().toString()) > 0) {
-                            if (!numberField1.getText().toString().equals("") && !numberField1.getText().toString().equals("-") && Integer.parseInt(numberField1.getText().toString()) >= 0 && Integer.parseInt(numberField1.getText().toString()) <= Integer.parseInt(data[picker.getValue() - 1])) {
-                                numberField2.setHint(String.valueOf(Integer.parseInt(data[picker.getValue() - 1]) - Integer.parseInt(numberField1.getText().toString())));
-                            } else {
-                                numberField1.setHint("0");
-                                numberField2.setHint("0");
-                            }
-                        }
-                        if (numberField2.getText().toString().length() != 0 && Integer.parseInt(numberField2.getText().toString()) > 0) {
-                            if (!numberField2.getText().toString().equals("") && !numberField2.getText().toString().equals("-") && Integer.parseInt(numberField2.getText().toString()) >= 0 && Integer.parseInt(numberField2.getText().toString()) <= Integer.parseInt(data[picker.getValue() - 1])) {
-                                numberField1.setHint(String.valueOf(Integer.parseInt(data[picker.getValue() - 1]) - Integer.parseInt(numberField2.getText().toString())));
-                            } else {
-                                numberField1.setHint("0");
-                                numberField2.setHint("0");
-                            }
+        numberPicker.setOnValueChangedListener((picker, oldVal, newVal) -> {
+            try {
+                if (!(numberField1.getText().toString().length() == 0 && numberField2.getText().toString().length() == 0) || !(numberField1.getText().toString().length() != 0 && numberField2.getText().toString().length() != 0)) {
+                    if (numberField1.getText().toString().length() != 0 && Integer.parseInt(numberField1.getText().toString()) > 0) {
+                        if (!numberField1.getText().toString().equals("") && !numberField1.getText().toString().equals("-") && Integer.parseInt(numberField1.getText().toString()) >= 0 && Integer.parseInt(numberField1.getText().toString()) <= Integer.parseInt(data[picker.getValue() - 1])) {
+                            numberField2.setHint(String.valueOf(Integer.parseInt(data[picker.getValue() - 1]) - Integer.parseInt(numberField1.getText().toString())));
+                        } else {
+                            numberField1.setHint("0");
+                            numberField2.setHint("0");
                         }
                     }
-                } catch (Exception ignored) {
-
+                    if (numberField2.getText().toString().length() != 0 && Integer.parseInt(numberField2.getText().toString()) > 0) {
+                        if (!numberField2.getText().toString().equals("") && !numberField2.getText().toString().equals("-") && Integer.parseInt(numberField2.getText().toString()) >= 0 && Integer.parseInt(numberField2.getText().toString()) <= Integer.parseInt(data[picker.getValue() - 1])) {
+                            numberField1.setHint(String.valueOf(Integer.parseInt(data[picker.getValue() - 1]) - Integer.parseInt(numberField2.getText().toString())));
+                        } else {
+                            numberField1.setHint("0");
+                            numberField2.setHint("0");
+                        }
+                    }
                 }
+            } catch (Exception ignored) {
+
             }
         });
-        numberPicker.setOnScrollListener(new NumberPicker.OnScrollListener() {
-            @Override
-            public void onScrollStateChange(NumberPicker view, int scrollState) {
-                try {
-                    if (!(numberField1.getText().toString().length() == 0 && numberField2.getText().toString().length() == 0) || !(numberField1.getText().toString().length() != 0 && numberField2.getText().toString().length() != 0)) {
-                        if (numberField1.getText().toString().length() != 0 && Integer.parseInt(numberField1.getText().toString()) > 0) {
-                            if (!numberField1.getText().toString().equals("") && !numberField1.getText().toString().equals("-") && Integer.parseInt(numberField1.getText().toString()) >= 0 && Integer.parseInt(numberField1.getText().toString()) <= Integer.parseInt(data[view.getValue() - 1])) {
-                                numberField2.setHint(String.valueOf(Integer.parseInt(data[view.getValue() - 1]) - Integer.parseInt(numberField1.getText().toString())));
-                            } else {
-                                numberField1.setHint("0");
-                                numberField2.setHint("0");
-                            }
-                        }
-                        if (numberField2.getText().toString().length() != 0 && Integer.parseInt(numberField2.getText().toString()) > 0) {
-                            if (!numberField2.getText().toString().equals("") && !numberField2.getText().toString().equals("-") && Integer.parseInt(numberField2.getText().toString()) >= 0 && Integer.parseInt(numberField2.getText().toString()) <= Integer.parseInt(data[view.getValue() - 1])) {
-                                numberField1.setHint(String.valueOf(Integer.parseInt(data[view.getValue() - 1]) - Integer.parseInt(numberField2.getText().toString())));
-                            } else {
-                                numberField1.setHint("0");
-                                numberField2.setHint("0");
-                            }
+        numberPicker.setOnScrollListener((view, scrollState) -> {
+            try {
+                if (numberField1.getText().toString().equals("0")) {
+                    numberField2.setHint(String.valueOf(Integer.parseInt(data[view.getValue() - 1])));
+                } else if (numberField2.getText().toString().equals("0")) {
+                    numberField1.setHint(String.valueOf(Integer.parseInt(data[view.getValue() - 1])));
+                } else if (!(numberField1.getText().toString().length() == 0 && numberField2.getText().toString().length() == 0) || !(numberField1.getText().toString().length() != 0 && numberField2.getText().toString().length() != 0)) {
+                    if (numberField1.getText().toString().length() != 0 && Integer.parseInt(numberField1.getText().toString()) > 0) {
+                        if (!numberField1.getText().toString().equals("") && !numberField1.getText().toString().equals("-") && Integer.parseInt(numberField1.getText().toString()) >= 0 && Integer.parseInt(numberField1.getText().toString()) <= Integer.parseInt(data[view.getValue() - 1])) {
+                            numberField2.setHint(String.valueOf(Integer.parseInt(data[view.getValue() - 1]) - Integer.parseInt(numberField1.getText().toString())));
+                        } else {
+                            numberField1.setHint("0");
+                            numberField2.setHint("0");
                         }
                     }
-                } catch (Exception ignored) {
-
+                    if (numberField2.getText().toString().length() != 0 && Integer.parseInt(numberField2.getText().toString()) > 0) {
+                        if (!numberField2.getText().toString().equals("") && !numberField2.getText().toString().equals("-") && Integer.parseInt(numberField2.getText().toString()) >= 0 && Integer.parseInt(numberField2.getText().toString()) <= Integer.parseInt(data[view.getValue() - 1])) {
+                            numberField1.setHint(String.valueOf(Integer.parseInt(data[view.getValue() - 1]) - Integer.parseInt(numberField2.getText().toString())));
+                        } else {
+                            numberField1.setHint("0");
+                            numberField2.setHint("0");
+                        }
+                    }
                 }
+            } catch (Exception ignored) {
+
             }
         });
         loadText(this);
@@ -400,7 +395,7 @@ public class Activity2 extends AppCompatActivity implements CalcDialog.CalcDialo
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    protected void onRestoreInstanceState(@Nullable Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
     }
 
@@ -531,7 +526,7 @@ public class Activity2 extends AppCompatActivity implements CalcDialog.CalcDialo
 
     private void setTheme() {
         LinearLayout linearLayout = findViewById(R.id.main);
-        calc = findViewById(R.id.but_calc);
+        ImageButton calc = findViewById(R.id.but_calc);
         Button buttonAdd = findViewById(R.id.button_add);
         Button buttonNew = findViewById(R.id.button_new);
         TextFieldBoxes box1 = findViewById(R.id.text_box1);

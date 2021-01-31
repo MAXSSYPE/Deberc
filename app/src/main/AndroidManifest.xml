@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="app.first.my_deb">
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:allowBackup="true"
         android:icon="@drawable/cards"
@@ -10,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning"
+        android:name=".App">
         <activity android:name=".SettingsActivity4"
             android:label="@string/title_activity_settings">
             <intent-filter>
@@ -111,9 +113,9 @@
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-5807744662830254~2797692226" />
-        <!--<meta-data
+        <meta-data
             android:name="android.max_aspect"
-            android:value="2.1" />-->
+            android:value="2.1" />
     </application>
 
 </manifest>

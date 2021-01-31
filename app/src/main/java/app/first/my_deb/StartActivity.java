@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 
+import androidx.annotation.Nullable;
 import androidx.preference.PreferenceManager;
 
 public class StartActivity extends Activity {
@@ -29,7 +30,7 @@ public class StartActivity extends Activity {
     public static int buttonColor;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
         if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O)

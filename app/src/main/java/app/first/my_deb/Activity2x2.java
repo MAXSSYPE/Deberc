@@ -9,7 +9,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -60,8 +59,6 @@ public class Activity2x2 extends AppCompatActivity implements CalcDialog.CalcDia
     @Nullable
     private BigDecimal value = null;
     final CalcDialog calcDialog = new CalcDialog();
-    private ImageButton calc;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,8 +71,11 @@ public class Activity2x2 extends AppCompatActivity implements CalcDialog.CalcDia
         if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O)
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        MobileAds.initialize(this, "ca-app-pub-5807744662830254~2797692226");
+
         AdView mAdView = findViewById(R.id.adView);
+        MobileAds.initialize(this, initializationStatus -> {
+        });
+
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
@@ -85,91 +85,85 @@ public class Activity2x2 extends AppCompatActivity implements CalcDialog.CalcDia
         resultField2 = findViewById(R.id.resultField2);
         name1 = findViewById(R.id.name1);
         name2 = findViewById(R.id.name2);
-        calc = findViewById(R.id.but_calc);
         numberPicker = findViewById(R.id.number_picker);
-        final String[] data = {"162", "182", "202", "212", "222", "232", "242", "252", "262", "272", "282", "302", "322"};
+        final String[] data = {"162", "182", "202", "212", "222", "232", "242", "252", "262", "272", "282", "292", "302", "312", "322", "332", "342", "362", "382"};
         numberPicker.setMinValue(1);
-        numberPicker.setMaxValue(13);
+        numberPicker.setMaxValue(19);
         numberPicker.setDisplayedValues(data);
-        numberPicker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    if (!(numberField1.getText().toString().length() == 0 && numberField2.getText().toString().length() == 0) || !(numberField1.getText().toString().length() != 0 && numberField2.getText().toString().length() != 0)) {
-                        if (numberField1.getText().toString().length() != 0 && Integer.parseInt(numberField1.getText().toString()) > 0) {
-                            if (!numberField1.getText().toString().equals("") && !numberField1.getText().toString().equals("-") && Integer.parseInt(numberField1.getText().toString()) >= 0 && Integer.parseInt(numberField1.getText().toString()) <= Integer.parseInt(data[numberPicker.getValue() - 1])) {
-                                numberField2.setHint(String.valueOf(Integer.parseInt(data[numberPicker.getValue() - 1]) - Integer.parseInt(numberField1.getText().toString())));
-                            } else {
-                                numberField1.setHint("0");
-                                numberField2.setHint("0");
-                            }
-                        }
-                        if (numberField2.getText().toString().length() != 0 && Integer.parseInt(numberField2.getText().toString()) > 0) {
-                            if (!numberField2.getText().toString().equals("") && !numberField2.getText().toString().equals("-") && Integer.parseInt(numberField2.getText().toString()) >= 0 && Integer.parseInt(numberField2.getText().toString()) <= Integer.parseInt(data[numberPicker.getValue() - 1])) {
-                                numberField1.setHint(String.valueOf(Integer.parseInt(data[numberPicker.getValue() - 1]) - Integer.parseInt(numberField2.getText().toString())));
-                            } else {
-                                numberField1.setHint("0");
-                                numberField2.setHint("0");
-                            }
+        numberPicker.setOnClickListener(view -> {
+            try {
+                if (!(numberField1.getText().toString().length() == 0 && numberField2.getText().toString().length() == 0) || !(numberField1.getText().toString().length() != 0 && numberField2.getText().toString().length() != 0)) {
+                    if (numberField1.getText().toString().length() != 0 && Integer.parseInt(numberField1.getText().toString()) > 0) {
+                        if (!numberField1.getText().toString().equals("") && !numberField1.getText().toString().equals("-") && Integer.parseInt(numberField1.getText().toString()) >= 0 && Integer.parseInt(numberField1.getText().toString()) <= Integer.parseInt(data[numberPicker.getValue() - 1])) {
+                            numberField2.setHint(String.valueOf(Integer.parseInt(data[numberPicker.getValue() - 1]) - Integer.parseInt(numberField1.getText().toString())));
+                        } else {
+                            numberField1.setHint("0");
+                            numberField2.setHint("0");
                         }
                     }
-                } catch (Exception ignored) {
-
+                    if (numberField2.getText().toString().length() != 0 && Integer.parseInt(numberField2.getText().toString()) > 0) {
+                        if (!numberField2.getText().toString().equals("") && !numberField2.getText().toString().equals("-") && Integer.parseInt(numberField2.getText().toString()) >= 0 && Integer.parseInt(numberField2.getText().toString()) <= Integer.parseInt(data[numberPicker.getValue() - 1])) {
+                            numberField1.setHint(String.valueOf(Integer.parseInt(data[numberPicker.getValue() - 1]) - Integer.parseInt(numberField2.getText().toString())));
+                        } else {
+                            numberField1.setHint("0");
+                            numberField2.setHint("0");
+                        }
+                    }
                 }
+            } catch (Exception ignored) {
+
             }
         });
-        numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-                try {
-                    if (!(numberField1.getText().toString().length() == 0 && numberField2.getText().toString().length() == 0) || !(numberField1.getText().toString().length() != 0 && numberField2.getText().toString().length() != 0)) {
-                        if (numberField1.getText().toString().length() != 0 && Integer.parseInt(numberField1.getText().toString()) > 0) {
-                            if (!numberField1.getText().toString().equals("") && !numberField1.getText().toString().equals("-") && Integer.parseInt(numberField1.getText().toString()) >= 0 && Integer.parseInt(numberField1.getText().toString()) <= Integer.parseInt(data[picker.getValue() - 1])) {
-                                numberField2.setHint(String.valueOf(Integer.parseInt(data[picker.getValue() - 1]) - Integer.parseInt(numberField1.getText().toString())));
-                            } else {
-                                numberField1.setHint("0");
-                                numberField2.setHint("0");
-                            }
-                        }
-                        if (numberField2.getText().toString().length() != 0 && Integer.parseInt(numberField2.getText().toString()) > 0) {
-                            if (!numberField2.getText().toString().equals("") && !numberField2.getText().toString().equals("-") && Integer.parseInt(numberField2.getText().toString()) >= 0 && Integer.parseInt(numberField2.getText().toString()) <= Integer.parseInt(data[picker.getValue() - 1])) {
-                                numberField1.setHint(String.valueOf(Integer.parseInt(data[picker.getValue() - 1]) - Integer.parseInt(numberField2.getText().toString())));
-                            } else {
-                                numberField1.setHint("0");
-                                numberField2.setHint("0");
-                            }
+        numberPicker.setOnValueChangedListener((picker, oldVal, newVal) -> {
+            try {
+                if (!(numberField1.getText().toString().length() == 0 && numberField2.getText().toString().length() == 0) || !(numberField1.getText().toString().length() != 0 && numberField2.getText().toString().length() != 0)) {
+                    if (numberField1.getText().toString().length() != 0 && Integer.parseInt(numberField1.getText().toString()) > 0) {
+                        if (!numberField1.getText().toString().equals("") && !numberField1.getText().toString().equals("-") && Integer.parseInt(numberField1.getText().toString()) >= 0 && Integer.parseInt(numberField1.getText().toString()) <= Integer.parseInt(data[picker.getValue() - 1])) {
+                            numberField2.setHint(String.valueOf(Integer.parseInt(data[picker.getValue() - 1]) - Integer.parseInt(numberField1.getText().toString())));
+                        } else {
+                            numberField1.setHint("0");
+                            numberField2.setHint("0");
                         }
                     }
-                } catch (Exception ignored) {
-
+                    if (numberField2.getText().toString().length() != 0 && Integer.parseInt(numberField2.getText().toString()) > 0) {
+                        if (!numberField2.getText().toString().equals("") && !numberField2.getText().toString().equals("-") && Integer.parseInt(numberField2.getText().toString()) >= 0 && Integer.parseInt(numberField2.getText().toString()) <= Integer.parseInt(data[picker.getValue() - 1])) {
+                            numberField1.setHint(String.valueOf(Integer.parseInt(data[picker.getValue() - 1]) - Integer.parseInt(numberField2.getText().toString())));
+                        } else {
+                            numberField1.setHint("0");
+                            numberField2.setHint("0");
+                        }
+                    }
                 }
+            } catch (Exception ignored) {
+
             }
         });
-        numberPicker.setOnScrollListener(new NumberPicker.OnScrollListener() {
-            @Override
-            public void onScrollStateChange(NumberPicker view, int scrollState) {
-                try {
-                    if (!(numberField1.getText().toString().length() == 0 && numberField2.getText().toString().length() == 0) || !(numberField1.getText().toString().length() != 0 && numberField2.getText().toString().length() != 0)) {
-                        if (numberField1.getText().toString().length() != 0 && Integer.parseInt(numberField1.getText().toString()) > 0) {
-                            if (!numberField1.getText().toString().equals("") && !numberField1.getText().toString().equals("-") && Integer.parseInt(numberField1.getText().toString()) >= 0 && Integer.parseInt(numberField1.getText().toString()) <= Integer.parseInt(data[view.getValue() - 1])) {
-                                numberField2.setHint(String.valueOf(Integer.parseInt(data[view.getValue() - 1]) - Integer.parseInt(numberField1.getText().toString())));
-                            } else {
-                                numberField1.setHint("0");
-                                numberField2.setHint("0");
-                            }
-                        }
-                        if (numberField2.getText().toString().length() != 0 && Integer.parseInt(numberField2.getText().toString()) > 0) {
-                            if (!numberField2.getText().toString().equals("") && !numberField2.getText().toString().equals("-") && Integer.parseInt(numberField2.getText().toString()) >= 0 && Integer.parseInt(numberField2.getText().toString()) <= Integer.parseInt(data[view.getValue() - 1])) {
-                                numberField1.setHint(String.valueOf(Integer.parseInt(data[view.getValue() - 1]) - Integer.parseInt(numberField2.getText().toString())));
-                            } else {
-                                numberField1.setHint("0");
-                                numberField2.setHint("0");
-                            }
+        numberPicker.setOnScrollListener((view, scrollState) -> {
+            try {
+                if (numberField1.getText().toString().equals("0")) {
+                    numberField2.setHint(String.valueOf(Integer.parseInt(data[view.getValue() - 1])));
+                } else if (numberField2.getText().toString().equals("0")) {
+                    numberField1.setHint(String.valueOf(Integer.parseInt(data[view.getValue() - 1])));
+                } else if (!(numberField1.getText().toString().length() == 0 && numberField2.getText().toString().length() == 0) || !(numberField1.getText().toString().length() != 0 && numberField2.getText().toString().length() != 0)) {
+                    if (numberField1.getText().toString().length() != 0 && Integer.parseInt(numberField1.getText().toString()) > 0) {
+                        if (!numberField1.getText().toString().equals("") && !numberField1.getText().toString().equals("-") && Integer.parseInt(numberField1.getText().toString()) >= 0 && Integer.parseInt(numberField1.getText().toString()) <= Integer.parseInt(data[view.getValue() - 1])) {
+                            numberField2.setHint(String.valueOf(Integer.parseInt(data[view.getValue() - 1]) - Integer.parseInt(numberField1.getText().toString())));
+                        } else {
+                            numberField1.setHint("0");
+                            numberField2.setHint("0");
                         }
                     }
-                } catch (Exception ignored) {
-
+                    if (numberField2.getText().toString().length() != 0 && Integer.parseInt(numberField2.getText().toString()) > 0) {
+                        if (!numberField2.getText().toString().equals("") && !numberField2.getText().toString().equals("-") && Integer.parseInt(numberField2.getText().toString()) >= 0 && Integer.parseInt(numberField2.getText().toString()) <= Integer.parseInt(data[view.getValue() - 1])) {
+                            numberField1.setHint(String.valueOf(Integer.parseInt(data[view.getValue() - 1]) - Integer.parseInt(numberField2.getText().toString())));
+                        } else {
+                            numberField1.setHint("0");
+                            numberField2.setHint("0");
+                        }
+                    }
                 }
+            } catch (Exception ignored) {
+
             }
         });
         loadText(this);
@@ -226,32 +220,26 @@ public class Activity2x2 extends AppCompatActivity implements CalcDialog.CalcDia
             }
         });
 
-        numberField1.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                boolean handle = false;
-                if (i == EditorInfo.IME_ACTION_DONE) {
-                    onClick(numberField1);
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    assert imm != null;
-                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                }
-                return false;
+        numberField1.setOnEditorActionListener((textView, i, keyEvent) -> {
+            boolean handle = false;
+            if (i == EditorInfo.IME_ACTION_DONE) {
+                onClick(numberField1);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                assert imm != null;
+                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             }
+            return false;
         });
 
-        numberField2.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                boolean handle = false;
-                if (i == EditorInfo.IME_ACTION_DONE) {
-                    onClick(numberField2);
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    assert imm != null;
-                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                }
-                return false;
+        numberField2.setOnEditorActionListener((textView, i, keyEvent) -> {
+            boolean handle = false;
+            if (i == EditorInfo.IME_ACTION_DONE) {
+                onClick(numberField2);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                assert imm != null;
+                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             }
+            return false;
         });
 
         resideMenu = new ResideMenu(this);
@@ -263,84 +251,64 @@ public class Activity2x2 extends AppCompatActivity implements CalcDialog.CalcDia
         String[] titles = {getResources().getString(R.string.new_game), getResources().getString(R.string.count), getResources().getString(R.string.settings), getResources().getString(R.string.vs4), getResources().getString(R.string.vs3), getResources().getString(R.string.vs2)};
         int[] icon = {R.drawable.newg, R.drawable.score, R.drawable.settings, R.drawable.for1, R.drawable.for2, R.drawable.for3};
         ResideMenuItem item1 = new ResideMenuItem(this, icon[0], titles[0]);
-        item1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new IonAlert(Activity2x2.this, IonAlert.WARNING_TYPE)
-                        .setTitleText(getResources().getString(R.string.sure))
-                        .setContentText(getResources().getString(R.string.new_game))
-                        .setCancelText(getResources().getString(R.string.no))
-                        .setConfirmText(getResources().getString(R.string.yes))
-                        .showCancelButton(true)
-                        .setConfirmClickListener(sDialog -> {
-                            resideMenu.closeMenu();
-                            resultField1.setText("0");
-                            resultField2.setText("0");
-                            numberField1.setText("");
-                            numberField2.setText("");
-                            SharedPreferences scoreSharPref = getSharedPreferences("Score2x2.txt", MODE_PRIVATE);
-                            Editor editor = scoreSharPref.edit().clear();
-                            editor.apply();
-                            arrPlayer1.clear();
-                            arrPlayer2.clear();
-                            sDialog.cancel();
-                        })
-                        .show();
-            }
-        });
+        item1.setOnClickListener(view -> new IonAlert(Activity2x2.this, IonAlert.WARNING_TYPE)
+                .setTitleText(getResources().getString(R.string.sure))
+                .setContentText(getResources().getString(R.string.new_game))
+                .setCancelText(getResources().getString(R.string.no))
+                .setConfirmText(getResources().getString(R.string.yes))
+                .showCancelButton(true)
+                .setConfirmClickListener(sDialog -> {
+                    resideMenu.closeMenu();
+                    resultField1.setText("0");
+                    resultField2.setText("0");
+                    numberField1.setText("");
+                    numberField2.setText("");
+                    SharedPreferences scoreSharPref = getSharedPreferences("Score2x2.txt", MODE_PRIVATE);
+                    Editor editor = scoreSharPref.edit().clear();
+                    editor.apply();
+                    arrPlayer1.clear();
+                    arrPlayer2.clear();
+                    sDialog.cancel();
+                })
+                .show());
         resideMenu.addMenuItem(item1, ResideMenu.DIRECTION_LEFT);
 
         ResideMenuItem item2 = new ResideMenuItem(this, icon[1], titles[1]);
-        item2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent("app.first.my_deb.score2x2"));
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
-            }
+        item2.setOnClickListener(view -> {
+            startActivity(new Intent("app.first.my_deb.score2x2"));
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
         });
         resideMenu.addMenuItem(item2, ResideMenu.DIRECTION_LEFT);
 
         ResideMenuItem item3 = new ResideMenuItem(this, icon[2], titles[2]);
-        item3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-                startActivity(new Intent("app.first.my_deb.settings"));
-                overridePendingTransition(R.anim.slide_in_right, R.anim.exit_to_left);
-            }
+        item3.setOnClickListener(view -> {
+            finish();
+            startActivity(new Intent("app.first.my_deb.settings"));
+            overridePendingTransition(R.anim.slide_in_right, R.anim.exit_to_left);
         });
         resideMenu.addMenuItem(item3, ResideMenu.DIRECTION_LEFT);
 
         ResideMenuItem item4 = new ResideMenuItem(this, icon[3], titles[3]);
-        item4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-                startActivity(new Intent("app.first.my_deb.SHOW_4_ACTIVITY"));
-                overridePendingTransition(R.anim.slide_in_right, R.anim.exit_to_left);
-            }
+        item4.setOnClickListener(view -> {
+            finish();
+            startActivity(new Intent("app.first.my_deb.SHOW_4_ACTIVITY"));
+            overridePendingTransition(R.anim.slide_in_right, R.anim.exit_to_left);
         });
         resideMenu.addMenuItem(item4, ResideMenu.DIRECTION_LEFT);
 
         ResideMenuItem item5 = new ResideMenuItem(this, icon[4], titles[4]);
-        item5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-                startActivity(new Intent("app.first.my_deb.SHOW_3_ACTIVITY"));
-                overridePendingTransition(R.anim.slide_in_right, R.anim.exit_to_left);
-            }
+        item5.setOnClickListener(view -> {
+            finish();
+            startActivity(new Intent("app.first.my_deb.SHOW_3_ACTIVITY"));
+            overridePendingTransition(R.anim.slide_in_right, R.anim.exit_to_left);
         });
         resideMenu.addMenuItem(item5, ResideMenu.DIRECTION_LEFT);
 
         ResideMenuItem item6 = new ResideMenuItem(this, icon[5], titles[5]);
-        item6.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-                startActivity(new Intent("app.first.my_deb.SHOW_2_ACTIVITY"));
-                overridePendingTransition(R.anim.slide_in_right, R.anim.exit_to_left);
-            }
+        item6.setOnClickListener(view -> {
+            finish();
+            startActivity(new Intent("app.first.my_deb.SHOW_2_ACTIVITY"));
+            overridePendingTransition(R.anim.slide_in_right, R.anim.exit_to_left);
         });
         resideMenu.addMenuItem(item6, ResideMenu.DIRECTION_LEFT);
 
@@ -349,6 +317,7 @@ public class Activity2x2 extends AppCompatActivity implements CalcDialog.CalcDia
             resideMenu.openMenu(0);
         }
         setTheme();
+        setMenu();
     }
 
     public void onClick(View view) {
@@ -455,6 +424,10 @@ public class Activity2x2 extends AppCompatActivity implements CalcDialog.CalcDia
         }
     }
 
+    private void setMenu() {
+
+    }
+
     @Override
     protected void onStop() {
         super.onStop();
@@ -534,7 +507,7 @@ public class Activity2x2 extends AppCompatActivity implements CalcDialog.CalcDia
 
     private void setTheme() {
         LinearLayout linearLayout = findViewById(R.id.main);
-        calc = findViewById(R.id.but_calc);
+        ImageButton calc = findViewById(R.id.but_calc);
         Button buttonAdd = findViewById(R.id.button_add);
         Button buttonNew = findViewById(R.id.button_new);
         TextFieldBoxes box1 = findViewById(R.id.text_box1);
