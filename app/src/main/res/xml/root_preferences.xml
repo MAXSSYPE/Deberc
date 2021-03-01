@@ -6,18 +6,8 @@
             app:entries="@array/langs"
             app:entryValues="@array/entryvalues_lang"
             app:key="langs"
-            app:useSimpleSummaryProvider="true" />
+            app:useSimpleSummaryProvider="true"
+            app:negativeButtonText="@string/cancel"/>
     </PreferenceCategory>
-
-    <!--<PreferenceCategory android:title="@string/theme">
-
-        <ListPreference
-            android:defaultValue="false"
-            android:entries="@array/theme"
-            android:entryValues="@array/theme_save"
-            android:key="theme"
-            app:allowDividerAbove="false"
-            app:useSimpleSummaryProvider="true"/>
-    </PreferenceCategory>-->
 
 </PreferenceScreen>

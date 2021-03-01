@@ -4,105 +4,21 @@
     package="app.first.my_deb">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@drawable/cards"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning"
-        android:name=".App">
-        <activity android:name=".SettingsActivity4"
-            android:label="@string/title_activity_settings">
-            <intent-filter>
-                <action android:name="app.first.my_deb.settings4" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".SettingsActivity3"
-            android:label="@string/title_activity_settings">
-            <intent-filter>
-                <action android:name="app.first.my_deb.settings3" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".SettingsActivity2"
-            android:label="@string/title_activity_settings">
-            <intent-filter>
-                <action android:name="app.first.my_deb.settings2" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+        tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings">
-            <intent-filter>
-                <action android:name="app.first.my_deb.settings" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".Score2x2">
-            <intent-filter>
-                <action android:name="app.first.my_deb.score2x2" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".Score4">
-            <intent-filter>
-                <action android:name="app.first.my_deb.score4" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".Score3">
-            <intent-filter>
-                <action android:name="app.first.my_deb.score3" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".Score">
-            <intent-filter>
-                <action android:name="app.first.my_deb.score" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".Activity4">
-            <intent-filter>
-                <action android:name="app.first.my_deb.SHOW_4_ACTIVITY" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".Activity3">
-            <intent-filter>
-                <action android:name="app.first.my_deb.SHOW_3_ACTIVITY" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".Activity2x2">
-            <intent-filter>
-                <action android:name="app.first.my_deb.SHOW_2x2_ACTIVITY" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".Activity2">
-            <intent-filter>
-                <action android:name="app.first.my_deb.SHOW_2_ACTIVITY" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".StartActivity">
+            android:name=".MainActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
