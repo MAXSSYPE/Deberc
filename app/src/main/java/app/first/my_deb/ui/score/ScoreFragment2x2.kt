@@ -41,8 +41,8 @@ class ScoreFragment2x2 : Fragment() {
         val pl1 = Gson().fromJson<ArrayList<String>>(sPref.getString("pl1", ""), object : TypeToken<ArrayList<String?>?>() {}.type)
         val pl2 = Gson().fromJson<ArrayList<String>>(sPref.getString("pl2", ""), object : TypeToken<ArrayList<String?>?>() {}.type)
         val header = DataTableHeader.Builder()
-                .item(getString(R.string.gamer1), 1)
-                .item(getString(R.string.gamer2), 1).build()
+                .item(getString(R.string.team1), 1)
+                .item(getString(R.string.team2), 1).build()
         val rows = ArrayList<DataTableRow>()
         if (pl1 != null && pl2 != null && pl1.isNotEmpty() && pl2.isNotEmpty()) {
             for (i in pl1.indices) {
