@@ -31,4 +31,6 @@
     <string name="settings">Impostazioni</string>
     <string name="cancel">Annulla</string>
     <string name="clear">Sgombrare</string>
+    <string name="game">Gioco</string>
+    <string name="menu">Menù</string>
 </resources>

@@ -7,6 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import app.first.my_deb.R
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import ir.androidexception.datatable.DataTable
@@ -25,6 +28,15 @@ class ScoreFragment2 : Fragment() {
         dataTable = view.findViewById(R.id.data_table)
         loadTable()
         return view
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        val mAdView = requireView().findViewById<AdView>(R.id.adView)
+        MobileAds.initialize(requireContext()) { }
+
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
     }
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {

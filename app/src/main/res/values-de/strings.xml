@@ -31,4 +31,6 @@
     <string name="settings">die Einstellungen</string>
     <string name="cancel">Stornieren</string>
     <string name="clear">Löschen</string>
+    <string name="game">Spiel</string>
+    <string name="menu">Speisekarte</string>
 </resources>

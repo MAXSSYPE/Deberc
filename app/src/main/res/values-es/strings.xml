@@ -31,4 +31,6 @@
     <string name="settings">Configuraciones</string>
     <string name="cancel">Cancelar</string>
     <string name="clear">Limpiar</string>
+    <string name="game">Juego</string>
+    <string name="menu">Menú</string>
 </resources>

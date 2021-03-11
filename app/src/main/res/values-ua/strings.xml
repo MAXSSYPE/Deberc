@@ -31,4 +31,6 @@
     <string name="settings">Налаштування</string>
     <string name="cancel">Відміна</string>
     <string name="clear">Очистити</string>
+    <string name="game">Гра</string>
+    <string name="menu">Меню</string>
 </resources>

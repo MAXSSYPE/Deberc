@@ -2,6 +2,7 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:id="@+id/lin"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -10,7 +11,8 @@
     <ir.androidexception.datatable.DataTable
         android:id="@+id/data_table"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:layout_margin="8dp"
         app:corner_radius="8dp"
         app:direction="ltr"
@@ -26,4 +28,12 @@
         app:row_text_size="12sp"
         app:row_vertical_padding="16dp"
         app:shadow="8dp" />
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ads:adSize="SMART_BANNER"
+        android:backgroundTint="#9BE0E7"
+        ads:adUnitId="ca-app-pub-5807744662830254/7731288859" />
 </LinearLayout>

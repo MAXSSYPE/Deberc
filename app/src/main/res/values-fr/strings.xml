@@ -31,4 +31,6 @@
     <string name="settings">Réglages</string>
     <string name="cancel">Annuler</string>
     <string name="clear">Nettoyer</string>
+    <string name="game">Jeu</string>
+    <string name="menu">Menu</string>
 </resources>
