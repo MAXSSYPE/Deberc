@@ -12,7 +12,6 @@
     <string name="vs2">На 2</string>
     <string name="vs3">На 3</string>
     <string name="vs4">На 4</string>
-    <string name="distribution">Раздача</string>
     <string name="gamer1">Игрок 1</string>
     <string name="gamer2">Игрок 2</string>
     <string name="gamer3">Игрок 3</string>
@@ -22,15 +21,8 @@
     <string name="add">Добавить баллы</string>
     <string name="points_for_distribution">Баллы за раздачу:</string>
     <string name="language">Языки</string>
-    <string name="title_activity_settings">Настройки</string>
-    <string name="apply">Подтвердить</string>
-    <string name="nums">Отнимать введенное число от (для двоих)</string>
     <string name="theme">Тема</string>
-    <string name="dark">Темная тема</string>
-    <string name="light">Светлая тема</string>
-    <string name="settings">Настройки</string>
     <string name="cancel">Отмена</string>
-    <string name="clear">Очистить</string>
     <string name="game">Игра</string>
     <string name="menu">Меню</string>
 </resources>

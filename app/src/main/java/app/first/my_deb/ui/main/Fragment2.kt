@@ -60,8 +60,8 @@ class Fragment2 : Fragment() {
         numberPicker.displayedValues = data
         numberPicker.setOnClickListener {
             try {
-                if (!(numberField1.text.toString().length == 0 && numberField2.text.toString().length == 0) || !(numberField1.text.toString().length != 0 && numberField2.text.toString().length != 0)) {
-                    if (numberField1.text.toString().length != 0 && numberField1.text.toString().toInt() > 0) {
+                if (!(numberField1.text.toString().isEmpty() && numberField2.text.toString().isEmpty()) || !(numberField1.text.toString().isNotEmpty() && numberField2.text.toString().isNotEmpty())) {
+                    if (numberField1.text.toString().isNotEmpty() && numberField1.text.toString().toInt() > 0) {
                         if (numberField1.text.toString() != "" && numberField1.text.toString() != "-" && numberField1.text.toString().toInt() >= 0 && numberField1.text.toString().toInt() <= data[numberPicker.value - 1].toInt()) {
                             numberField2.hint = (data[numberPicker.value - 1].toInt() - numberField1.text.toString().toInt()).toString()
                         } else {
@@ -69,7 +69,7 @@ class Fragment2 : Fragment() {
                             numberField2.hint = "0"
                         }
                     }
-                    if (numberField2.text.toString().length != 0 && numberField2.text.toString().toInt() > 0) {
+                    if (numberField2.text.toString().isNotEmpty() && numberField2.text.toString().toInt() > 0) {
                         if (numberField2.text.toString() != "" && numberField2.text.toString() != "-" && numberField2.text.toString().toInt() >= 0 && numberField2.text.toString().toInt() <= data[numberPicker.value - 1].toInt()) {
                             numberField1.hint = (data[numberPicker.value - 1].toInt() - numberField2.text.toString().toInt()).toString()
                         } else {
@@ -83,8 +83,8 @@ class Fragment2 : Fragment() {
         }
         numberPicker.setOnValueChangedListener { picker: NumberPicker, _: Int, _: Int ->
             try {
-                if (!(numberField1.text.toString().length == 0 && numberField2.text.toString().length == 0) || !(numberField1.text.toString().length != 0 && numberField2.text.toString().length != 0)) {
-                    if (numberField1.text.toString().length != 0 && numberField1.text.toString().toInt() > 0) {
+                if (!(numberField1.text.toString().isEmpty() && numberField2.text.toString().isEmpty()) || !(numberField1.text.toString().isNotEmpty() && numberField2.text.toString().isNotEmpty())) {
+                    if (numberField1.text.toString().isNotEmpty() && numberField1.text.toString().toInt() > 0) {
                         if (numberField1.text.toString() != "" && numberField1.text.toString() != "-" && numberField1.text.toString().toInt() >= 0 && numberField1.text.toString().toInt() <= data[picker.value - 1].toInt()) {
                             numberField2.hint = (data[picker.value - 1].toInt() - numberField1.text.toString().toInt()).toString()
                         } else {
@@ -92,7 +92,7 @@ class Fragment2 : Fragment() {
                             numberField2.hint = "0"
                         }
                     }
-                    if (numberField2.text.toString().length != 0 && numberField2.text.toString().toInt() > 0) {
+                    if (numberField2.text.toString().isNotEmpty() && numberField2.text.toString().toInt() > 0) {
                         if (numberField2.text.toString() != "" && numberField2.text.toString() != "-" && numberField2.text.toString().toInt() >= 0 && numberField2.text.toString().toInt() <= data[picker.value - 1].toInt()) {
                             numberField1.hint = (data[picker.value - 1].toInt() - numberField2.text.toString().toInt()).toString()
                         } else {
@@ -110,8 +110,8 @@ class Fragment2 : Fragment() {
                     numberField2.hint = data[view.value - 1].toInt().toString()
                 } else if (numberField2.text.toString() == "0") {
                     numberField1.hint = data[view.value - 1].toInt().toString()
-                } else if (!(numberField1.text.toString().length == 0 && numberField2.text.toString().length == 0) || !(numberField1.text.toString().length != 0 && numberField2.text.toString().length != 0)) {
-                    if (numberField1.text.toString().length != 0 && numberField1.text.toString().toInt() > 0) {
+                } else if (!(numberField1.text.toString().isEmpty() && numberField2.text.toString().isEmpty()) || !(numberField1.text.toString().isNotEmpty() && numberField2.text.toString().isNotEmpty())) {
+                    if (numberField1.text.toString().isNotEmpty() && numberField1.text.toString().toInt() > 0) {
                         if (numberField1.text.toString() != "" && numberField1.text.toString() != "-" && numberField1.text.toString().toInt() >= 0 && numberField1.text.toString().toInt() <= data[view.value - 1].toInt()) {
                             numberField2.hint = (data[view.value - 1].toInt() - numberField1.text.toString().toInt()).toString()
                         } else {
@@ -119,7 +119,7 @@ class Fragment2 : Fragment() {
                             numberField2.hint = "0"
                         }
                     }
-                    if (numberField2.text.toString().length != 0 && numberField2.text.toString().toInt() > 0) {
+                    if (numberField2.text.toString().isNotEmpty() && numberField2.text.toString().toInt() > 0) {
                         if (numberField2.text.toString() != "" && numberField2.text.toString() != "-" && numberField2.text.toString().toInt() >= 0 && numberField2.text.toString().toInt() <= data[view.value - 1].toInt()) {
                             numberField1.hint = (data[view.value - 1].toInt() - numberField2.text.toString().toInt()).toString()
                         } else {
@@ -284,13 +284,5 @@ class Fragment2 : Fragment() {
     companion object {
         private const val ARG_SECTION_NUMBER = "section_number"
 
-        @JvmStatic
-        fun newInstance(sectionNumber: Int): Fragment2 {
-            return Fragment2().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_SECTION_NUMBER, sectionNumber)
-                }
-            }
-        }
     }
 }

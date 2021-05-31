@@ -12,7 +12,6 @@
     <string name="vs2">За 2</string>
     <string name="vs3">За 3</string>
     <string name="vs4">За 4</string>
-    <string name="distribution">Разпределение</string>
     <string name="gamer1">Плейър 1</string>
     <string name="gamer2">Плейър 2</string>
     <string name="gamer3">Плейър 3</string>
@@ -22,15 +21,8 @@
     <string name="add">Добавяне резултат</string>
     <string name="points_for_distribution">Точки за разпространение:</string>
     <string name="language">Езици</string>
-    <string name="title_activity_settings">Настройки</string>
-    <string name="apply">Потвърждаване</string>
-    <string name="nums">Извадете въведеното число от (за двама)</string>
     <string name="theme">Тема на приложението</string>
-    <string name="dark">Тъмна тема</string>
-    <string name="light">Лека тема</string>
-    <string name="settings">Настройки</string>
     <string name="cancel">Отказ</string>
-    <string name="clear">Oчиствам</string>
     <string name="game">Игра</string>
     <string name="menu">Меню</string>
 </resources>

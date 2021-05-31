@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.preference.PreferenceManager
 import androidx.viewpager.widget.ViewPager
 import app.first.my_deb.ui.main.SectionsPagerAdapter
+import app.first.my_deb.utils.ContextWrapper
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
@@ -19,8 +20,8 @@ import java.math.BigDecimal
 class MainActivity : CyaneaAppCompatActivity(), CalcDialog.CalcDialogCallback {
 
     lateinit var viewPager: ViewPager
-    lateinit var sectionsPagerAdapter: SectionsPagerAdapter
-    lateinit var tabs: TabLayout
+    private lateinit var sectionsPagerAdapter: SectionsPagerAdapter
+    private lateinit var tabs: TabLayout
     private var value: BigDecimal? = null
     private val calcDialog = CalcDialog()
 

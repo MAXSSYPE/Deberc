@@ -12,7 +12,6 @@
     <string name="vs2">2 joueurs</string>
     <string name="vs3">3 joueurs</string>
     <string name="vs4">4 joueurs</string>
-    <string name="distribution">Distribution</string>
     <string name="gamer1">Joueur 1</string>
     <string name="gamer2">Joueur 2</string>
     <string name="gamer3">Joueur 3</string>
@@ -22,15 +21,8 @@
     <string name="add">Ajouter un score</string>
     <string name="points_for_distribution">Points de distribution:</string>
     <string name="language">Les langues</string>
-    <string name="title_activity_settings">Paramètres</string>
-    <string name="apply">Confirmer</string>
-    <string name="nums">Soustrayez le nombre entré de (pour deux)</string>
     <string name="theme">Thème d\'application</string>
-    <string name="dark">Thème sombre</string>
-    <string name="light">Thème léger</string>
-    <string name="settings">Réglages</string>
     <string name="cancel">Annuler</string>
-    <string name="clear">Nettoyer</string>
     <string name="game">Jeu</string>
     <string name="menu">Menu</string>
 </resources>

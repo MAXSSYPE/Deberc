@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
-import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import app.first.my_deb.MainActivity
@@ -24,6 +23,13 @@ class MenuFragment : Fragment() {
     private lateinit var button2: Button
     private lateinit var button3: Button
     private lateinit var button4: Button
+    private val listener = SharedPreferences.OnSharedPreferenceChangeListener { _: SharedPreferences?, key: String? ->
+        if (key == "langs" && isAdded) {
+            val act = requireActivity() as MainActivity
+            act.finish()
+            startActivity(Intent(activity, MainActivity::class.java))
+            act.overridePendingTransition(R.anim.appear, R.anim.disappear)
+        }}
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -86,14 +92,8 @@ class MenuFragment : Fragment() {
                 .commit()
 
         val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
-        pref.registerOnSharedPreferenceChangeListener { _, key ->
-            if (key == "langs" && isAdded) {
-                val act = requireActivity() as MainActivity
-                act.finish()
-                startActivity(Intent(activity, MainActivity::class.java))
-                act.overridePendingTransition(R.anim.appear, R.anim.disappear)
-            }
-        }
+
+        pref.registerOnSharedPreferenceChangeListener(listener)
         return view
     }
 
@@ -112,13 +112,5 @@ class MenuFragment : Fragment() {
     companion object {
         private const val ARG_SECTION_NUMBER = "section_number"
 
-        @JvmStatic
-        fun newInstance(sectionNumber: Int): MenuFragment {
-            return MenuFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_SECTION_NUMBER, sectionNumber)
-                }
-            }
-        }
     }
 }

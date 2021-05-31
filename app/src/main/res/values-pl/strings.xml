@@ -12,7 +12,6 @@
     <string name="vs2">Dla 2</string>
     <string name="vs3">Dla 3</string>
     <string name="vs4">Dla 4</string>
-    <string name="distribution">Dystrybucja</string>
     <string name="gamer1">Gracz 1</string>
     <string name="gamer2">Gracz 2</string>
     <string name="gamer3">Gracz 3</string>
@@ -22,15 +21,8 @@
     <string name="add">Dodaj do faktury</string>
     <string name="points_for_distribution">Punkty dystrybucji:</string>
     <string name="language">Języki</string>
-    <string name="title_activity_settings">Ustawienia</string>
-    <string name="apply">Potwierdź</string>
-    <string name="nums">Odejmij wprowadzoną liczbę od (dla dwóch)</string>
     <string name="theme">Motyw aplikacji</string>
-    <string name="dark">Ciemny motyw</string>
-    <string name="light">Lekki motyw</string>
-    <string name="settings">Ustawienia</string>
     <string name="cancel">Cancel</string>
-    <string name="clear">Oczyścić</string>
     <string name="game">Gra</string>
     <string name="menu">Menu</string>
 </resources>

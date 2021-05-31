@@ -1,4 +1,4 @@
-package app.first.my_deb;
+package app.first.my_deb.utils;
 
 import android.app.Application;
 
@@ -7,8 +7,6 @@ import com.jaredrummler.cyanea.Cyanea;
 
 public class App extends Application {
 
-    private static AppOpenManager appOpenManager;
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -16,7 +14,7 @@ public class App extends Application {
                 this,
                 initializationStatus -> {
                 });
-        appOpenManager = new AppOpenManager(this);
+        AppOpenManager appOpenManager = new AppOpenManager(this);
         Cyanea.init(this, getResources());
         Cyanea.setLoggingEnabled(true);
     }

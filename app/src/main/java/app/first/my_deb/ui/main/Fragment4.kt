@@ -100,7 +100,7 @@ class Fragment4 : Fragment() {
         return view
     }
 
-    fun onClick() {
+    private fun onClick() {
         val imm = requireActivity().applicationContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         if (imm.isAcceptingText) {
             assert(imm != null)
@@ -189,7 +189,7 @@ class Fragment4 : Fragment() {
         if (sPref.getString("res4", "0") == "") resultField4.text = "0" else resultField4.text = sPref.getString("res4", "0")
     }
 
-    fun onNewClick() {
+    private fun onNewClick() {
         IonAlert(requireContext(), IonAlert.WARNING_TYPE)
                 .setTitleText(resources.getString(R.string.sure))
                 .setContentText(resources.getString(R.string.new_game))
@@ -221,13 +221,5 @@ class Fragment4 : Fragment() {
     companion object {
         private const val ARG_SECTION_NUMBER = "section_number"
 
-        @JvmStatic
-        fun newInstance(sectionNumber: Int): Fragment4 {
-            return Fragment4().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_SECTION_NUMBER, sectionNumber)
-                }
-            }
-        }
     }
 }

@@ -12,7 +12,6 @@
     <string name="vs2">На 2</string>
     <string name="vs3">На 3</string>
     <string name="vs4">На 4</string>
-    <string name="distribution">Роздача</string>
     <string name="gamer1">Гравець 1</string>
     <string name="gamer2">Гравець 2</string>
     <string name="gamer3">Гравець 3</string>
@@ -22,15 +21,8 @@
     <string name="add">Додати бали</string>
     <string name="points_for_distribution">Бали за роздачу:</string>
     <string name="language">Мови</string>
-    <string name="title_activity_settings">Налаштування</string>
-    <string name="apply">Підтвердити</string>
-    <string name="nums">Віднімати введене число від (для двох)</string>
     <string name="theme">Тема</string>
-    <string name="dark">Темна тема</string>
-    <string name="light">Світла тема</string>
-    <string name="settings">Налаштування</string>
     <string name="cancel">Відміна</string>
-    <string name="clear">Очистити</string>
     <string name="game">Гра</string>
     <string name="menu">Меню</string>
 </resources>

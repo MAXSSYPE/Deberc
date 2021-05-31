@@ -1,4 +1,4 @@
-package app.first.my_deb;
+package app.first.my_deb.utils;
 
 import android.app.Activity;
 import android.app.Application;

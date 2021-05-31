@@ -71,13 +71,5 @@ class ScoreFragment2 : Fragment() {
     companion object {
         private const val ARG_SECTION_NUMBER = "section_number"
 
-        @JvmStatic
-        fun newInstance(sectionNumber: Int): ScoreFragment2 {
-            return ScoreFragment2().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_SECTION_NUMBER, sectionNumber)
-                }
-            }
-        }
     }
 }

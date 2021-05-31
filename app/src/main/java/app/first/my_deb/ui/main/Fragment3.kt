@@ -58,7 +58,7 @@ class Fragment3 : Fragment() {
             onClick()
         }
 
-        numberField1!!.setOnEditorActionListener { _: TextView?, _: Int, _: KeyEvent? ->
+        numberField1.setOnEditorActionListener { _: TextView?, _: Int, _: KeyEvent? ->
             onClick()
             val inputMethodManager = requireActivity().getSystemService(
                     Activity.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -66,7 +66,7 @@ class Fragment3 : Fragment() {
                     requireActivity().currentFocus!!.windowToken, 0)
         }
 
-        numberField2!!.setOnEditorActionListener { _: TextView?, _: Int, _: KeyEvent? ->
+        numberField2.setOnEditorActionListener { _: TextView?, _: Int, _: KeyEvent? ->
             onClick()
             val inputMethodManager = requireActivity().getSystemService(
                     Activity.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -74,7 +74,7 @@ class Fragment3 : Fragment() {
                     requireActivity().currentFocus!!.windowToken, 0)
         }
 
-        numberField3!!.setOnEditorActionListener { _: TextView?, _: Int, _: KeyEvent? ->
+        numberField3.setOnEditorActionListener { _: TextView?, _: Int, _: KeyEvent? ->
             onClick()
             val inputMethodManager = requireActivity().getSystemService(
                     Activity.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -85,25 +85,25 @@ class Fragment3 : Fragment() {
         return view
     }
 
-    fun onClick() {
+    private fun onClick() {
         val imm = requireActivity().applicationContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         if (imm.isAcceptingText) {
             assert(imm != null)
             imm.hideSoftInputFromWindow(requireActivity().currentFocus!!.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
         }
-        if (!(numberField1!!.text.toString() == "" && numberField2!!.text.toString() == "" && numberField3!!.text.toString() == "")) try {
-            val prev1 = resultField1!!.text.toString().toInt()
-            val prev2 = resultField2!!.text.toString().toInt()
-            val prev3 = resultField3!!.text.toString().toInt()
+        if (!(numberField1.text.toString() == "" && numberField2.text.toString() == "" && numberField3.text.toString() == "")) try {
+            val prev1 = resultField1.text.toString().toInt()
+            val prev2 = resultField2.text.toString().toInt()
+            val prev3 = resultField3.text.toString().toInt()
             var now1 = 0
             var now2 = 0
             var now3 = 0
-            if (numberField1!!.text.toString() != "") now1 = numberField1!!.text.toString().toInt() else numberField1!!.setText("0")
-            if (numberField2!!.text.toString() != "") now2 = numberField2!!.text.toString().toInt() else numberField2!!.setText("0")
-            if (numberField3!!.text.toString() != "") now3 = numberField3!!.text.toString().toInt() else numberField3!!.setText("0")
-            resultField1!!.text = (prev1 + now1).toString()
-            resultField2!!.text = (prev2 + now2).toString()
-            resultField3!!.text = (prev3 + now3).toString()
+            if (numberField1.text.toString() != "") now1 = numberField1.text.toString().toInt() else numberField1.setText("0")
+            if (numberField2.text.toString() != "") now2 = numberField2.text.toString().toInt() else numberField2.setText("0")
+            if (numberField3.text.toString() != "") now3 = numberField3.text.toString().toInt() else numberField3.setText("0")
+            resultField1.text = (prev1 + now1).toString()
+            resultField2.text = (prev2 + now2).toString()
+            resultField3.text = (prev3 + now3).toString()
             val scoreSharPref: SharedPreferences = requireActivity().getSharedPreferences("Score3.txt", Context.MODE_PRIVATE)
             if (scoreSharPref.getString("pl1", "") != null && scoreSharPref.getString("pl1", "") != "" && scoreSharPref.getString("pl2", "") != null && scoreSharPref.getString("pl2", "") != "" && scoreSharPref.getString("pl3", "") != null && scoreSharPref.getString("pl3", "") != "") {
                 arrPlayer1 = Gson().fromJson(scoreSharPref.getString("pl1", ""), object : TypeToken<ArrayList<String?>?>() {}.type)
@@ -111,9 +111,9 @@ class Fragment3 : Fragment() {
                 arrPlayer3 = Gson().fromJson(scoreSharPref.getString("pl3", ""), object : TypeToken<ArrayList<String?>?>() {}.type)
             }
             val editor = scoreSharPref.edit()
-            arrPlayer1.add(numberField1!!.text.toString())
-            arrPlayer2.add(numberField2!!.text.toString())
-            arrPlayer3.add(numberField3!!.text.toString())
+            arrPlayer1.add(numberField1.text.toString())
+            arrPlayer2.add(numberField2.text.toString())
+            arrPlayer3.add(numberField3.text.toString())
             val gson = Gson()
             val listStr1 = gson.toJson(arrPlayer1)
             val listStr2 = gson.toJson(arrPlayer2)
@@ -122,9 +122,9 @@ class Fragment3 : Fragment() {
             editor.putString("pl2", listStr2)
             editor.putString("pl3", listStr3)
             editor.apply()
-            numberField1!!.setText("")
-            numberField2!!.setText("")
-            numberField3!!.setText("")
+            numberField1.setText("")
+            numberField2.setText("")
+            numberField3.setText("")
         } catch (ignored: Exception) {
         }
     }
@@ -142,26 +142,26 @@ class Fragment3 : Fragment() {
     private fun saveText() {
         val sPref: SharedPreferences = requireActivity().getSharedPreferences("Save3.txt", Context.MODE_PRIVATE)
         val ed = sPref.edit()
-        ed.putString("res1", resultField1!!.text.toString())
-        ed.putString("res2", resultField2!!.text.toString())
-        ed.putString("res3", resultField3!!.text.toString())
-        ed.putString("name1", name1!!.text.toString())
-        ed.putString("name2", name2!!.text.toString())
-        ed.putString("name3", name3!!.text.toString())
+        ed.putString("res1", resultField1.text.toString())
+        ed.putString("res2", resultField2.text.toString())
+        ed.putString("res3", resultField3.text.toString())
+        ed.putString("name1", name1.text.toString())
+        ed.putString("name2", name2.text.toString())
+        ed.putString("name3", name3.text.toString())
         ed.apply()
     }
 
     private fun loadText(context: Context) {
         val sPref = context.getSharedPreferences("Save3.txt", Context.MODE_PRIVATE)
-        name1!!.text = sPref.getString("name1", "")
-        name2!!.text = sPref.getString("name2", "")
-        name3!!.text = sPref.getString("name3", "")
-        if (sPref.getString("res1", "0") == "") resultField1!!.text = "0" else resultField1!!.text = sPref.getString("res1", "0")
-        if (sPref.getString("res2", "0") == "") resultField2!!.text = "0" else resultField2!!.text = sPref.getString("res2", "0")
-        if (sPref.getString("res3", "0") == "") resultField3!!.text = "0" else resultField3!!.text = sPref.getString("res3", "0")
+        name1.text = sPref.getString("name1", "")
+        name2.text = sPref.getString("name2", "")
+        name3.text = sPref.getString("name3", "")
+        if (sPref.getString("res1", "0") == "") resultField1.text = "0" else resultField1.text = sPref.getString("res1", "0")
+        if (sPref.getString("res2", "0") == "") resultField2.text = "0" else resultField2.text = sPref.getString("res2", "0")
+        if (sPref.getString("res3", "0") == "") resultField3.text = "0" else resultField3.text = sPref.getString("res3", "0")
     }
 
-    fun onNewClick() {
+    private fun onNewClick() {
         IonAlert(requireContext(), IonAlert.WARNING_TYPE)
                 .setTitleText(resources.getString(R.string.sure))
                 .setContentText(resources.getString(R.string.new_game))
@@ -169,12 +169,12 @@ class Fragment3 : Fragment() {
                 .setConfirmText(resources.getString(R.string.yes))
                 .showCancelButton(true)
                 .setConfirmClickListener { sDialog: IonAlert ->
-                    resultField1!!.text = "0"
-                    resultField2!!.text = "0"
-                    resultField3!!.text = "0"
-                    numberField1!!.setText("")
-                    numberField2!!.setText("")
-                    numberField3!!.setText("")
+                    resultField1.text = "0"
+                    resultField2.text = "0"
+                    resultField3.text = "0"
+                    numberField1.setText("")
+                    numberField2.setText("")
+                    numberField3.setText("")
                     val scoreSharPref: SharedPreferences = requireActivity().getSharedPreferences("Score3.txt", Context.MODE_PRIVATE)
                     val editor = scoreSharPref.edit().clear()
                     editor.apply()
@@ -190,13 +190,5 @@ class Fragment3 : Fragment() {
     companion object {
         private const val ARG_SECTION_NUMBER = "section_number"
 
-        @JvmStatic
-        fun newInstance(sectionNumber: Int): Fragment3 {
-            return Fragment3().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_SECTION_NUMBER, sectionNumber)
-                }
-            }
-        }
     }
 }

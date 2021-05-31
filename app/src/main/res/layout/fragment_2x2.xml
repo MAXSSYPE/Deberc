@@ -2,7 +2,6 @@
 <LinearLayout xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -21,7 +20,6 @@
         android:orientation="horizontal">
 
         <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
-            android:id="@+id/text_box1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="5sp"
@@ -39,7 +37,6 @@
         </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
 
         <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
-            android:id="@+id/text_box2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="2sp"
@@ -60,7 +57,6 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -95,7 +91,6 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textViewRaz"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"

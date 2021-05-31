@@ -1,4 +1,4 @@
-package app.first.my_deb;
+package app.first.my_deb.utils;
 
 import android.content.Context;
 import android.content.res.Configuration;
