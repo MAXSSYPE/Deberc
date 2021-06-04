@@ -31,6 +31,7 @@
 
             <studio.carbonylgroup.textfieldboxes.ExtendedEditText
                 android:id="@+id/name1"
+                android:maxLength="5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAlignment="center" />
@@ -48,6 +49,7 @@
 
             <studio.carbonylgroup.textfieldboxes.ExtendedEditText
                 android:id="@+id/name2"
+                android:maxLength="5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp" />
@@ -66,6 +68,7 @@
 
             <studio.carbonylgroup.textfieldboxes.ExtendedEditText
                 android:id="@+id/name3"
+                android:maxLength="5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp" />

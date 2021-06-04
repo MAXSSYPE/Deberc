@@ -2,7 +2,6 @@ package app.first.my_deb.ui.main
 
 import android.app.Activity
 import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -13,11 +12,11 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import app.first.my_deb.MainActivity
 import app.first.my_deb.R
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import id.ionbit.ionalert.IonAlert
-import java.util.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 class Fragment4 : Fragment() {
 
@@ -35,15 +34,13 @@ class Fragment4 : Fragment() {
     private lateinit var name4: TextView
     private lateinit var newButton: Button
     private lateinit var addButton: Button
-    private var arrPlayer1 = ArrayList<String>()
-    private var arrPlayer2 = ArrayList<String>()
-    private var arrPlayer3 = ArrayList<String>()
-    private var arrPlayer4 = ArrayList<String>()
+    private lateinit var mainActivity: MainActivity
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         val view = inflater.inflate(R.layout.fragment_4, container, false)
 
+        mainActivity = activity as MainActivity
         resultField1 = view.findViewById(R.id.resultField1)
         resultField2 = view.findViewById(R.id.resultField2)
         resultField3 = view.findViewById(R.id.resultField3)
@@ -96,7 +93,35 @@ class Fragment4 : Fragment() {
             inputMethodManager.hideSoftInputFromWindow(
                     requireActivity().currentFocus!!.windowToken, 0)
         }
-        loadText(requireContext())
+        name1.setOnEditorActionListener { _, _, _ ->
+            onClick()
+            val inputMethodManager = requireActivity().getSystemService(
+                    Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(
+                    requireActivity().currentFocus!!.windowToken, 0)
+        }
+        name2.setOnEditorActionListener { _, _, _ ->
+            onClick()
+            val inputMethodManager = requireActivity().getSystemService(
+                    Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(
+                    requireActivity().currentFocus!!.windowToken, 0)
+        }
+        name3.setOnEditorActionListener { _, _, _ ->
+            onClick()
+            val inputMethodManager = requireActivity().getSystemService(
+                    Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(
+                    requireActivity().currentFocus!!.windowToken, 0)
+        }
+        name4.setOnEditorActionListener { _, _, _ ->
+            onClick()
+            val inputMethodManager = requireActivity().getSystemService(
+                    Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(
+                    requireActivity().currentFocus!!.windowToken, 0)
+        }
+        loadText()
         return view
     }
 
@@ -123,70 +148,21 @@ class Fragment4 : Fragment() {
             resultField2.text = (prev2 + now2).toString()
             resultField3.text = (prev3 + now3).toString()
             resultField4.text = (prev4 + now4).toString()
-            val scoreSharPref: SharedPreferences = requireActivity().getSharedPreferences("Score4.txt", Context.MODE_PRIVATE)
-            if (scoreSharPref.getString("pl1", "") != null && scoreSharPref.getString("pl1", "") != "" && scoreSharPref.getString("pl2", "") != null && scoreSharPref.getString("pl2", "") != "" && scoreSharPref.getString("pl3", "") != null && scoreSharPref.getString("pl3", "") != "" && scoreSharPref.getString("pl4", "") != null && scoreSharPref.getString("pl4", "") != "") {
-                arrPlayer1 = Gson().fromJson(scoreSharPref.getString("pl1", ""), object : TypeToken<ArrayList<String?>?>() {}.type)
-                arrPlayer2 = Gson().fromJson(scoreSharPref.getString("pl2", ""), object : TypeToken<ArrayList<String?>?>() {}.type)
-                arrPlayer3 = Gson().fromJson(scoreSharPref.getString("pl3", ""), object : TypeToken<ArrayList<String?>?>() {}.type)
-                arrPlayer4 = Gson().fromJson(scoreSharPref.getString("pl4", ""), object : TypeToken<ArrayList<String?>?>() {}.type)
-            }
-            val editor = scoreSharPref.edit()
-            arrPlayer1.add(numberField1.text.toString())
-            arrPlayer2.add(numberField2.text.toString())
-            arrPlayer3.add(numberField3.text.toString())
-            arrPlayer4.add(numberField4.text.toString())
-            val gson = Gson()
-            val listStr1 = gson.toJson(arrPlayer1)
-            val listStr2 = gson.toJson(arrPlayer2)
-            val listStr3 = gson.toJson(arrPlayer3)
-            val listStr4 = gson.toJson(arrPlayer4)
-            editor.putString("pl1", listStr1)
-            editor.putString("pl2", listStr2)
-            editor.putString("pl3", listStr3)
-            editor.putString("pl4", listStr4)
-            editor.apply()
+            mainActivity.gameWithGamers.gamers[0].gameScore!!.add(numberField1.text.toString())
+            mainActivity.gameWithGamers.gamers[1].gameScore!!.add(numberField2.text.toString())
+            mainActivity.gameWithGamers.gamers[2].gameScore!!.add(numberField3.text.toString())
+            mainActivity.gameWithGamers.gamers[3].gameScore!!.add(numberField4.text.toString())
+            mainActivity.gameWithGamers.gamers[0].score = resultField1.text.toString().toInt()
+            mainActivity.gameWithGamers.gamers[1].score = resultField2.text.toString().toInt()
+            mainActivity.gameWithGamers.gamers[2].score = resultField3.text.toString().toInt()
+            mainActivity.gameWithGamers.gamers[3].score = resultField4.text.toString().toInt()
+
             numberField1.setText("")
             numberField2.setText("")
             numberField3.setText("")
             numberField4.setText("")
         } catch (ignored: Exception) {
         }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        saveText()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        saveText()
-    }
-
-    private fun saveText() {
-        val sPref: SharedPreferences = requireActivity().getSharedPreferences("Save4.txt", Context.MODE_PRIVATE)
-        val ed = sPref.edit()
-        ed.putString("res1", resultField1.text.toString())
-        ed.putString("res2", resultField2.text.toString())
-        ed.putString("res3", resultField3.text.toString())
-        ed.putString("res4", resultField4.text.toString())
-        ed.putString("name1", name1.text.toString())
-        ed.putString("name2", name2.text.toString())
-        ed.putString("name3", name3.text.toString())
-        ed.putString("name4", name4.text.toString())
-        ed.apply()
-    }
-
-    private fun loadText(context: Context) {
-        val sPref = context.getSharedPreferences("Save4.txt", Context.MODE_PRIVATE)
-        name1.text = sPref.getString("name1", "")
-        name2.text = sPref.getString("name2", "")
-        name3.text = sPref.getString("name3", "")
-        name4.text = sPref.getString("name4", "")
-        if (sPref.getString("res1", "0") == "") resultField1.text = "0" else resultField1.text = sPref.getString("res1", "0")
-        if (sPref.getString("res2", "0") == "") resultField2.text = "0" else resultField2.text = sPref.getString("res2", "0")
-        if (sPref.getString("res3", "0") == "") resultField3.text = "0" else resultField3.text = sPref.getString("res3", "0")
-        if (sPref.getString("res4", "0") == "") resultField4.text = "0" else resultField4.text = sPref.getString("res4", "0")
     }
 
     private fun onNewClick() {
@@ -197,29 +173,60 @@ class Fragment4 : Fragment() {
                 .setConfirmText(resources.getString(R.string.yes))
                 .showCancelButton(true)
                 .setConfirmClickListener { sDialog: IonAlert ->
-                    resultField1.text = "0"
-                    resultField2.text = "0"
-                    resultField3.text = "0"
-                    resultField4.text = "0"
-                    numberField1.setText("")
-                    numberField2.setText("")
-                    numberField3.setText("")
-                    numberField4.setText("")
-                    val scoreSharPref: SharedPreferences = requireActivity().getSharedPreferences("Score4.txt", Context.MODE_PRIVATE)
-                    val editor = scoreSharPref.edit().clear()
-                    editor.apply()
-                    arrPlayer1.clear()
-                    arrPlayer2.clear()
-                    arrPlayer3.clear()
-                    arrPlayer4.clear()
-                    sDialog.cancel()
+                    try {
+                        saveText()
+                        resultField1.text = "0"
+                        resultField2.text = "0"
+                        resultField3.text = "0"
+                        resultField4.text = "0"
+                        numberField1.setText("")
+                        numberField2.setText("")
+                        numberField3.setText("")
+                        numberField4.setText("")
+                        CoroutineScope(mainActivity.coroutineContext).launch {
+                            mainActivity.dao.makeGameInactive(mainActivity.gameWithGamers.game.id!!)
+                            mainActivity.initGame()
+                        }
+                        sDialog.cancel()
+                    } catch (ignored: Exception) {
+                    }
+
                 }
                 .show()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        saveText()
+    }
 
-    companion object {
-        private const val ARG_SECTION_NUMBER = "section_number"
+    override fun onResume() {
+        super.onResume()
+        loadText()
+    }
 
+    private fun saveText() {
+        mainActivity.gameWithGamers.gamers[0].name = name1.text.toString()
+        mainActivity.gameWithGamers.gamers[1].name = name2.text.toString()
+        mainActivity.gameWithGamers.gamers[2].name = name3.text.toString()
+        mainActivity.gameWithGamers.gamers[3].name = name4.text.toString()
+        mainActivity.gameWithGamers.gamers[0].score = resultField1.text.toString().toInt()
+        mainActivity.gameWithGamers.gamers[1].score = resultField2.text.toString().toInt()
+        mainActivity.gameWithGamers.gamers[2].score = resultField3.text.toString().toInt()
+        mainActivity.gameWithGamers.gamers[3].score = resultField4.text.toString().toInt()
+        CoroutineScope(mainActivity.coroutineContext).launch {
+            mainActivity.dao.upsertByReplacementGame(mainActivity.gameWithGamers)
+        }
+    }
+
+    private fun loadText() {
+        name1.text = mainActivity.gameWithGamers.gamers[0].name
+        name2.text = mainActivity.gameWithGamers.gamers[1].name
+        name3.text = mainActivity.gameWithGamers.gamers[2].name
+        name4.text = mainActivity.gameWithGamers.gamers[3].name
+        resultField1.text = mainActivity.gameWithGamers.gamers[0].score.toString()
+        resultField2.text = mainActivity.gameWithGamers.gamers[1].score.toString()
+        resultField3.text = mainActivity.gameWithGamers.gamers[2].score.toString()
+        resultField4.text = mainActivity.gameWithGamers.gamers[3].score.toString()
     }
 }

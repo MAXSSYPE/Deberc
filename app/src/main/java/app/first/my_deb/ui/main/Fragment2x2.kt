@@ -2,7 +2,6 @@ package app.first.my_deb.ui.main
 
 import android.app.Activity
 import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -14,17 +13,15 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import app.first.my_deb.MainActivity
 import app.first.my_deb.R
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.shawnlin.numberpicker.NumberPicker
 import id.ionbit.ionalert.IonAlert
+import kotlinx.coroutines.*
 
 
 open class Fragment2x2 : Fragment() {
 
-    private var arrPlayer1 = ArrayList<String>()
-    private var arrPlayer2 = ArrayList<String>()
     private lateinit var resultField1: TextView
     private lateinit var resultField2: TextView
     private lateinit var numberField1: EditText
@@ -34,6 +31,7 @@ open class Fragment2x2 : Fragment() {
     private lateinit var newButton: Button
     private lateinit var addButton: Button
     private lateinit var numberPicker: NumberPicker
+    private lateinit var mainActivity: MainActivity
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -41,6 +39,7 @@ open class Fragment2x2 : Fragment() {
     ): View {
         val view = inflater.inflate(R.layout.fragment_2x2, container, false)
 
+        mainActivity = activity as MainActivity
         numberField1 = view.findViewById(R.id.numberField1)
         numberField2 = view.findViewById(R.id.numberField2)
         resultField1 = view.findViewById(R.id.resultField1)
@@ -182,7 +181,21 @@ open class Fragment2x2 : Fragment() {
             inputMethodManager.hideSoftInputFromWindow(
                     requireActivity().currentFocus!!.windowToken, 0)
         }
-        loadText(requireContext())
+        name1.setOnEditorActionListener { _, _, _ ->
+            onClick()
+            val inputMethodManager = requireActivity().getSystemService(
+                    Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(
+                    requireActivity().currentFocus!!.windowToken, 0)
+        }
+        name2.setOnEditorActionListener { _, _, _ ->
+            onClick()
+            val inputMethodManager = requireActivity().getSystemService(
+                    Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(
+                    requireActivity().currentFocus!!.windowToken, 0)
+        }
+        loadText()
         return view
     }
 
@@ -208,20 +221,11 @@ open class Fragment2x2 : Fragment() {
                 }
                 resultField1.text = (prev1 + now1).toString()
                 resultField2.text = (prev2 + now2).toString()
-                val scoreSharPref: SharedPreferences = requireActivity().getSharedPreferences("Score2x2.txt", Context.MODE_PRIVATE)
-                if (scoreSharPref.getString("pl1", "") != null && scoreSharPref.getString("pl1", "") != "" && scoreSharPref.getString("pl2", "") != null && scoreSharPref.getString("pl2", "") != "") {
-                    arrPlayer1 = Gson().fromJson(scoreSharPref.getString("pl1", ""), object : TypeToken<ArrayList<String>>() {}.type)
-                    arrPlayer2 = Gson().fromJson(scoreSharPref.getString("pl2", ""), object : TypeToken<ArrayList<String>>() {}.type)
-                }
-                val editor = scoreSharPref.edit()
-                arrPlayer1.add(numberField1.text.toString())
-                arrPlayer2.add(numberField2.text.toString())
-                val gson = Gson()
-                val listStr1 = gson.toJson(arrPlayer1)
-                val listStr2 = gson.toJson(arrPlayer2)
-                editor.putString("pl1", listStr1)
-                editor.putString("pl2", listStr2)
-                editor.apply()
+                mainActivity.gameWithGamers.gamers[0].gameScore!!.add(numberField1.text.toString())
+                mainActivity.gameWithGamers.gamers[1].gameScore!!.add(numberField2.text.toString())
+                mainActivity.gameWithGamers.gamers[0].score = resultField1.text.toString().toInt()
+                mainActivity.gameWithGamers.gamers[1].score = resultField2.text.toString().toInt()
+
                 numberField1.setText("")
                 numberField2.setText("")
                 numberPicker.value = 1
@@ -238,50 +242,46 @@ open class Fragment2x2 : Fragment() {
                 .setConfirmText(resources.getString(R.string.yes))
                 .showCancelButton(true)
                 .setConfirmClickListener { sDialog: IonAlert ->
-                    resultField1.text = "0"
-                    resultField2.text = "0"
-                    numberField1.setText("")
-                    numberField2.setText("")
-                    val scoreSharPref: SharedPreferences = requireActivity().getSharedPreferences("Score2x2.txt", Context.MODE_PRIVATE)
-                    val editor = scoreSharPref.edit().clear()
-                    editor.apply()
-                    arrPlayer1.clear()
-                    arrPlayer2.clear()
-                    sDialog.cancel()
-                }
-                .show()
+                    try {
+                        saveText()
+                        resultField1.text = "0"
+                        resultField2.text = "0"
+                        numberField1.setText("")
+                        numberField2.setText("")
+                        CoroutineScope(mainActivity.coroutineContext).launch {
+                            mainActivity.dao.makeGameInactive(mainActivity.gameWithGamers.game.id!!)
+                            mainActivity.initGame()
+                        }
+                        sDialog.cancel()
+                    } catch (ignored: Exception) {
+                    }
+                }.show()
     }
 
-    override fun onStop() {
-        super.onStop()
+    override fun onDestroy() {
+        super.onDestroy()
         saveText()
     }
 
-    override fun onPause() {
-        super.onPause()
-        saveText()
+    override fun onResume() {
+        super.onResume()
+        loadText()
     }
 
     private fun saveText() {
-        val sPref: SharedPreferences = requireActivity().getSharedPreferences("Save2x2.txt", Context.MODE_PRIVATE)
-        val ed = sPref.edit()
-        ed.putString("res1", resultField1.text.toString())
-        ed.putString("res2", resultField2.text.toString())
-        ed.putString("name1", name1.text.toString())
-        ed.putString("name2", name2.text.toString())
-        ed.apply()
+        mainActivity.gameWithGamers.gamers[0].name = name1.text.toString()
+        mainActivity.gameWithGamers.gamers[1].name = name2.text.toString()
+        mainActivity.gameWithGamers.gamers[0].score = resultField1.text.toString().toInt()
+        mainActivity.gameWithGamers.gamers[1].score = resultField2.text.toString().toInt()
+        CoroutineScope(mainActivity.coroutineContext).launch {
+            mainActivity.dao.upsertByReplacementGame(mainActivity.gameWithGamers)
+        }
     }
 
-    private fun loadText(context: Context) {
-        val sPref = context.getSharedPreferences("Save2x2.txt", Context.MODE_PRIVATE)
-        name1.text = sPref.getString("name1", "")
-        name2.text = sPref.getString("name2", "")
-        if (sPref.getString("res1", "0") == "") resultField1.text = "0" else resultField1.text = sPref.getString("res1", "0")
-        if (sPref.getString("res2", "0") == "") resultField2.text = "0" else resultField2.text = sPref.getString("res2", "0")
-    }
-
-    companion object {
-        private const val ARG_SECTION_NUMBER = "section_number"
-
+    private fun loadText() {
+        name1.text = mainActivity.gameWithGamers.gamers[0].name
+        name2.text = mainActivity.gameWithGamers.gamers[1].name
+        resultField1.text = mainActivity.gameWithGamers.gamers[0].score.toString()
+        resultField2.text = mainActivity.gameWithGamers.gamers[1].score.toString()
     }
 }

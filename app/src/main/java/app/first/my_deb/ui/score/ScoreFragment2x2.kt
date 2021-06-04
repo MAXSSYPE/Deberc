@@ -1,17 +1,15 @@
 package app.first.my_deb.ui.score
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import app.first.my_deb.MainActivity
 import app.first.my_deb.R
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import ir.androidexception.datatable.DataTable
 import ir.androidexception.datatable.model.DataTableHeader
 import ir.androidexception.datatable.model.DataTableRow
@@ -21,12 +19,14 @@ import java.util.*
 class ScoreFragment2x2 : Fragment() {
 
     private lateinit var dataTable: DataTable
+    private lateinit var mainActivity: MainActivity
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
         val view = inflater.inflate(R.layout.fragment_score, container, false)
+        mainActivity = activity as MainActivity
         dataTable = view.findViewById(R.id.data_table)
         loadTable()
         return view
@@ -49,9 +49,8 @@ class ScoreFragment2x2 : Fragment() {
     }
 
     private fun loadTable() {
-        val sPref = requireContext().getSharedPreferences("Score2x2.txt", Context.MODE_PRIVATE)
-        val pl1 = Gson().fromJson<ArrayList<String>>(sPref.getString("pl1", ""), object : TypeToken<ArrayList<String?>?>() {}.type)
-        val pl2 = Gson().fromJson<ArrayList<String>>(sPref.getString("pl2", ""), object : TypeToken<ArrayList<String?>?>() {}.type)
+        val pl1 = mainActivity.gameWithGamers.gamers[0].gameScore
+        val pl2 = mainActivity.gameWithGamers.gamers[1].gameScore
         val header = DataTableHeader.Builder()
                 .item(getString(R.string.team1), 1)
                 .item(getString(R.string.team2), 1).build()
@@ -68,10 +67,5 @@ class ScoreFragment2x2 : Fragment() {
         dataTable.header = header
         dataTable.rows = rows
         dataTable.inflate(requireContext())
-    }
-
-    companion object {
-        private const val ARG_SECTION_NUMBER = "section_number"
-
     }
 }

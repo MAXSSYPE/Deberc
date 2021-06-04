@@ -110,7 +110,6 @@ class MenuFragment : Fragment() {
     }
 
     companion object {
-        private const val ARG_SECTION_NUMBER = "section_number"
 
     }
 }

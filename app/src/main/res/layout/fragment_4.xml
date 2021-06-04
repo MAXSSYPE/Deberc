@@ -20,6 +20,7 @@
 
         <EditText
             android:id="@+id/name1"
+            android:maxLength="5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8sp"
@@ -31,6 +32,7 @@
 
         <EditText
             android:id="@+id/name2"
+            android:maxLength="5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8sp"
@@ -42,6 +44,7 @@
 
         <EditText
             android:id="@+id/name3"
+            android:maxLength="5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8sp"
@@ -53,6 +56,7 @@
 
         <EditText
             android:id="@+id/name4"
+            android:maxLength="5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8sp"
