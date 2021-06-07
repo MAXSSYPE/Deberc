@@ -26,6 +26,7 @@
             android:layout_marginTop="10sp"
             android:layout_marginEnd="2sp"
             android:layout_weight="1"
+            app:primaryColor="?colorAccent"
             app:hasClearButton="true"
             app:labelText="@string/gamer1">
 
@@ -44,6 +45,7 @@
             android:layout_marginTop="10sp"
             android:layout_marginEnd="5sp"
             android:layout_weight="1"
+            app:primaryColor="?colorAccent"
             app:hasClearButton="true"
             app:labelText="@string/gamer2">
 
@@ -116,6 +118,7 @@
             android:textAlignment="center"
             android:textSize="36sp"
             android:visibility="visible"
+            android:maxLength="4"
             android:layout_weight="1"/>
 
         <com.shawnlin.numberpicker.NumberPicker
@@ -138,6 +141,7 @@
             android:textAlignment="center"
             android:textSize="36sp"
             android:visibility="visible"
+            android:maxLength="4"
             android:layout_weight="1"/>
 
     </LinearLayout>

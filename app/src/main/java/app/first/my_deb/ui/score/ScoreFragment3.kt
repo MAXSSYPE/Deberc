@@ -38,21 +38,32 @@ class ScoreFragment3 : Fragment() {
         mAdView.loadAd(adRequest)
     }
 
-    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        super.setUserVisibleHint(isVisibleToUser)
-        if (isVisibleToUser) {
-            loadTable()
-        }
+    override fun onResume() {
+        super.onResume()
+        loadTable()
     }
 
     private fun loadTable() {
         val pl1 = mainActivity.gameWithGamers.gamers[0].gameScore
         val pl2 = mainActivity.gameWithGamers.gamers[1].gameScore
         val pl3 = mainActivity.gameWithGamers.gamers[2].gameScore
+        val pl1Name: String = if (mainActivity.gameWithGamers.gamers[0].name == null || mainActivity.gameWithGamers.gamers[0].name == "")
+            getString(R.string.gamer1)
+        else
+            mainActivity.gameWithGamers.gamers[0].name!!
+        val pl2Name: String = if (mainActivity.gameWithGamers.gamers[1].name == null || mainActivity.gameWithGamers.gamers[1].name == "")
+            getString(R.string.gamer2)
+        else
+            mainActivity.gameWithGamers.gamers[1].name!!
+        val pl3Name: String = if (mainActivity.gameWithGamers.gamers[2].name == null || mainActivity.gameWithGamers.gamers[2].name == "")
+            getString(R.string.gamer3)
+        else
+            mainActivity.gameWithGamers.gamers[2].name!!
+
         val header = DataTableHeader.Builder()
-                .item(getString(R.string.gamer1), 1)
-                .item(getString(R.string.gamer2), 1)
-                .item(getString(R.string.gamer3), 1).build()
+                .item(pl1Name, 1)
+                .item(pl2Name, 1)
+                .item(pl3Name, 1).build()
 
         val rows = ArrayList<DataTableRow>()
         if (pl1 != null && pl2 != null && pl3 != null && pl1.isNotEmpty() && pl2.isNotEmpty() && pl3.isNotEmpty()) {

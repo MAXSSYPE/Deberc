@@ -38,19 +38,26 @@ class ScoreFragment2 : Fragment() {
         mAdView.loadAd(adRequest)
     }
 
-    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        super.setUserVisibleHint(isVisibleToUser)
-        if (isVisibleToUser) {
-            loadTable()
-        }
+    override fun onResume() {
+        super.onResume()
+        loadTable()
     }
 
     private fun loadTable() {
         val pl1 = mainActivity.gameWithGamers.gamers[0].gameScore
         val pl2 = mainActivity.gameWithGamers.gamers[1].gameScore
+        val pl1Name: String = if (mainActivity.gameWithGamers.gamers[0].name == null || mainActivity.gameWithGamers.gamers[0].name == "")
+            getString(R.string.gamer1)
+        else
+            mainActivity.gameWithGamers.gamers[0].name!!
+        val pl2Name: String = if (mainActivity.gameWithGamers.gamers[1].name == null || mainActivity.gameWithGamers.gamers[1].name == "")
+            getString(R.string.gamer2)
+        else
+            mainActivity.gameWithGamers.gamers[1].name!!
+
         val header = DataTableHeader.Builder()
-                .item(getString(R.string.gamer1), 1)
-                .item(getString(R.string.gamer2), 1).build()
+                .item(pl1Name, 1)
+                .item(pl2Name, 1).build()
         val rows = java.util.ArrayList<DataTableRow>()
         if (pl1 != null && pl2 != null && pl1.isNotEmpty() && pl2.isNotEmpty()) {
             for (i in pl1.indices) {

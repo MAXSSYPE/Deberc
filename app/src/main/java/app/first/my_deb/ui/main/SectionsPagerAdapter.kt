@@ -18,7 +18,7 @@ private val TAB_TITLES = arrayOf(
 )
 
 class SectionsPagerAdapter(private val context: Context, fm: FragmentManager)
-    : FragmentPagerAdapter(fm) {
+    : FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     private var one: Fragment? = null
     private var two: Fragment? = null

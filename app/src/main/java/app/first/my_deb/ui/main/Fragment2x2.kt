@@ -249,7 +249,8 @@ open class Fragment2x2 : Fragment() {
                         numberField1.setText("")
                         numberField2.setText("")
                         CoroutineScope(mainActivity.coroutineContext).launch {
-                            mainActivity.dao.makeGameInactive(mainActivity.gameWithGamers.game.id!!)
+                            mainActivity.dao.setEndTime(mainActivity.gameWithGamers.game.id!!, System.currentTimeMillis())
+                            mainActivity.dao.addGameToInactive(mainActivity.gameWithGamers.game.id!!)
                             mainActivity.initGame()
                         }
                         sDialog.cancel()
@@ -260,6 +261,11 @@ open class Fragment2x2 : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
+        saveText()
+    }
+
+    override fun onPause() {
+        super.onPause()
         saveText()
     }
 

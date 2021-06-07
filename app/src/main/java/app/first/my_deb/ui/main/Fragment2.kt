@@ -19,6 +19,7 @@ import com.shawnlin.numberpicker.NumberPicker
 import id.ionbit.ionalert.IonAlert
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class Fragment2 : Fragment() {
 
@@ -249,7 +250,8 @@ class Fragment2 : Fragment() {
                         numberField1.setText("")
                         numberField2.setText("")
                         CoroutineScope(mainActivity.coroutineContext).launch {
-                            mainActivity.dao.makeGameInactive(mainActivity.gameWithGamers.game.id!!)
+                            mainActivity.dao.setEndTime(mainActivity.gameWithGamers.game.id!!, System.currentTimeMillis())
+                            mainActivity.dao.addGameToInactive(mainActivity.gameWithGamers.game.id!!)
                             mainActivity.initGame()
                         }
                         sDialog.cancel()
@@ -262,6 +264,11 @@ class Fragment2 : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
+        saveText()
+    }
+
+    override fun onPause() {
+        super.onPause()
         saveText()
     }
 

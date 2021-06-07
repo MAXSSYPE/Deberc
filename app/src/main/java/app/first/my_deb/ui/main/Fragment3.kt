@@ -17,6 +17,7 @@ import app.first.my_deb.R
 import id.ionbit.ionalert.IonAlert
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class Fragment3 : Fragment() {
 
@@ -154,7 +155,8 @@ class Fragment3 : Fragment() {
                         numberField2.setText("")
                         numberField3.setText("")
                         CoroutineScope(mainActivity.coroutineContext).launch {
-                            mainActivity.dao.makeGameInactive(mainActivity.gameWithGamers.game.id!!)
+                            mainActivity.dao.setEndTime(mainActivity.gameWithGamers.game.id!!, System.currentTimeMillis())
+                            mainActivity.dao.addGameToInactive(mainActivity.gameWithGamers.game.id!!)
                             mainActivity.initGame()
                         }
                         sDialog.cancel()
@@ -166,6 +168,11 @@ class Fragment3 : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
+        saveText()
+    }
+
+    override fun onPause() {
+        super.onPause()
         saveText()
     }
 

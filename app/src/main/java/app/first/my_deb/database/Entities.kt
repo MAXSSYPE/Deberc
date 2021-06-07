@@ -8,7 +8,8 @@ data class GameEntity(
         var id: Int? = null,
         var type: String? = null,
         @ColumnInfo(typeAffinity = ColumnInfo.INTEGER)
-        var isActive: Boolean? = null
+        var isActive: Boolean? = null,
+        var endTimestamp: Long? = null
 )
 
 @Entity(tableName = "gamer",

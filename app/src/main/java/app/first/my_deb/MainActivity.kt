@@ -2,8 +2,13 @@ package app.first.my_deb
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Rect
 import android.os.Build
 import android.os.Bundle
+import android.view.MotionEvent
+import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import androidx.preference.PreferenceManager
 import androidx.viewpager.widget.ViewPager
 import app.first.my_deb.database.*
@@ -16,6 +21,8 @@ import com.jaredrummler.cyanea.app.CyaneaAppCompatActivity
 import com.maltaisn.calcdialog.CalcDialog
 import id.ionbit.ionalert.IonAlert
 import kotlinx.coroutines.*
+import studio.carbonylgroup.textfieldboxes.ExtendedEditText
+import studio.carbonylgroup.textfieldboxes.TextFieldBoxes
 import java.math.BigDecimal
 import kotlin.coroutines.CoroutineContext
 
@@ -109,6 +116,10 @@ class MainActivity : CyaneaAppCompatActivity(), CalcDialog.CalcDialogCallback {
 
             dao.upsertByReplacementGame(gameWithGamers)
             gameWithGamers = dao.getActiveGame(type)
+
+            println("test " + dao.getInactiveGames())
+            println("active " + dao.getActiveGame("1"))
+            println("game " + gameWithGamers)
         }.join()
     }
 
@@ -157,5 +168,40 @@ class MainActivity : CyaneaAppCompatActivity(), CalcDialog.CalcDialogCallback {
 
     private fun saveText() {
         CoroutineScope(coroutineContext).launch { dao.upsertByReplacementGame(gameWithGamers) }
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        val handleReturn = super.dispatchTouchEvent(ev)
+
+        val view: View? = currentFocus
+
+        val x = ev!!.x.toInt()
+        val y = ev.y.toInt()
+
+        if (view is EditText || view is ExtendedEditText) {
+            val innerView: View? = currentFocus
+            if (ev.action === MotionEvent.ACTION_UP &&
+                !getLocationOnScreen(innerView as EditText).contains(x, y)
+            ) {
+                val input = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                input.hideSoftInputFromWindow(
+                    window.currentFocus!!
+                        .windowToken, 0
+                )
+            }
+        }
+
+        return handleReturn
+    }
+
+    private fun getLocationOnScreen(mEditText: EditText): Rect {
+        val mRect = Rect()
+        val location = IntArray(2)
+        mEditText.getLocationOnScreen(location)
+        mRect.left = location[0]
+        mRect.top = location[1]
+        mRect.right = location[0] + mEditText.width
+        mRect.bottom = location[1] + mEditText.height
+        return mRect
     }
 }
