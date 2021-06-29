@@ -6,4 +6,19 @@
         <item name="android:statusBarColor">#000000</item>
     </style>
 
+    <style name="Roboto">
+        <item name="fontFamily">@font/roboto</item>
+        <item name="android:fontFamily">@font/roboto</item>
+    </style>
+
+    <style name="DancingFont">
+        <item name="fontFamily">@font/dancing_script</item>
+        <item name="android:fontFamily">@font/dancing_script</item>
+    </style>
+
+    <style name="Fredoka">
+        <item name="fontFamily">@font/fredoka</item>
+        <item name="android:fontFamily">@font/fredoka</item>
+    </style>
+
 </resources>

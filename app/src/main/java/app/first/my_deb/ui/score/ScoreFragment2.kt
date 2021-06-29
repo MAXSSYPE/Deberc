@@ -1,20 +1,27 @@
 package app.first.my_deb.ui.score
 
+import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceManager
 import app.first.my_deb.MainActivity
 import app.first.my_deb.R
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
+import com.jaredrummler.cyanea.Cyanea
+import com.jaredrummler.cyanea.app.CyaneaFragment
 import ir.androidexception.datatable.DataTable
 import ir.androidexception.datatable.model.DataTableHeader
 import ir.androidexception.datatable.model.DataTableRow
 
-class ScoreFragment2 : Fragment() {
+class ScoreFragment2 : CyaneaFragment() {
 
     private lateinit var dataTable: DataTable
     private lateinit var mainActivity: MainActivity
@@ -25,6 +32,9 @@ class ScoreFragment2 : Fragment() {
         val view = inflater.inflate(R.layout.fragment_score, container, false)
         mainActivity = activity as MainActivity
         dataTable = view.findViewById(R.id.data_table)
+        val pref = PreferenceManager.getDefaultSharedPreferences(requireActivity())
+        val font = pref.getString("fonts", "font/roboto.ttf")
+        dataTable.typeface = Typeface.createFromAsset(requireContext().assets, font)
         loadTable()
         return view
     }

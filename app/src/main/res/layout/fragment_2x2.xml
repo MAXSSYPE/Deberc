@@ -4,7 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
     <!--<com.google.android.gms.ads.AdView
         android:id="@+id/adView"
@@ -33,9 +35,9 @@
             <studio.carbonylgroup.textfieldboxes.ExtendedEditText
                 android:id="@+id/name1"
                 android:maxLength="10"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAlignment="center" />
+                android:textAlignment="viewStart" />
         </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
 
         <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
@@ -52,9 +54,9 @@
             <studio.carbonylgroup.textfieldboxes.ExtendedEditText
                 android:id="@+id/name2"
                 android:maxLength="10"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="16sp" />
+                android:textAlignment="viewStart" />
 
         </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
 
@@ -128,6 +130,7 @@
             app:np_dividerColor="?colorAccent"
             app:np_selectedTextColor="?colorAccent"
             app:np_textColor="?colorAccent"
+            app:np_typeface="@string/add"
             android:layout_weight="1" />
 
         <EditText
@@ -169,6 +172,31 @@
             android:layout_marginRight="20sp"
             android:text="@string/new_game"
             android:textSize="20sp" />
+
+        <!--<LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/redo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|start"
+                app:backgroundTint="?colorAccent"
+                android:layout_margin="@dimen/fab_margin"
+                app:srcCompat="@drawable/redo"
+                android:contentDescription="@string/game" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/undo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|start"
+                app:backgroundTint="?colorAccent"
+                android:layout_margin="@dimen/fab_margin"
+                app:srcCompat="@drawable/undo"
+                android:contentDescription="@string/game" />
+        </LinearLayout>-->
     </LinearLayout>
 
 </LinearLayout>

@@ -4,7 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
-@Database(entities = [GameEntity::class, GamerEntity::class], version = 4)
+@Database(entities = [GameEntity::class, GamerEntity::class], version = 5)
 @TypeConverters(Convertor::class)
 abstract class Database : RoomDatabase() {
     abstract fun getDao(): Dao

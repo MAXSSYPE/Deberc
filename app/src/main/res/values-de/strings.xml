@@ -25,4 +25,7 @@
     <string name="cancel">Stornieren</string>
     <string name="game">Spiel</string>
     <string name="menu">Speisekarte</string>
+    <string name="history">Geschichte</string>
+    <string name="restore">Spiel wiederherstellen</string>
+    <string name="fonts">Schriftarten</string>
 </resources>

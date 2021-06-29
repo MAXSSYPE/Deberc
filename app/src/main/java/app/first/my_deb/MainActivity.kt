@@ -1,28 +1,32 @@
 package app.first.my_deb
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Build
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.preference.PreferenceManager
 import androidx.viewpager.widget.ViewPager
 import app.first.my_deb.database.*
 import app.first.my_deb.ui.main.SectionsPagerAdapter
+import app.first.my_deb.ui.menu.MenuActivity
+import app.first.my_deb.utils.AppFontManager
 import app.first.my_deb.utils.ContextWrapper
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.jaredrummler.cyanea.app.CyaneaAppCompatActivity
 import com.maltaisn.calcdialog.CalcDialog
-import id.ionbit.ionalert.IonAlert
 import kotlinx.coroutines.*
 import studio.carbonylgroup.textfieldboxes.ExtendedEditText
-import studio.carbonylgroup.textfieldboxes.TextFieldBoxes
 import java.math.BigDecimal
 import kotlin.coroutines.CoroutineContext
 
@@ -40,10 +44,13 @@ class MainActivity : CyaneaAppCompatActivity(), CalcDialog.CalcDialogCallback {
     val coroutineContext: CoroutineContext
         get() = Dispatchers.IO
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) = runBlocking {
+        val pref = PreferenceManager.getDefaultSharedPreferences(this@MainActivity)
+        val font = pref.getString("fonts", "@font/roboto")
+        AppFontManager(this@MainActivity).setFont(font);
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        CoroutineScope(coroutineContext).launch { initGame() }
+        initGame()
         sectionsPagerAdapter = SectionsPagerAdapter(this@MainActivity, supportFragmentManager)
         viewPager = findViewById(R.id.view_pager)
         viewPager.adapter = sectionsPagerAdapter
@@ -57,10 +64,16 @@ class MainActivity : CyaneaAppCompatActivity(), CalcDialog.CalcDialogCallback {
             override fun onTabUnselected(tab: TabLayout.Tab) {}
             override fun onTabReselected(tab: TabLayout.Tab) {}
         })
-        val fab: FloatingActionButton = findViewById(R.id.fab)
+        tabs.getTabAt(1)!!.select()
 
-        fab.setOnClickListener {
+        val calculatorFab: FloatingActionButton = findViewById(R.id.calculator_fab)
+        calculatorFab.setOnClickListener {
             onCalcClick()
+        }
+        val menuFab: FloatingActionButton = findViewById(R.id.menu_fab)
+        menuFab.setOnClickListener {
+            startActivity(Intent(this@MainActivity, MenuActivity::class.java))
+            this@MainActivity.overridePendingTransition(R.anim.appear, R.anim.disappear)
         }
     }
 
@@ -84,27 +97,13 @@ class MainActivity : CyaneaAppCompatActivity(), CalcDialog.CalcDialogCallback {
     }
 
     override fun onBackPressed() {
-        IonAlert(this, IonAlert.WARNING_TYPE)
-                .setTitleText(resources.getString(R.string.exitTitle))
-                .setContentText(resources.getString(R.string.exit))
-                .setCancelText(resources.getString(R.string.no))
-                .setConfirmText(resources.getString(R.string.yes))
-                .showCancelButton(true)
-                .setConfirmClickListener { sDialog: IonAlert ->
-                    val intent = Intent(Intent.ACTION_MAIN)
-                    intent.addCategory(Intent.CATEGORY_HOME)
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                    startActivity(intent)
-                    finishAffinity()
-                    sDialog.cancel()
-                }
-                .show()
+        showMessageBoxExit()
     }
 
-    fun initGame() = runBlocking {
+    fun initGame() {
         databaseHelper = DatabaseHelper(this@MainActivity)
         dao = DatabaseHelper.instance.getDao()
-        //dao.nukeTable()
+        //runBlocking { dao.nukeTable() }
         val sPref = this@MainActivity.getSharedPreferences("Save.txt", Context.MODE_PRIVATE)
         val type = sPref.getString("type", "1")
 
@@ -120,7 +119,7 @@ class MainActivity : CyaneaAppCompatActivity(), CalcDialog.CalcDialogCallback {
             println("test " + dao.getInactiveGames())
             println("active " + dao.getActiveGame("1"))
             println("game " + gameWithGamers)
-        }.join()
+        }
     }
 
     private fun createDefaultGameAndGamers(gameType: String): GameWithGamers {
@@ -203,5 +202,39 @@ class MainActivity : CyaneaAppCompatActivity(), CalcDialog.CalcDialogCallback {
         mRect.right = location[0] + mEditText.width
         mRect.bottom = location[1] + mEditText.height
         return mRect
+    }
+
+    fun showMessageBoxExit() {
+        val messageBoxView = LayoutInflater.from(this).inflate(R.layout.message_box, null)
+
+        val messageBoxBuilder = AlertDialog.Builder(this).setView(messageBoxView)
+
+        val header = messageBoxView.findViewById<TextView>(R.id.message_box_header)
+        val content = messageBoxView.findViewById<TextView>(R.id.message_box_content)
+        header.text = getString(R.string.exitTitle)
+        content.text = getString(R.string.exit)
+
+        val  messageBoxInstance = messageBoxBuilder.show()
+
+        val buttonYes = messageBoxView.findViewById<Button>(R.id.message_box_yes)
+        buttonYes.setOnClickListener {
+            val intent = Intent(Intent.ACTION_MAIN)
+            intent.addCategory(Intent.CATEGORY_HOME)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+            finishAffinity()
+            messageBoxInstance.dismiss()
+        }
+
+        val buttonNo = messageBoxView.findViewById<Button>(R.id.message_box_no)
+        buttonNo.setOnClickListener {
+            messageBoxInstance.dismiss()
+        }
+
+        messageBoxInstance.window?.setBackgroundDrawableResource(R.drawable.message_background)
+
+        /*messageBoxView.setOnClickListener(){
+            messageBoxInstance.dismiss()
+        }*/
     }
 }

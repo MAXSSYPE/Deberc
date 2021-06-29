@@ -36,6 +36,9 @@ interface Dao {
     @Query("UPDATE game SET isActive = 0 WHERE id = :id;")
     suspend fun makeGameInactive(id: Int)
 
+    @Query("UPDATE game SET isActive = 1 WHERE id = :id;")
+    suspend fun makeGameActive(id: Int)
+
     @Query("UPDATE game SET endTimestamp = :date WHERE id = :id;")
     suspend fun setEndTime(id: Int, date: Long)
 

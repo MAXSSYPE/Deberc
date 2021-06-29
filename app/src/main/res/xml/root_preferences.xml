@@ -9,5 +9,14 @@
             app:useSimpleSummaryProvider="true"
             app:negativeButtonText="@string/cancel"/>
     </PreferenceCategory>
+    <PreferenceCategory android:title="@string/fonts">
+        <ListPreference
+            app:defaultValue="font/roboto.ttf"
+            app:entries="@array/fonts"
+            app:entryValues="@array/fonts_values"
+            app:key="fonts"
+            app:useSimpleSummaryProvider="true"
+            app:negativeButtonText="@string/cancel"/>
+    </PreferenceCategory>
 
 </PreferenceScreen>

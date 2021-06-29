@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:app="http://schemas.android.com/apk/res-auto">
     <string-array name="entryvalues_lang">
         <item>en</item>
         <item>ua</item>
@@ -21,5 +21,17 @@
         <item>Български</item>
         <item>Polski</item>
         <item>Русский</item>
+    </string-array>
+
+    <string-array name="fonts">
+        <item>Default</item>
+        <item>Handwriting</item>
+        <item>Bold</item>
+    </string-array>
+
+    <string-array name="fonts_values">
+        <item>font/roboto.ttf</item>
+        <item>font/dancing_script.ttf</item>
+        <item>font/fredoka.ttf</item>
     </string-array>
 </resources>

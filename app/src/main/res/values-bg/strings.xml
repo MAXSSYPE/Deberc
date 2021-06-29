@@ -25,4 +25,7 @@
     <string name="cancel">Отказ</string>
     <string name="game">Игра</string>
     <string name="menu">Меню</string>
+    <string name="history">История</string>
+    <string name="restore">Възстановяване на играта</string>
+    <string name="fonts">Шрифтове</string>
 </resources>

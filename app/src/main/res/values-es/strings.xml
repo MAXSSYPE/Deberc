@@ -25,4 +25,7 @@
     <string name="cancel">Cancelar</string>
     <string name="game">Juego</string>
     <string name="menu">Menú</string>
+    <string name="history">Historia</string>
+    <string name="restore">Restaurar juego</string>
+    <string name="fonts">Fuentes</string>
 </resources>

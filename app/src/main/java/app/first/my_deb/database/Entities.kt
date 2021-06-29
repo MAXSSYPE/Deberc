@@ -26,7 +26,8 @@ data class GamerEntity(
         var name: String? = null,
         var score: Int? = null,
         @TypeConverters(Convertor::class)
-        var gameScore: MutableList<String>? = null
+        var gameScore: MutableList<String>? = null,
+        var lastRoundScore: String? = ""
 )
 
 data class GameWithGamers(

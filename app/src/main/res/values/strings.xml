@@ -24,4 +24,8 @@
     <string name="cancel">Cancel</string>
     <string name="game">Game</string>
     <string name="menu">Menu</string>
+    <string name="history">History</string>
+    <string name="restore">Restore game</string>
+    <string name="fonts">Fonts</string>
+    <string name="empty_history">History is empty now!</string>
 </resources>

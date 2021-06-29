@@ -19,16 +19,16 @@
         app:header_horizontal_padding="0dp"
         app:header_text_size="5sp"
         app:header_vertical_padding="16dp"
-        app:header_text_color="?colorPrimary"
-        app:row_text_color="?colorPrimary"
-        app:divider_color="?colorPrimary"
+        app:header_text_color="?colorAccent"
+        app:row_text_color="?colorAccent"
+        app:divider_color="?colorAccent"
         app:row_background_color="?colorBackgroundFloating"
         app:header_background_color="?colorBackgroundFloating"
         app:persian_number="false"
         app:row_gravity="center"
         app:row_text_size="12sp"
         app:row_vertical_padding="16dp"
-        app:shadow="8dp" />
+        app:shadow="15dp" />
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"

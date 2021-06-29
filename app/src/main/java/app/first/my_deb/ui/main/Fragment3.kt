@@ -1,6 +1,7 @@
 package app.first.my_deb.ui.main
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.view.KeyEvent
@@ -11,15 +12,13 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import androidx.fragment.app.Fragment
 import app.first.my_deb.MainActivity
 import app.first.my_deb.R
-import id.ionbit.ionalert.IonAlert
+import com.jaredrummler.cyanea.app.CyaneaFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
-class Fragment3 : Fragment() {
+class Fragment3 : CyaneaFragment() {
 
     private lateinit var resultField1: TextView
     private lateinit var resultField2: TextView
@@ -88,14 +87,12 @@ class Fragment3 : Fragment() {
                     requireActivity().currentFocus!!.windowToken, 0)
         }
         name2.setOnEditorActionListener { _, _, _ ->
-            onClick()
             val inputMethodManager = requireActivity().getSystemService(
                     Activity.INPUT_METHOD_SERVICE) as InputMethodManager
             inputMethodManager.hideSoftInputFromWindow(
                     requireActivity().currentFocus!!.windowToken, 0)
         }
         name3.setOnEditorActionListener { _, _, _ ->
-            onClick()
             val inputMethodManager = requireActivity().getSystemService(
                     Activity.INPUT_METHOD_SERVICE) as InputMethodManager
             inputMethodManager.hideSoftInputFromWindow(
@@ -139,31 +136,47 @@ class Fragment3 : Fragment() {
     }
 
     private fun onNewClick() {
-        IonAlert(requireContext(), IonAlert.WARNING_TYPE)
-                .setTitleText(resources.getString(R.string.sure))
-                .setContentText(resources.getString(R.string.new_game))
-                .setCancelText(resources.getString(R.string.no))
-                .setConfirmText(resources.getString(R.string.yes))
-                .showCancelButton(true)
-                .setConfirmClickListener { sDialog: IonAlert ->
-                    try {
-                        saveText()
-                        resultField1.text = "0"
-                        resultField2.text = "0"
-                        resultField3.text = "0"
-                        numberField1.setText("")
-                        numberField2.setText("")
-                        numberField3.setText("")
-                        CoroutineScope(mainActivity.coroutineContext).launch {
-                            mainActivity.dao.setEndTime(mainActivity.gameWithGamers.game.id!!, System.currentTimeMillis())
-                            mainActivity.dao.addGameToInactive(mainActivity.gameWithGamers.game.id!!)
-                            mainActivity.initGame()
-                        }
-                        sDialog.cancel()
-                    } catch (ignored: Exception) {
-                    }
+        val messageBoxView =
+            LayoutInflater.from(requireActivity()).inflate(R.layout.message_box, null)
+
+        val messageBoxBuilder = AlertDialog.Builder(requireActivity()).setView(messageBoxView)
+
+        val header = messageBoxView.findViewById<TextView>(R.id.message_box_header)
+        val content = messageBoxView.findViewById<TextView>(R.id.message_box_content)
+        header.text = getString(R.string.sure)
+        content.text = getString(R.string.new_game)
+
+        val messageBoxInstance = messageBoxBuilder.show()
+
+        val buttonYes = messageBoxView.findViewById<Button>(R.id.message_box_yes)
+        buttonYes.setOnClickListener {
+            try {
+                saveText()
+                resultField1.text = "0"
+                resultField2.text = "0"
+                resultField3.text = "0"
+                numberField1.setText("")
+                numberField2.setText("")
+                numberField3.setText("")
+                CoroutineScope(mainActivity.coroutineContext).launch {
+                    mainActivity.dao.setEndTime(mainActivity.gameWithGamers.game.id!!, System.currentTimeMillis())
+                    mainActivity.dao.addGameToInactive(mainActivity.gameWithGamers.game.id!!)
+                    mainActivity.initGame()
                 }
-                .show()
+                messageBoxInstance.dismiss()
+            } catch (ignored: Exception) {
+            }
+        }
+
+        val buttonNo = messageBoxView.findViewById<Button>(R.id.message_box_no)
+        buttonNo.setOnClickListener {
+            messageBoxInstance.dismiss()
+        }
+
+        messageBoxInstance.window?.setBackgroundDrawableResource(R.drawable.message_background)
+        /*messageBoxView.setOnClickListener(){
+            messageBoxInstance.dismiss()
+        }*/
     }
 
     override fun onDestroy() {
@@ -188,6 +201,9 @@ class Fragment3 : Fragment() {
         mainActivity.gameWithGamers.gamers[0].score = resultField1.text.toString().toInt()
         mainActivity.gameWithGamers.gamers[1].score = resultField2.text.toString().toInt()
         mainActivity.gameWithGamers.gamers[2].score = resultField3.text.toString().toInt()
+        mainActivity.gameWithGamers.gamers[0].lastRoundScore = numberField1.text.toString()
+        mainActivity.gameWithGamers.gamers[1].lastRoundScore = numberField2.text.toString()
+        mainActivity.gameWithGamers.gamers[2].lastRoundScore = numberField3.text.toString()
         CoroutineScope(mainActivity.coroutineContext).launch {
             mainActivity.dao.upsertByReplacementGame(mainActivity.gameWithGamers)
         }
@@ -200,5 +216,8 @@ class Fragment3 : Fragment() {
         resultField1.text = mainActivity.gameWithGamers.gamers[0].score.toString()
         resultField2.text = mainActivity.gameWithGamers.gamers[1].score.toString()
         resultField3.text = mainActivity.gameWithGamers.gamers[2].score.toString()
+        numberField1.setText(mainActivity.gameWithGamers.gamers[0].lastRoundScore)
+        numberField2.setText(mainActivity.gameWithGamers.gamers[1].lastRoundScore)
+        numberField3.setText(mainActivity.gameWithGamers.gamers[2].lastRoundScore)
     }
 }

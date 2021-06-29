@@ -5,16 +5,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import app.first.my_deb.R
-import app.first.my_deb.ui.menu.MenuFragment
+import app.first.my_deb.ui.history.HistoryFragment
 import app.first.my_deb.ui.score.ScoreFragment2
 import app.first.my_deb.ui.score.ScoreFragment2x2
 import app.first.my_deb.ui.score.ScoreFragment3
 import app.first.my_deb.ui.score.ScoreFragment4
 
 private val TAB_TITLES = arrayOf(
+        R.string.history,
         R.string.game,
         R.string.count,
-        R.string.menu
 )
 
 class SectionsPagerAdapter(private val context: Context, fm: FragmentManager)
@@ -22,14 +22,18 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager)
 
     private var one: Fragment? = null
     private var two: Fragment? = null
-    var three: Fragment? = null
+    private var three: Fragment? = null
 
     override fun getItem(position: Int): Fragment {
         val sPref = context.getSharedPreferences("Save.txt", Context.MODE_PRIVATE)
-        val type = sPref.getString("type", "")
+        val type = sPref.getString("type", "1")
         when (position) {
             0 -> {
-                one = if (type == null || type == "" || type == "1") {
+                one = HistoryFragment()
+                return one!!
+            }
+            1 -> {
+                two = if (type == null || type == "" || type == "1") {
                     Fragment2x2()
                 } else if (type == "2") {
                     Fragment2()
@@ -40,10 +44,10 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager)
                 } else {
                     Fragment2x2()
                 }
-                return one!!
+                return two!!
             }
-            1 -> {
-                two = if (type == null || type == "" || type == "1") {
+            2 -> {
+                three = if (type == null || type == "" || type == "1") {
                     ScoreFragment2x2()
                 } else if (type == "2") {
                     ScoreFragment2()
@@ -54,13 +58,9 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager)
                 } else {
                     ScoreFragment2x2()
                 }
-                return two!!
-            }
-            2 -> {
-                three = MenuFragment()
                 return three!!
             }
-            else -> return MenuFragment()
+            else -> return HistoryFragment()
         }
     }
 

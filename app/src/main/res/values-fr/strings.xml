@@ -16,13 +16,16 @@
     <string name="gamer2">Joueur 2</string>
     <string name="gamer3">Joueur 3</string>
     <string name="gamer4">Joueur 4</string>
-    <string name="team1">L\'équipe 1</string>
-    <string name="team2">L\'équipe 2</string>
+    <string name="team1">L`équipe 1</string>
+    <string name="team2">L`équipe 2</string>
     <string name="add">Ajouter un score</string>
     <string name="points_for_distribution">Points de distribution:</string>
     <string name="language">Les langues</string>
-    <string name="theme">Thème d\'application</string>
+    <string name="theme">Thème d`application</string>
     <string name="cancel">Annuler</string>
     <string name="game">Jeu</string>
     <string name="menu">Menu</string>
+    <string name="history">Histoire</string>
+    <string name="restore">Jeu de restauration</string>
+    <string name="fonts">Polices</string>
 </resources>

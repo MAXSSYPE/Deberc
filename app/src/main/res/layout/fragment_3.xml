@@ -4,7 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
     <!-- <com.google.android.gms.ads.AdView
          android:id="@+id/adView"
@@ -32,9 +34,9 @@
             <studio.carbonylgroup.textfieldboxes.ExtendedEditText
                 android:id="@+id/name1"
                 android:maxLength="5"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAlignment="center" />
+                android:textAlignment="viewStart" />
         </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
 
         <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
@@ -50,9 +52,9 @@
             <studio.carbonylgroup.textfieldboxes.ExtendedEditText
                 android:id="@+id/name2"
                 android:maxLength="5"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="16sp" />
+                android:textAlignment="viewStart" />
 
         </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
 
@@ -69,9 +71,9 @@
             <studio.carbonylgroup.textfieldboxes.ExtendedEditText
                 android:id="@+id/name3"
                 android:maxLength="5"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="16sp" />
+                android:textAlignment="viewStart" />
 
         </studio.carbonylgroup.textfieldboxes.TextFieldBoxes>
 
