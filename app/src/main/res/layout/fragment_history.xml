@@ -22,6 +22,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
         android:textSize="30sp"
-        android:text="@string/empty_history">
+        android:text="@string/empty_history"
+        android:visibility="invisible">
     </TextView>
 </LinearLayout>

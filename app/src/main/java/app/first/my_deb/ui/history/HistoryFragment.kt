@@ -46,8 +46,8 @@ class HistoryFragment : CyaneaFragment() {
         }
 
         view.findViewById<RecyclerView>(R.id.list).adapter = setAdapter(games)
-        if (!games.isNullOrEmpty()) {
-            requireActivity().findViewById<TextView>(R.id.empty).visibility = View.INVISIBLE
+        if (games.isNullOrEmpty()) {
+            requireActivity().findViewById<TextView>(R.id.empty).visibility = View.VISIBLE
         }
     }
 
