@@ -28,4 +28,8 @@
     <string name="history">Historia</string>
     <string name="restore">Restaurar juego</string>
     <string name="fonts">Fuentes</string>
+    <string name="empty_history">¡La historia está vacía ahora!</string>
+    <string name="bolt">Sanciones adicionales</string>
+    <string name="countOfNails">Recuento de sanciones</string>
+    <string name="valueOfMinus">Valor de penalización</string>
 </resources>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto">
+        <PreferenceCategory android:title="@string/bolt">
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="hasBolt"
+                android:summaryOn="On"
+                android:summaryOff="Off"/>
+
+            <DropDownPreference
+                android:defaultValue="3"
+                android:key="countOfNails"
+                android:summary="%s"
+                android:title="@string/countOfNails"
+                android:entries="@array/countOfNails"
+                android:entryValues="@array/countOfNails"
+                android:dependency="hasBolt"
+                custom:isPreferenceVisible="false">
+            </DropDownPreference>
+
+            <DropDownPreference
+                android:defaultValue="-100"
+                android:key="valueOfMinus"
+                android:summary="%s"
+                android:title="@string/valueOfMinus"
+                android:entries="@array/valueOfMinus"
+                android:entryValues="@array/valueOfMinus"
+                android:dependency="hasBolt"
+                custom:isPreferenceVisible="false">
+            </DropDownPreference>
+
+        </PreferenceCategory>
+</PreferenceScreen>

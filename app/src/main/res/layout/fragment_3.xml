@@ -136,66 +136,109 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/numberField1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10sp"
-            android:layout_weight="1"
-            android:hint="0"
-            android:inputType="numberSigned"
-            android:textAlignment="center"
-            android:maxLength="4"
-            android:textSize="36sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <EditText
+                android:id="@+id/numberField1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10sp"
+                android:focusable="auto"
+                android:hint="0"
+                android:inputType="numberSigned"
+                android:textAlignment="center"
+                android:textSize="36sp"
+                android:maxLength="4"
+                android:visibility="visible"/>
 
-        <EditText
-            android:id="@+id/numberField2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10sp"
-            android:layout_weight="1"
-            android:hint="0"
-            android:inputType="numberSigned"
-            android:textAlignment="center"
-            android:maxLength="4"
-            android:textSize="36sp" />
+            <com.andremion.counterfab.CounterFab
+                android:id="@+id/counter_bolt1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/nail"
+                android:backgroundTint="?colorAccent"
+                app:badgeBackgroundColor="?colorAccent"/>
+        </LinearLayout>
 
-        <EditText
-            android:id="@+id/numberField3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10sp"
-            android:layout_weight="1"
-            android:hint="0"
-            android:inputType="numberSigned"
-            android:textAlignment="center"
-            android:maxLength="4"
-            android:textSize="36sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <EditText
+                android:id="@+id/numberField2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10sp"
+                android:focusable="auto"
+                android:hint="0"
+                android:inputType="numberSigned"
+                android:textAlignment="center"
+                android:textSize="36sp"
+                android:maxLength="4"
+                android:visibility="visible"/>
+
+            <com.andremion.counterfab.CounterFab
+                android:id="@+id/counter_bolt2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/nail"
+                android:backgroundTint="?colorAccent"
+                app:badgeBackgroundColor="?colorAccent"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <EditText
+                android:id="@+id/numberField3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10sp"
+                android:focusable="auto"
+                android:hint="0"
+                android:inputType="numberSigned"
+                android:textAlignment="center"
+                android:textSize="36sp"
+                android:maxLength="4"
+                android:visibility="visible"/>
+
+            <com.andremion.counterfab.CounterFab
+                android:id="@+id/counter_bolt3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/nail"
+                android:backgroundTint="?colorAccent"
+                app:badgeBackgroundColor="?colorAccent"/>
+        </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+    <Button
+        android:id="@+id/button_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/add"
+        android:textSize="20sp"
+        android:layout_marginTop="20sp"/>
 
-        <Button
-            android:id="@+id/button_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/add"
-            android:textSize="20sp" />
-
-        <Button
-            android:id="@+id/button_new"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="20sp"
-            android:layout_marginTop="10sp"
-            android:layout_marginRight="20sp"
-            android:text="@string/new_game"
-            android:textSize="20sp" />
-    </LinearLayout>
+    <Button
+        android:id="@+id/button_new"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="20sp"
+        android:layout_marginTop="10sp"
+        android:layout_marginRight="20sp"
+        android:text="@string/new_game"
+        android:textSize="20sp" />
 
 </LinearLayout>

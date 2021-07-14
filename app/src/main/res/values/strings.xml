@@ -28,4 +28,7 @@
     <string name="restore">Restore game</string>
     <string name="fonts">Fonts</string>
     <string name="empty_history">History is empty now!</string>
+    <string name="bolt">Additional penalties</string>
+    <string name="countOfNails">Count of penalties</string>
+    <string name="valueOfMinus">Penalty value</string>
 </resources>

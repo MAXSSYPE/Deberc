@@ -12,8 +12,11 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.core.view.isVisible
+import androidx.preference.PreferenceManager
 import app.first.my_deb.MainActivity
 import app.first.my_deb.R
+import com.andremion.counterfab.CounterFab
 import com.jaredrummler.cyanea.app.CyaneaFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -32,6 +35,9 @@ class Fragment3 : CyaneaFragment() {
     private lateinit var newButton: Button
     private lateinit var addButton: Button
     private lateinit var mainActivity: MainActivity
+    private lateinit var counterBolt1: CounterFab
+    private lateinit var counterBolt2: CounterFab
+    private lateinit var counterBolt3: CounterFab
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -55,6 +61,9 @@ class Fragment3 : CyaneaFragment() {
         addButton.setOnClickListener {
             onClick()
         }
+        counterBolt1 = view.findViewById(R.id.counter_bolt1) as CounterFab
+        counterBolt2 = view.findViewById(R.id.counter_bolt2) as CounterFab
+        counterBolt3 = view.findViewById(R.id.counter_bolt3) as CounterFab
 
         numberField1.setOnEditorActionListener { _: TextView?, _: Int, _: KeyEvent? ->
             onClick()
@@ -192,6 +201,7 @@ class Fragment3 : CyaneaFragment() {
     override fun onResume() {
         super.onResume()
         loadText()
+        setBoltButtons(PreferenceManager.getDefaultSharedPreferences(requireContext()).getBoolean("hasBolt", false))
     }
 
     private fun saveText() {
@@ -204,6 +214,9 @@ class Fragment3 : CyaneaFragment() {
         mainActivity.gameWithGamers.gamers[0].lastRoundScore = numberField1.text.toString()
         mainActivity.gameWithGamers.gamers[1].lastRoundScore = numberField2.text.toString()
         mainActivity.gameWithGamers.gamers[2].lastRoundScore = numberField3.text.toString()
+        mainActivity.gameWithGamers.gamers[0].bolts = counterBolt1.count
+        mainActivity.gameWithGamers.gamers[1].bolts = counterBolt2.count
+        mainActivity.gameWithGamers.gamers[2].bolts = counterBolt3.count
         CoroutineScope(mainActivity.coroutineContext).launch {
             mainActivity.dao.upsertByReplacementGame(mainActivity.gameWithGamers)
         }
@@ -219,5 +232,66 @@ class Fragment3 : CyaneaFragment() {
         numberField1.setText(mainActivity.gameWithGamers.gamers[0].lastRoundScore)
         numberField2.setText(mainActivity.gameWithGamers.gamers[1].lastRoundScore)
         numberField3.setText(mainActivity.gameWithGamers.gamers[2].lastRoundScore)
+        counterBolt1.count = if (mainActivity.gameWithGamers.gamers[0].bolts == null)
+            0
+        else
+            mainActivity.gameWithGamers.gamers[0].bolts!!
+
+        counterBolt2.count = if (mainActivity.gameWithGamers.gamers[1].bolts == null)
+            0
+        else
+            mainActivity.gameWithGamers.gamers[1].bolts!!
+        counterBolt3.count = if (mainActivity.gameWithGamers.gamers[2].bolts == null)
+            0
+        else
+            mainActivity.gameWithGamers.gamers[2].bolts!!
+
+        setBoltButtons(PreferenceManager.getDefaultSharedPreferences(requireContext()).getBoolean("hasBolt", false))
+    }
+
+    private fun setBoltButtons(hasBolt: Boolean) {
+        setVisibleBolt(hasBolt)
+        if (hasBolt) {
+            counterBolt1.setOnClickListener {
+                counterBolt1.increase()
+                if (counterBolt1.count == PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("countOfNails", "3")!!.toInt()) {
+                    counterBolt1.count = 0
+                    if (resultField1.text.toString() == "")
+                        resultField1.text = (PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("valueOfMinus", "-100"))
+                    else
+                        resultField1.text = (resultField1.text.toString().toInt() + PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("valueOfMinus", "-100")!!.toInt()).toString()
+                }
+            }
+
+            counterBolt2.setOnClickListener {
+                counterBolt2.increase()
+                if (counterBolt2.count == PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("countOfNails", "3")!!.toInt()) {
+                    counterBolt2.count = 0
+                    if (resultField2.text.toString() == "")
+                        resultField2.text = (PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("valueOfMinus", "-100"))
+                    else
+                        resultField2.text = (resultField2.text.toString().toInt() + PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("valueOfMinus", "-100")!!.toInt()).toString()
+
+                }
+            }
+
+            counterBolt3.setOnClickListener {
+                counterBolt3.increase()
+                if (counterBolt3.count == PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("countOfNails", "3")!!.toInt()) {
+                    counterBolt3.count = 0
+                    if (resultField3.text.toString() == "")
+                        resultField3.text = (PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("valueOfMinus", "-100"))
+                    else
+                        resultField3.text = (resultField3.text.toString().toInt() + PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("valueOfMinus", "-100")!!.toInt()).toString()
+
+                }
+            }
+        }
+    }
+
+    private fun setVisibleBolt(hasBolt: Boolean) {
+        counterBolt1.isVisible = hasBolt
+        counterBolt2.isVisible = hasBolt
+        counterBolt3.isVisible = hasBolt
     }
 }

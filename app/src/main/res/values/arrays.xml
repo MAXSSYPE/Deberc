@@ -34,4 +34,19 @@
         <item>font/dancing_script.ttf</item>
         <item>font/fredoka.ttf</item>
     </string-array>
+
+    <string-array name="valueOfMinus">
+        <item>-50</item>
+        <item>-100</item>
+        <item>-150</item>
+        <item>-200</item>
+        <item>-500</item>
+    </string-array>
+
+    <string-array name="countOfNails">
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
 </resources>

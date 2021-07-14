@@ -6,8 +6,7 @@ import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.widget.Button
-import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.PreferenceManager
+import androidx.preference.*
 import app.first.my_deb.MainActivity
 import app.first.my_deb.R
 import app.first.my_deb.utils.AppFontManager
@@ -89,13 +88,18 @@ class MenuActivity : CyaneaAppCompatActivity() {
             .replace(R.id.lang, SettingsFragment())
             .commit()
 
+        this.supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.bolt, BoltSettingsFragment())
+            .commit()
+
         val pref = PreferenceManager.getDefaultSharedPreferences(this)
 
         pref.registerOnSharedPreferenceChangeListener(listener)
 
-        val actionbar = supportActionBar
-        actionbar!!.title = getString(R.string.menu)
-        actionbar.setDisplayHomeAsUpEnabled(true)
+        val actionBar = supportActionBar
+        actionBar!!.title = getString(R.string.menu)
+        actionBar.setDisplayHomeAsUpEnabled(true)
     }
 
     class SettingsFragment : PreferenceFragmentCompat() {
@@ -103,6 +107,32 @@ class MenuActivity : CyaneaAppCompatActivity() {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
         }
     }
+
+    class BoltSettingsFragment : PreferenceFragmentCompat() {
+        override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+            setPreferencesFromResource(R.xml.bolt_preferences, rootKey)
+
+            findPreference<SwitchPreference>("hasBolt")!!.setOnPreferenceChangeListener { preference, newValue ->
+                setNail(true)
+                true
+            }
+        }
+
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            setNail(false)
+        }
+
+        private fun setNail(isChanged: Boolean) {
+            val hasBolt = if (isChanged)
+                !findPreference<SwitchPreference>("hasBolt")!!.isChecked
+            else
+                findPreference<SwitchPreference>("hasBolt")!!.isChecked
+            findPreference<DropDownPreference>("countOfNails")!!.isVisible = hasBolt
+            findPreference<DropDownPreference>("valueOfMinus")!!.isVisible = hasBolt
+        }
+    }
+
 
     private fun restart() {
         this.finish()

@@ -28,4 +28,8 @@
     <string name="history">Історія</string>
     <string name="restore">Відновити гру</string>
     <string name="fonts">Шрифти</string>
+    <string name="empty_history">Історія ігр поки що порожня!</string>
+    <string name="bolt">Болти</string>
+    <string name="countOfNails">Кількість болтів</string>
+    <string name="valueOfMinus">Величина штрафу</string>
 </resources>

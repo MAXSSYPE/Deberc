@@ -28,4 +28,8 @@
     <string name="history">История</string>
     <string name="restore">Възстановяване на играта</string>
     <string name="fonts">Шрифтове</string>
+    <string name="empty_history">Историята е празна сега!</string>
+    <string name="bolt">Допълнителни наказания</string>
+    <string name="countOfNails">Брой наказания</string>
+    <string name="valueOfMinus">Стойност на наказанието</string>
 </resources>

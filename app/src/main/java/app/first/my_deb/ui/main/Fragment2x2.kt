@@ -3,6 +3,7 @@ package app.first.my_deb.ui.main
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.Editable
@@ -14,9 +15,11 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.preference.PreferenceManager
 import app.first.my_deb.MainActivity
 import app.first.my_deb.R
+import com.andremion.counterfab.CounterFab
 import com.jaredrummler.cyanea.app.CyaneaFragment
 import com.shawnlin.numberpicker.NumberPicker
 import kotlinx.coroutines.CoroutineScope
@@ -35,6 +38,8 @@ open class Fragment2x2 : CyaneaFragment() {
     private lateinit var addButton: Button
     private lateinit var numberPicker: NumberPicker
     private lateinit var mainActivity: MainActivity
+    private lateinit var counterBolt1: CounterFab
+    private lateinit var counterBolt2: CounterFab
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -57,6 +62,8 @@ open class Fragment2x2 : CyaneaFragment() {
         addButton.setOnClickListener {
             onClick()
         }
+        counterBolt1 = view.findViewById(R.id.counter_bolt1) as CounterFab
+        counterBolt2 = view.findViewById(R.id.counter_bolt2) as CounterFab
         numberPicker = view.findViewById(R.id.number_picker)
         val data = arrayOf("162", "182", "202", "212", "222", "232", "242", "252", "262", "272", "282", "292", "302", "312", "322", "332", "342", "362", "382")
         numberPicker.minValue = 1
@@ -295,6 +302,7 @@ open class Fragment2x2 : CyaneaFragment() {
     override fun onResume() {
         super.onResume()
         loadText()
+        setBoltButtons(PreferenceManager.getDefaultSharedPreferences(requireContext()).getBoolean("hasBolt", false))
     }
 
     private fun saveText() {
@@ -304,6 +312,8 @@ open class Fragment2x2 : CyaneaFragment() {
         mainActivity.gameWithGamers.gamers[1].score = resultField2.text.toString().toInt()
         mainActivity.gameWithGamers.gamers[0].lastRoundScore = numberField1.text.toString()
         mainActivity.gameWithGamers.gamers[1].lastRoundScore = numberField2.text.toString()
+        mainActivity.gameWithGamers.gamers[0].bolts = counterBolt1.count
+        mainActivity.gameWithGamers.gamers[1].bolts = counterBolt2.count
         CoroutineScope(mainActivity.coroutineContext).launch {
             mainActivity.dao.upsertByReplacementGame(mainActivity.gameWithGamers)
         }
@@ -316,5 +326,49 @@ open class Fragment2x2 : CyaneaFragment() {
         resultField2.text = mainActivity.gameWithGamers.gamers[1].score.toString()
         numberField1.setText(mainActivity.gameWithGamers.gamers[0].lastRoundScore)
         numberField2.setText(mainActivity.gameWithGamers.gamers[1].lastRoundScore)
+        counterBolt1.count = if (mainActivity.gameWithGamers.gamers[0].bolts == null)
+            0
+        else
+            mainActivity.gameWithGamers.gamers[0].bolts!!
+
+        counterBolt2.count = if (mainActivity.gameWithGamers.gamers[1].bolts == null)
+            0
+        else
+            mainActivity.gameWithGamers.gamers[1].bolts!!
+
+        setBoltButtons(PreferenceManager.getDefaultSharedPreferences(requireContext()).getBoolean("hasBolt", false))
+    }
+
+    private fun setBoltButtons(hasBolt: Boolean) {
+        setVisibleBolt(hasBolt)
+        if (hasBolt) {
+            counterBolt1.setOnClickListener {
+                counterBolt1.increase()
+                if (counterBolt1.count == PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("countOfNails", "3")!!.toInt()) {
+                    counterBolt1.count = 0
+                    if (resultField1.text.toString() == "")
+                        resultField1.text = (PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("valueOfMinus", "-100"))
+                    else
+                        resultField1.text = (resultField1.text.toString().toInt() + PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("valueOfMinus", "-100")!!.toInt()).toString()
+                }
+            }
+
+            counterBolt2.setOnClickListener {
+                counterBolt2.increase()
+                if (counterBolt2.count == PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("countOfNails", "3")!!.toInt()) {
+                    counterBolt2.count = 0
+                    if (resultField2.text.toString() == "")
+                        resultField2.text = (PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("valueOfMinus", "-100"))
+                    else
+                        resultField2.text = (resultField2.text.toString().toInt() + PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("valueOfMinus", "-100")!!.toInt()).toString()
+
+                }
+            }
+        }
+    }
+
+    private fun setVisibleBolt(hasBolt: Boolean) {
+        counterBolt1.isVisible = hasBolt
+        counterBolt2.isVisible = hasBolt
     }
 }

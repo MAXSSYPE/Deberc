@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory android:title="@string/language">
         <ListPreference
-            app:defaultValue="false"
+            app:defaultValue="en"
             app:entries="@array/langs"
             app:entryValues="@array/entryvalues_lang"
             app:key="langs"
@@ -16,7 +16,10 @@
             app:entryValues="@array/fonts_values"
             app:key="fonts"
             app:useSimpleSummaryProvider="true"
-            app:negativeButtonText="@string/cancel"/>
+            app:negativeButtonText="@string/cancel" />
+    </PreferenceCategory>
+
+    <PreferenceCategory>
     </PreferenceCategory>
 
 </PreferenceScreen>
