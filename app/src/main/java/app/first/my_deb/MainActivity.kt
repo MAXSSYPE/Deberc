@@ -16,6 +16,7 @@ import android.widget.TextView
 import androidx.preference.PreferenceManager
 import androidx.viewpager.widget.ViewPager
 import app.first.my_deb.database.*
+import app.first.my_deb.ui.ftu.OnBoardingActivity
 import app.first.my_deb.ui.main.SectionsPagerAdapter
 import app.first.my_deb.ui.menu.MenuActivity
 import app.first.my_deb.utils.AppFontManager
@@ -47,9 +48,13 @@ class MainActivity : CyaneaAppCompatActivity(), CalcDialog.CalcDialogCallback {
     override fun onCreate(savedInstanceState: Bundle?) = runBlocking {
         val pref = PreferenceManager.getDefaultSharedPreferences(this@MainActivity)
         val font = pref.getString("fonts", "@font/roboto")
-        AppFontManager(this@MainActivity).setFont(font);
+        AppFontManager(this@MainActivity).setFont(font)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this@MainActivity)
+        if (sharedPreferences.getBoolean("completed_onboarding", true)) {
+            //startActivity(Intent(this@MainActivity, OnBoardingActivity::class.java))
+        }
         initGame()
         sectionsPagerAdapter = SectionsPagerAdapter(this@MainActivity, supportFragmentManager)
         viewPager = findViewById(R.id.view_pager)

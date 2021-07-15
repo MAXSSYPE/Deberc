@@ -15,6 +15,13 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".ui.ftu.OnBoardingActivity"
+            android:enabled="true"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Leanback.Onboarding">
+        </activity>
+        <activity
             android:name=".ui.menu.MenuActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait"
