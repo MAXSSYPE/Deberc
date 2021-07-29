@@ -3,7 +3,6 @@ package app.first.my_deb.ui.main
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
-import android.content.SharedPreferences
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.Editable
@@ -11,7 +10,6 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
@@ -28,7 +26,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 
-open class Fragment2x2 : CyaneaFragment() {
+class Fragment2x2 : CyaneaFragment() {
 
     private lateinit var resultField1: TextView
     private lateinit var resultField2: TextView

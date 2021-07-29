@@ -2,7 +2,6 @@ package app.first.my_deb.utils;
 
 import android.app.Application;
 
-import com.google.android.gms.ads.MobileAds;
 import com.jaredrummler.cyanea.Cyanea;
 
 public class App extends Application {
@@ -10,11 +9,11 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        MobileAds.initialize(
+        /*MobileAds.initialize(
                 this,
                 initializationStatus -> {
                 });
-        AppOpenManager appOpenManager = new AppOpenManager(this);
+        AppOpenManager appOpenManager = new AppOpenManager(this);*/
         Cyanea.init(this, getResources());
         Cyanea.setLoggingEnabled(true);
     }

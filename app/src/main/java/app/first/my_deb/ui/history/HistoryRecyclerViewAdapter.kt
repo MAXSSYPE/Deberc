@@ -128,7 +128,8 @@ class HistoryRecyclerViewAdapter(
         }
 
 
-        holder.time.text = getDateTime(item.game.endTimestamp!!)
+        holder.timeStart.text = getDateTime(item.game.startTimestamp!!)
+        holder.timeEnd.text = getDateTime(item.game.endTimestamp!!)
         holder.itemView.setOnClickListener { listener(item) }
         holder.restore.setOnClickListener {
             showMessageBoxRestoreGame(item)
@@ -146,7 +147,8 @@ class HistoryRecyclerViewAdapter(
         val score2: TextView = view.findViewById(R.id.score2)
         val score3: TextView = view.findViewById(R.id.score3)
         val score4: TextView = view.findViewById(R.id.score4)
-        val time: TextView = view.findViewById(R.id.time)
+        val timeStart: TextView = view.findViewById(R.id.time_start)
+        val timeEnd: TextView = view.findViewById(R.id.time_end)
         val restore: Button = view.findViewById(R.id.button_restore)
         var linearLayout3: LinearLayout? = view.findViewById(R.id.lin3)
         var linearLayout4: LinearLayout? = view.findViewById(R.id.lin4)

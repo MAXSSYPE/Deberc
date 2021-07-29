@@ -9,6 +9,7 @@ data class GameEntity(
         var type: String? = null,
         @ColumnInfo(typeAffinity = ColumnInfo.INTEGER)
         var isActive: Boolean? = null,
+        var startTimestamp: Long? = null,
         var endTimestamp: Long? = null
 )
 

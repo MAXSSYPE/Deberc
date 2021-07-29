@@ -5,8 +5,8 @@
             <SwitchPreference
                 android:defaultValue="false"
                 android:key="hasBolt"
-                android:summaryOn="On"
-                android:summaryOff="Off"/>
+                android:summaryOn="@string/on"
+                android:summaryOff="@string/off"/>
 
             <DropDownPreference
                 android:defaultValue="3"

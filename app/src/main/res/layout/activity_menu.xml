@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view"
     android:layout_gravity="center"
     android:layout_width="match_parent"
@@ -10,8 +11,7 @@
     app:cardElevation="15dp"
     app:layout_anchorGravity="center"
     app:cardBackgroundColor="?colorBackgroundFloating">
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -20,8 +20,7 @@
         <FrameLayout
             android:id="@+id/lang"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5sp">
+            android:layout_height="wrap_content">
         </FrameLayout>
 
         <Button
@@ -50,26 +49,27 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="50sp"
             android:layout_marginRight="50sp"
-            android:layout_marginTop="10sp">
+            android:layout_marginTop="8sp">
+
             <Button
                 android:id="@+id/game2x2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginEnd="5sp"
-                android:textSize="20sp"
-                android:text="@string/vs22" />
+                android:layout_weight="1"
+                android:text="@string/vs22"
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/game2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginStart="5sp"
-                android:textSize="20sp"
-                android:text="@string/vs2" />
+                android:layout_weight="1"
+                android:text="@string/vs2"
+                android:textSize="18sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -78,32 +78,33 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="50sp"
             android:layout_marginRight="50sp">
+
             <Button
                 android:id="@+id/game3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginEnd="5sp"
-                android:textSize="20sp"
-                android:text="@string/vs3" />
+                android:layout_weight="1"
+                android:text="@string/vs3"
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/game4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginStart="5sp"
-                android:textSize="20sp"
-                android:text="@string/vs4" />
+                android:layout_weight="1"
+                android:text="@string/vs4"
+                android:textSize="18sp" />
         </LinearLayout>
 
         <FrameLayout
             android:id="@+id/bolt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15sp">
+           >
         </FrameLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

@@ -131,7 +131,16 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/time"
+            android:id="@+id/time_start"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textSize="20sp"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/time_end"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"

@@ -54,4 +54,9 @@ class HistoryFragment : CyaneaFragment() {
     private fun setAdapter(games: List<GameWithGamers>): HistoryRecyclerViewAdapter {
         return HistoryRecyclerViewAdapter(requireContext(), mainActivity, games) {}
     }
+
+    override fun onPause() {
+        super.onPause()
+        requireActivity().findViewById<TextView>(R.id.empty).visibility = View.INVISIBLE
+    }
 }

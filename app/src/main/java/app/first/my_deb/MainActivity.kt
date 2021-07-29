@@ -13,6 +13,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.lifecycle.ViewModel
 import androidx.preference.PreferenceManager
 import androidx.viewpager.widget.ViewPager
 import app.first.my_deb.database.*
@@ -24,6 +25,10 @@ import app.first.my_deb.utils.ContextWrapper
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
+import com.google.android.play.core.review.ReviewInfo
+import com.google.android.play.core.review.ReviewManagerFactory
+import com.google.android.play.core.review.testing.FakeReviewManager
+import com.google.android.play.core.tasks.Task
 import com.jaredrummler.cyanea.app.CyaneaAppCompatActivity
 import com.maltaisn.calcdialog.CalcDialog
 import kotlinx.coroutines.*
@@ -51,11 +56,12 @@ class MainActivity : CyaneaAppCompatActivity(), CalcDialog.CalcDialogCallback {
         AppFontManager(this@MainActivity).setFont(font)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        databaseHelper = DatabaseHelper(this@MainActivity)
+        dao = DatabaseHelper.instance.getDao()
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this@MainActivity)
-        if (sharedPreferences.getBoolean("completed_onboarding", true)) {
-            //startActivity(Intent(this@MainActivity, OnBoardingActivity::class.java))
+        if (!sharedPreferences.getBoolean("completed_onboarding", false)) {
+           startActivity(Intent(this@MainActivity, OnBoardingActivity::class.java))
         }
-        initGame()
         sectionsPagerAdapter = SectionsPagerAdapter(this@MainActivity, supportFragmentManager)
         viewPager = findViewById(R.id.view_pager)
         viewPager.adapter = sectionsPagerAdapter
@@ -80,6 +86,7 @@ class MainActivity : CyaneaAppCompatActivity(), CalcDialog.CalcDialogCallback {
             startActivity(Intent(this@MainActivity, MenuActivity::class.java))
             this@MainActivity.overridePendingTransition(R.anim.appear, R.anim.disappear)
         }
+        initGame()
     }
 
     override fun attachBaseContext(newBase: Context) {
@@ -105,26 +112,24 @@ class MainActivity : CyaneaAppCompatActivity(), CalcDialog.CalcDialogCallback {
         showMessageBoxExit()
     }
 
-    fun initGame() {
-        databaseHelper = DatabaseHelper(this@MainActivity)
-        dao = DatabaseHelper.instance.getDao()
+    suspend fun initGame() {
         //runBlocking { dao.nukeTable() }
         val sPref = this@MainActivity.getSharedPreferences("Save.txt", Context.MODE_PRIVATE)
         val type = sPref.getString("type", "1")
 
         CoroutineScope(coroutineContext).launch {
-            gameWithGamers = if (dao.activeGameExists(type!!))
-                dao.getActiveGame(type)
-            else
-                createDefaultGameAndGamers(type)
-
-            dao.upsertByReplacementGame(gameWithGamers)
-            gameWithGamers = dao.getActiveGame(type)
+            if (dao.activeGameExists(type!!)) {
+                gameWithGamers = dao.getActiveGame(type)
+            } else {
+                gameWithGamers = createDefaultGameAndGamers(type)
+                dao.upsertByReplacementGame(gameWithGamers)
+                gameWithGamers = dao.getActiveGame(type)
+            }
 
             println("test " + dao.getInactiveGames())
             println("active " + dao.getActiveGame("1"))
             println("game " + gameWithGamers)
-        }
+        }.join()
     }
 
     private fun createDefaultGameAndGamers(gameType: String): GameWithGamers {
@@ -132,6 +137,7 @@ class MainActivity : CyaneaAppCompatActivity(), CalcDialog.CalcDialogCallback {
         game.apply {
             type = gameType
             isActive = true
+            startTimestamp =  System.currentTimeMillis()
         }
 
         val gamers = ArrayList<GamerEntity>(2)
@@ -160,11 +166,6 @@ class MainActivity : CyaneaAppCompatActivity(), CalcDialog.CalcDialogCallback {
         return gamer
     }
 
-    override fun onStop() {
-        super.onStop()
-        saveText()
-    }
-
     override fun onPause() {
         super.onPause()
         saveText()
@@ -184,7 +185,7 @@ class MainActivity : CyaneaAppCompatActivity(), CalcDialog.CalcDialogCallback {
 
         if (view is EditText || view is ExtendedEditText) {
             val innerView: View? = currentFocus
-            if (ev.action === MotionEvent.ACTION_UP &&
+            if (ev.action == MotionEvent.ACTION_UP &&
                 !getLocationOnScreen(innerView as EditText).contains(x, y)
             ) {
                 val input = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager

@@ -32,4 +32,6 @@
     <string name="bolt">Болты</string>
     <string name="countOfNails">Количество болтов</string>
     <string name="valueOfMinus">Стоимость штрафа</string>
+    <string name="on">Вкл</string>
+    <string name="off">Выкл</string>
 </resources>
