@@ -34,6 +34,7 @@
     <string name="valueOfMinus">Стоимость штрафа</string>
     <string name="on">Вкл</string>
     <string name="off">Выкл</string>
+    <string name="restore_game">Восстановить игру?</string>
 
     <string name="onboarding_title1">Добро пожаловать!</string>
     <string name="onboarding_title2">Авто функции</string>

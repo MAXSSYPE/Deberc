@@ -32,4 +32,5 @@
     <string name="bolt">Ulteriori sanzioni</string>
     <string name="countOfNails">Conteggio delle sanzioni</string>
     <string name="valueOfMinus">Valore della penalità</string>
+    <string name="restore_game">Ripristinare il gioco?</string>
 </resources>

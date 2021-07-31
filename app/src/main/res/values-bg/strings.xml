@@ -32,4 +32,5 @@
     <string name="bolt">Допълнителни наказания</string>
     <string name="countOfNails">Брой наказания</string>
     <string name="valueOfMinus">Стойност на наказанието</string>
+    <string name="restore_game">Възстановяване на играта?</string>
 </resources>

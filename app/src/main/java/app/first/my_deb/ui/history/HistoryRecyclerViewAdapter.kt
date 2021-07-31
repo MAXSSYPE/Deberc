@@ -189,9 +189,7 @@ class HistoryRecyclerViewAdapter(
         val messageBoxBuilder = AlertDialog.Builder(context).setView(messageBoxView)
 
         val header = messageBoxView.findViewById<TextView>(R.id.message_box_header)
-        val content = messageBoxView.findViewById<TextView>(R.id.message_box_content)
-        header.text = context.getString(R.string.exitTitle)
-        content.text = context.getString(R.string.exit)
+        header.text = context.getString(R.string.restore_game)
 
         val  messageBoxInstance = messageBoxBuilder.show()
 

@@ -31,5 +31,5 @@
     <string name="empty_history">Die Geschichte ist jetzt leer!</string>
     <string name="bolt">Zusätzliche Strafen</string>
     <string name="countOfNails">Anzahl der Strafen</string>
-    <string name="valueOfMinus">Strafwert</string>
+    <string name="valueOfMinus">Spiel wiederherstellen?</string>
 </resources>

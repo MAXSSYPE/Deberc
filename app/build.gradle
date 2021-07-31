@@ -6,11 +6,12 @@ android {
     compileSdkVersion 30
     defaultConfig {
         applicationId "app.first.my_deb"
-        minSdkVersion 24
+        minSdkVersion 23
         targetSdkVersion 30
-        versionCode 22
+        versionCode 23
         versionName "6.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        resConfigs("ua")
     }
     buildTypes {
         release {
