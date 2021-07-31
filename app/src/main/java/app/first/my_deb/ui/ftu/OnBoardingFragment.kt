@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.SharedPreferences
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,15 +45,6 @@ class OnBoardingFragment : OnboardingSupportFragment() {
     private var mContentAnimator: Animator? = null
     private var mContentView: ImageView? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        //startEnterAnimation(true)
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
-
     override fun onFinishFragment() {
         super.onFinishFragment()
         val sharedPreferencesEditor: SharedPreferences.Editor =
@@ -79,9 +69,9 @@ class OnBoardingFragment : OnboardingSupportFragment() {
     }
 
     @Nullable
-    override fun onCreateBackgroundView(inflater: LayoutInflater?, container: ViewGroup?): View? {
+    override fun onCreateBackgroundView(inflater: LayoutInflater?, container: ViewGroup?): View {
         val bgView = View(requireActivity())
-        bgView.setBackgroundColor(resources.getColor(R.color.cyanea_primary))
+        bgView.setBackgroundColor(resources.getColor(R.color.cyanea_primary_light))
         return bgView
     }
 

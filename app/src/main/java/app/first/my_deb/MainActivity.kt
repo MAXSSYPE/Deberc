@@ -13,7 +13,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import androidx.lifecycle.ViewModel
 import androidx.preference.PreferenceManager
 import androidx.viewpager.widget.ViewPager
 import app.first.my_deb.database.*
@@ -25,10 +24,6 @@ import app.first.my_deb.utils.ContextWrapper
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
-import com.google.android.play.core.review.ReviewInfo
-import com.google.android.play.core.review.ReviewManagerFactory
-import com.google.android.play.core.review.testing.FakeReviewManager
-import com.google.android.play.core.tasks.Task
 import com.jaredrummler.cyanea.app.CyaneaAppCompatActivity
 import com.maltaisn.calcdialog.CalcDialog
 import kotlinx.coroutines.*

@@ -34,4 +34,15 @@
     <string name="valueOfMinus">Величина штрафу</string>
     <string name="on">Увімк</string>
     <string name="off">Вимк</string>
+
+    <string name="onboarding_title1">Вітаю!</string>
+    <string name="onboarding_title2">Автоматичні функції</string>
+    <string name="onboarding_title3">Легка кастомізація</string>
+    <string name="onboarding_title4">Зрозуміла навігація</string>
+    <string name="onboarding_title5">Почнемо гру!</string>
+    <string name="onboarding_description1">Цей додаток допомагя вести підрахунок балів.\n
+    Від гравця гравцям.</string>
+    <string name="onboarding_description2">Зберігання рахунку, історії, підсказки - усе автоматичне. Для налаштування э зручне меню.</string>
+    <string name="onboarding_description3">Мову, шрифт, кількість гравців, болтів - усе це можна знайти в меню!</string>
+    <string name="onboarding_description4">Знайти проміжний рахунок, історію останніх ігр - все що треба для запису завжди під рукою!</string>
 </resources>

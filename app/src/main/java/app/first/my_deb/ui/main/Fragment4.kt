@@ -8,7 +8,6 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
@@ -18,6 +17,7 @@ import androidx.core.view.isVisible
 import androidx.preference.PreferenceManager
 import app.first.my_deb.MainActivity
 import app.first.my_deb.R
+import app.first.my_deb.utils.setTextAnimation
 import com.andremion.counterfab.CounterFab
 import com.jaredrummler.cyanea.app.CyaneaFragment
 import kotlinx.coroutines.CoroutineScope
@@ -169,10 +169,14 @@ class Fragment4 : CyaneaFragment() {
             if (numberField2.text.toString() != "") now2 = numberField2.text.toString().toInt() else numberField2.setText("0")
             if (numberField3.text.toString() != "") now3 = numberField3.text.toString().toInt() else numberField3.setText("0")
             if (numberField4.text.toString() != "") now4 = numberField4.text.toString().toInt() else numberField4.setText("0")
-            resultField1.text = (prev1 + now1).toString()
-            resultField2.text = (prev2 + now2).toString()
-            resultField3.text = (prev3 + now3).toString()
-            resultField4.text = (prev4 + now4).toString()
+            if (now1 != 0)
+                resultField1.setTextAnimation((prev1 + now1).toString(), 200)
+            if (now2 != 0)
+                resultField2.setTextAnimation((prev2 + now2).toString(), 200)
+            if (now3 != 0)
+                resultField3.setTextAnimation((prev3 + now3).toString(), 200)
+            if (now4 != 0)
+                resultField4.setTextAnimation((prev4 + now4).toString(), 200)
             mainActivity.gameWithGamers.gamers[0].gameScore!!.add(numberField1.text.toString())
             mainActivity.gameWithGamers.gamers[1].gameScore!!.add(numberField2.text.toString())
             mainActivity.gameWithGamers.gamers[2].gameScore!!.add(numberField3.text.toString())
@@ -207,14 +211,27 @@ class Fragment4 : CyaneaFragment() {
         buttonYes.setOnClickListener {
             try {
                 saveText()
-                resultField1.text = "0"
-                resultField2.text = "0"
-                resultField3.text = "0"
-                resultField4.text = "0"
-                numberField1.setText("")
-                numberField2.setText("")
-                numberField3.setText("")
-                numberField4.setText("")
+                if (resultField1.text != "0")
+                    resultField1.setTextAnimation("0")
+                if (resultField2.text != "0")
+                    resultField2.setTextAnimation("0")
+                if (resultField3.text != "0")
+                    resultField3.setTextAnimation("0")
+                if (resultField4.text != "0")
+                    resultField4.setTextAnimation("0")
+                if (numberField1.text.toString() != "")
+                    numberField1.setTextAnimation("")
+                if (numberField2.text.toString() != "")
+                    numberField2.setTextAnimation("")
+                if (numberField3.text.toString() != "")
+                    numberField3.setTextAnimation("")
+                if (numberField4.text.toString() != "")
+                    numberField4.setTextAnimation("")
+
+                counterBolt1.count = 0
+                counterBolt2.count = 0
+                counterBolt3.count = 0
+                counterBolt4.count = 0
                 CoroutineScope(mainActivity.coroutineContext).launch {
                     mainActivity.dao.setEndTime(mainActivity.gameWithGamers.game.id!!, System.currentTimeMillis())
                     mainActivity.dao.addGameToInactive(mainActivity.gameWithGamers.game.id!!)
@@ -312,49 +329,70 @@ class Fragment4 : CyaneaFragment() {
         setVisibleBolt(hasBolt)
         if (hasBolt) {
             counterBolt1.setOnClickListener {
+                val valueOfMinus = PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("valueOfMinus", "-100")!!
                 counterBolt1.increase()
                 if (counterBolt1.count == PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("countOfNails", "3")!!.toInt()) {
                     counterBolt1.count = 0
                     if (resultField1.text.toString() == "")
-                        resultField1.text = (PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("valueOfMinus", "-100"))
+                        resultField1.setTextAnimation(valueOfMinus, 200)
                     else
-                        resultField1.text = (resultField1.text.toString().toInt() + PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("valueOfMinus", "-100")!!.toInt()).toString()
+                        resultField1.setTextAnimation((resultField1.text.toString().toInt() + valueOfMinus.toInt()).toString(), 200)
+
+                    mainActivity.gameWithGamers.gamers[0].gameScore!!.add(valueOfMinus)
+                    mainActivity.gameWithGamers.gamers[1].gameScore!!.add("0")
+                    mainActivity.gameWithGamers.gamers[2].gameScore!!.add("0")
+                    mainActivity.gameWithGamers.gamers[3].gameScore!!.add("0")
                 }
             }
 
             counterBolt2.setOnClickListener {
+                val valueOfMinus = PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("valueOfMinus", "-100")!!
                 counterBolt2.increase()
                 if (counterBolt2.count == PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("countOfNails", "3")!!.toInt()) {
                     counterBolt2.count = 0
                     if (resultField2.text.toString() == "")
-                        resultField2.text = (PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("valueOfMinus", "-100"))
+                        resultField2.setTextAnimation(valueOfMinus, 200)
                     else
-                        resultField2.text = (resultField2.text.toString().toInt() + PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("valueOfMinus", "-100")!!.toInt()).toString()
+                        resultField2.setTextAnimation((resultField2.text.toString().toInt() + valueOfMinus.toInt()).toString(), 200)
 
+                    mainActivity.gameWithGamers.gamers[0].gameScore!!.add("0")
+                    mainActivity.gameWithGamers.gamers[1].gameScore!!.add(valueOfMinus)
+                    mainActivity.gameWithGamers.gamers[2].gameScore!!.add("0")
+                    mainActivity.gameWithGamers.gamers[3].gameScore!!.add("0")
                 }
             }
 
             counterBolt3.setOnClickListener {
+                val valueOfMinus = PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("valueOfMinus", "-100")!!
                 counterBolt3.increase()
                 if (counterBolt3.count == PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("countOfNails", "3")!!.toInt()) {
                     counterBolt3.count = 0
                     if (resultField3.text.toString() == "")
-                        resultField3.text = (PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("valueOfMinus", "-100"))
+                        resultField3.setTextAnimation(valueOfMinus, 200)
                     else
-                        resultField3.text = (resultField3.text.toString().toInt() + PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("valueOfMinus", "-100")!!.toInt()).toString()
+                        resultField3.setTextAnimation((resultField3.text.toString().toInt() + valueOfMinus.toInt()).toString(), 200)
 
+                    mainActivity.gameWithGamers.gamers[0].gameScore!!.add("0")
+                    mainActivity.gameWithGamers.gamers[1].gameScore!!.add("0")
+                    mainActivity.gameWithGamers.gamers[2].gameScore!!.add(valueOfMinus)
+                    mainActivity.gameWithGamers.gamers[3].gameScore!!.add("0")
                 }
             }
 
             counterBolt4.setOnClickListener {
+                val valueOfMinus = PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("valueOfMinus", "-100")!!
                 counterBolt4.increase()
                 if (counterBolt4.count == PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("countOfNails", "3")!!.toInt()) {
                     counterBolt4.count = 0
                     if (resultField4.text.toString() == "")
-                        resultField4.text = (PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("valueOfMinus", "-100"))
+                        resultField4.setTextAnimation(valueOfMinus, 200)
                     else
-                        resultField4.text = (resultField4.text.toString().toInt() + PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("valueOfMinus", "-100")!!.toInt()).toString()
+                        resultField4.setTextAnimation((resultField4.text.toString().toInt() + valueOfMinus.toInt()).toString(), 200)
 
+                    mainActivity.gameWithGamers.gamers[0].gameScore!!.add("0")
+                    mainActivity.gameWithGamers.gamers[1].gameScore!!.add("0")
+                    mainActivity.gameWithGamers.gamers[2].gameScore!!.add("0")
+                    mainActivity.gameWithGamers.gamers[3].gameScore!!.add(valueOfMinus)
                 }
             }
         }
