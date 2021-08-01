@@ -4,14 +4,12 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import app.first.my_deb.MainActivity
 import app.first.my_deb.R
@@ -129,7 +127,11 @@ class HistoryRecyclerViewAdapter(
 
 
         holder.timeStart.text = getDateTime(item.game.startTimestamp!!)
-        holder.timeEnd.text = getDateTime(item.game.endTimestamp!!)
+        if (item.game.endTimestamp == null) {
+            holder.timeEnd.text = getDateTime(System.currentTimeMillis())
+        } else {
+            holder.timeEnd.text = getDateTime(item.game.endTimestamp!!)
+        }
         holder.itemView.setOnClickListener { listener(item) }
         holder.restore.setOnClickListener {
             showMessageBoxRestoreGame(item)

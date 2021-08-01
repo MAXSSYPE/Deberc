@@ -1,6 +1,7 @@
 package app.first.my_deb
 
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Rect
@@ -30,6 +31,19 @@ import kotlinx.coroutines.*
 import studio.carbonylgroup.textfieldboxes.ExtendedEditText
 import java.math.BigDecimal
 import kotlin.coroutines.CoroutineContext
+import android.content.DialogInterface
+
+import org.json.JSONObject
+
+import android.app.ProgressDialog
+
+import android.os.AsyncTask
+
+import android.content.pm.PackageManager
+
+import android.content.pm.PackageInfo
+import android.provider.DocumentsContract
+import java.lang.Exception
 
 
 class MainActivity : CyaneaAppCompatActivity(), CalcDialog.CalcDialogCallback {
