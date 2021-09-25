@@ -32,5 +32,6 @@
     <string name="bolt">Ulteriori sanzioni</string>
     <string name="countOfNails">Conteggio delle sanzioni</string>
     <string name="valueOfMinus">Valore della penalità</string>
+    <string name="addOnBolt">Aggiungi un punteggio all`avversario quando premi i rigori</string>
     <string name="restore_game">Ripristinare il gioco?</string>
 </resources>

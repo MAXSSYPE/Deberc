@@ -32,5 +32,6 @@
     <string name="bolt">Dodatkowe kary</string>
     <string name="countOfNails">Liczba kar</string>
     <string name="valueOfMinus">Wartość kary</string>
+    <string name="addOnBolt">Dodaj wynik przeciwnikowi, gdy nałożysz kary</string>
     <string name="restore_game">Przywrócić grę?</string>
 </resources>

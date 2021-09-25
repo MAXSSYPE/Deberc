@@ -24,7 +24,7 @@ interface Dao {
     @Transaction
     suspend fun addGameToInactive(id: Int) {
         val oldGames = ArrayList<GameWithGamers>(getInactiveGames())
-        println("test " + oldGames)
+
         while (oldGames.size >= 10) {
             nukeGame(oldGames.last().game.id!!)
             oldGames.removeLast()

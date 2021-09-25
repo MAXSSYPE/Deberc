@@ -1,19 +1,14 @@
 package app.first.my_deb
 
+
 import android.app.AlertDialog
-import android.app.Dialog
-import android.content.Context
-import android.content.Intent
+import android.content.*
 import android.graphics.Rect
 import android.os.Build
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
+import android.view.*
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
+import android.widget.*
 import androidx.preference.PreferenceManager
 import androidx.viewpager.widget.ViewPager
 import app.first.my_deb.database.*
@@ -25,25 +20,15 @@ import app.first.my_deb.utils.ContextWrapper
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
+import com.google.android.play.core.review.ReviewInfo
+import com.google.android.play.core.review.ReviewManagerFactory
+import com.google.android.play.core.tasks.Task
 import com.jaredrummler.cyanea.app.CyaneaAppCompatActivity
 import com.maltaisn.calcdialog.CalcDialog
 import kotlinx.coroutines.*
 import studio.carbonylgroup.textfieldboxes.ExtendedEditText
 import java.math.BigDecimal
 import kotlin.coroutines.CoroutineContext
-import android.content.DialogInterface
-
-import org.json.JSONObject
-
-import android.app.ProgressDialog
-
-import android.os.AsyncTask
-
-import android.content.pm.PackageManager
-
-import android.content.pm.PackageInfo
-import android.provider.DocumentsContract
-import java.lang.Exception
 
 
 class MainActivity : CyaneaAppCompatActivity(), CalcDialog.CalcDialogCallback {
@@ -129,10 +114,12 @@ class MainActivity : CyaneaAppCompatActivity(), CalcDialog.CalcDialogCallback {
         CoroutineScope(coroutineContext).launch {
             if (dao.activeGameExists(type!!)) {
                 gameWithGamers = dao.getActiveGame(type)
+                gameWithGamers.gamers = gameWithGamers.gamers.sortedBy { it.number }
             } else {
                 gameWithGamers = createDefaultGameAndGamers(type)
                 dao.upsertByReplacementGame(gameWithGamers)
                 gameWithGamers = dao.getActiveGame(type)
+                gameWithGamers.gamers = gameWithGamers.gamers.sortedBy { it.number }
             }
 
             println("test " + dao.getInactiveGames())
@@ -180,7 +167,7 @@ class MainActivity : CyaneaAppCompatActivity(), CalcDialog.CalcDialogCallback {
         saveText()
     }
 
-    private fun saveText() {
+    fun saveText() {
         CoroutineScope(coroutineContext).launch { dao.upsertByReplacementGame(gameWithGamers) }
     }
 
@@ -251,5 +238,24 @@ class MainActivity : CyaneaAppCompatActivity(), CalcDialog.CalcDialogCallback {
         /*messageBoxView.setOnClickListener(){
             messageBoxInstance.dismiss()
         }*/
+    }
+
+    fun showRateDialog() {
+        val manager = ReviewManagerFactory.create(this)
+        val request: Task<ReviewInfo> = manager.requestReviewFlow()
+        request.addOnCompleteListener { task ->
+            try {
+                if (task.isSuccessful) {
+                    val reviewInfo: ReviewInfo = task.result
+                    val flow: Task<Void> = manager.launchReviewFlow(this, reviewInfo)
+                    flow.addOnCompleteListener {
+
+                    }
+                } else {
+
+                }
+            } catch (ex: Exception) {
+            }
+        }
     }
 }

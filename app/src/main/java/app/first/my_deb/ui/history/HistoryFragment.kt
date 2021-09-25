@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import app.first.my_deb.MainActivity
 import app.first.my_deb.R
 import app.first.my_deb.database.GameWithGamers
+import app.first.my_deb.utils.fadInAnimation
 import com.jaredrummler.cyanea.app.CyaneaFragment
 import kotlinx.coroutines.runBlocking
 
@@ -44,7 +45,9 @@ class HistoryFragment : CyaneaFragment() {
         runBlocking {
             games = mainActivity.dao.getInactiveGames()
         }
-
+        if (view.findViewById<RecyclerView>(R.id.list).adapter == null) {
+            view.fadInAnimation(500)
+        }
         view.findViewById<RecyclerView>(R.id.list).adapter = setAdapter(games)
         if (games.isNullOrEmpty()) {
             requireActivity().findViewById<TextView>(R.id.empty).visibility = View.VISIBLE

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Деберц: запис баллів</string>
+    <string name="app_name">Деберц: запис балів</string>
     <string name="exit">Вы впевнені, що хочете вийти?</string>
     <string name="yes">Так</string>
     <string name="no">Ні</string>
@@ -32,6 +32,7 @@
     <string name="bolt">Болти</string>
     <string name="countOfNails">Кількість болтів</string>
     <string name="valueOfMinus">Величина штрафу</string>
+    <string name="addOnBolt">Додавати бали супернику при болті</string>
     <string name="on">Увімк</string>
     <string name="off">Вимк</string>
     <string name="restore_game">Відновити гру?</string>

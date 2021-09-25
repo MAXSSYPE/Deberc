@@ -32,4 +32,6 @@
     <string name="bolt">Zusätzliche Strafen</string>
     <string name="countOfNails">Anzahl der Strafen</string>
     <string name="valueOfMinus">Spiel wiederherstellen?</string>
+    <string name="addOnBolt">Füge dem Gegner eine Punktzahl hinzu, wenn du Elfmeter drückst</string>
+    <string name="restore_game">Spiel wiederherstellen?</string>
 </resources>

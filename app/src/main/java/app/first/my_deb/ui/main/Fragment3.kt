@@ -2,6 +2,8 @@ package app.first.my_deb.ui.main
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.ClipData
+import android.content.ClipDescription
 import android.content.Context
 import android.os.Bundle
 import android.view.KeyEvent
@@ -17,11 +19,15 @@ import androidx.core.view.isVisible
 import androidx.preference.PreferenceManager
 import app.first.my_deb.MainActivity
 import app.first.my_deb.R
+import app.first.my_deb.utils.MyDragShadowBuilder
+import app.first.my_deb.utils.OnDragListener
+import app.first.my_deb.utils.fadInAnimation
 import app.first.my_deb.utils.setTextAnimation
 import com.andremion.counterfab.CounterFab
 import com.jaredrummler.cyanea.app.CyaneaFragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import studio.carbonylgroup.textfieldboxes.TextFieldBoxes
 
 class Fragment3 : CyaneaFragment() {
 
@@ -55,6 +61,14 @@ class Fragment3 : CyaneaFragment() {
         name1 = view.findViewById(R.id.name1)
         name2 = view.findViewById(R.id.name2)
         name3 = view.findViewById(R.id.name3)
+
+        resultField1.setOnLongClickListener(longClickListener)
+        resultField2.setOnLongClickListener(longClickListener)
+        resultField3.setOnLongClickListener(longClickListener)
+        resultField1.setOnDragListener(OnDragListener(mainActivity, view, activateNames))
+        resultField2.setOnDragListener(OnDragListener(mainActivity, view, activateNames))
+        resultField3.setOnDragListener(OnDragListener(mainActivity, view, activateNames))
+
         newButton = view.findViewById(R.id.button_new)
         newButton.setOnClickListener {
             onNewClick()
@@ -122,6 +136,8 @@ class Fragment3 : CyaneaFragment() {
                     requireActivity().currentFocus!!.windowToken, 0)
         }
         loadText()
+        view.fadInAnimation(700)
+        activateNames(view)
         return view
     }
 
@@ -200,6 +216,7 @@ class Fragment3 : CyaneaFragment() {
                     mainActivity.initGame()
                 }
                 messageBoxInstance.dismiss()
+                mainActivity.showRateDialog()
             } catch (ignored: Exception) {
             }
         }
@@ -333,5 +350,41 @@ class Fragment3 : CyaneaFragment() {
         counterBolt1.isVisible = hasBolt
         counterBolt2.isVisible = hasBolt
         counterBolt3.isVisible = hasBolt
+    }
+
+    val activateNames = { v: View ->
+        val box1 = v.findViewById(R.id.box1) as TextFieldBoxes
+        val box2 = v.findViewById(R.id.box2) as TextFieldBoxes
+        val box3 = v.findViewById(R.id.box3) as TextFieldBoxes
+        box1.hasFocus = true
+        box2.hasFocus = true
+        box3.hasFocus = true
+        box3.clearFocus()
+    }
+
+    val longClickListener = View.OnLongClickListener { v: View ->
+        val item = ClipData.Item((v as TextView).x.toString() as CharSequence)
+        val dragData = ClipData(
+            v as? CharSequence,
+            arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN),
+            item)
+
+        val myShadow = MyDragShadowBuilder(v)
+
+        if (android.os.Build.VERSION.SDK_INT <= 23) {
+            v.startDrag(
+                dragData,
+                myShadow,
+                null,
+                0
+            )
+        } else {
+            v.startDragAndDrop(
+                dragData,
+                myShadow,
+                null,
+                0
+            )
+        }
     }
 }

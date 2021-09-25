@@ -38,5 +38,5 @@ data class GameWithGamers(
                 parentColumn = "id",
                 entityColumn = "gameId"
         )
-        val gamers: List<GamerEntity>
+        var gamers: List<GamerEntity>
 )

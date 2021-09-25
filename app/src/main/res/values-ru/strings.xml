@@ -32,6 +32,7 @@
     <string name="bolt">Болты</string>
     <string name="countOfNails">Количество болтов</string>
     <string name="valueOfMinus">Стоимость штрафа</string>
+    <string name="addOnBolt">Добавлять очки противнику при болте</string>
     <string name="on">Вкл</string>
     <string name="off">Выкл</string>
     <string name="restore_game">Восстановить игру?</string>

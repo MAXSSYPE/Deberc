@@ -2,6 +2,8 @@ package app.first.my_deb.ui.main
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.ClipData
+import android.content.ClipDescription
 import android.content.Context
 import android.graphics.Typeface
 import android.os.Bundle
@@ -19,12 +21,16 @@ import androidx.core.view.isVisible
 import androidx.preference.PreferenceManager
 import app.first.my_deb.MainActivity
 import app.first.my_deb.R
+import app.first.my_deb.utils.MyDragShadowBuilder
+import app.first.my_deb.utils.OnDragListener
+import app.first.my_deb.utils.fadInAnimation
 import app.first.my_deb.utils.setTextAnimation
 import com.andremion.counterfab.CounterFab
 import com.jaredrummler.cyanea.app.CyaneaFragment
 import com.shawnlin.numberpicker.NumberPicker
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import studio.carbonylgroup.textfieldboxes.TextFieldBoxes
 
 
 class Fragment2x2 : CyaneaFragment() {
@@ -33,6 +39,8 @@ class Fragment2x2 : CyaneaFragment() {
     private lateinit var resultField2: TextView
     private lateinit var numberField1: EditText
     private lateinit var numberField2: EditText
+    private lateinit var box1: TextFieldBoxes
+    private lateinit var box2: TextFieldBoxes
     private lateinit var name1: TextView
     private lateinit var name2: TextView
     private lateinit var newButton: Button
@@ -41,10 +49,31 @@ class Fragment2x2 : CyaneaFragment() {
     private lateinit var mainActivity: MainActivity
     private lateinit var counterBolt1: CounterFab
     private lateinit var counterBolt2: CounterFab
+    private val data = arrayOf(
+        "162",
+        "182",
+        "202",
+        "212",
+        "222",
+        "232",
+        "242",
+        "252",
+        "262",
+        "272",
+        "282",
+        "292",
+        "302",
+        "312",
+        "322",
+        "332",
+        "342",
+        "362",
+        "382"
+    )
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         val view = inflater.inflate(R.layout.fragment_2x2, container, false)
 
@@ -55,6 +84,14 @@ class Fragment2x2 : CyaneaFragment() {
         resultField2 = view.findViewById(R.id.resultField2)
         name1 = view.findViewById(R.id.name1)
         name2 = view.findViewById(R.id.name2)
+        box1 = view.findViewById(R.id.box1) as TextFieldBoxes
+        box2 = view.findViewById(R.id.box2) as TextFieldBoxes
+
+        resultField1.setOnLongClickListener(longClickListener)
+        resultField2.setOnLongClickListener(longClickListener)
+        resultField1.setOnDragListener(OnDragListener(mainActivity, view, activateNames))
+        resultField2.setOnDragListener(OnDragListener(mainActivity, view, activateNames))
+
         newButton = view.findViewById(R.id.button_new)
         newButton.setOnClickListener {
             onNewClick()
@@ -74,24 +111,41 @@ class Fragment2x2 : CyaneaFragment() {
         counterBolt1 = view.findViewById(R.id.counter_bolt1) as CounterFab
         counterBolt2 = view.findViewById(R.id.counter_bolt2) as CounterFab
         numberPicker = view.findViewById(R.id.number_picker)
-        val data = arrayOf("162", "182", "202", "212", "222", "232", "242", "252", "262", "272", "282", "292", "302", "312", "322", "332", "342", "362", "382")
+
         numberPicker.minValue = 1
         numberPicker.maxValue = 19
         numberPicker.displayedValues = data
         numberPicker.setOnClickListener {
             try {
-                if (!(numberField1.text.toString().isEmpty() && numberField2.text.toString().isEmpty()) || !(numberField1.text.toString().isNotEmpty() && numberField2.text.toString().isNotEmpty())) {
-                    if (numberField1.text.toString().isNotEmpty() && numberField1.text.toString().toInt() > 0) {
-                        if (numberField1.text.toString() != "" && numberField1.text.toString() != "-" && numberField1.text.toString().toInt() >= 0 && numberField1.text.toString().toInt() <= data[numberPicker.value - 1].toInt()) {
-                            numberField2.hint = (data[numberPicker.value - 1].toInt() - numberField1.text.toString().toInt()).toString()
+                if (!(numberField1.text.toString().isEmpty() && numberField2.text.toString()
+                        .isEmpty()) || !(numberField1.text.toString()
+                        .isNotEmpty() && numberField2.text.toString().isNotEmpty())
+                ) {
+                    if (numberField1.text.toString().isNotEmpty() && numberField1.text.toString()
+                            .toInt() > 0
+                    ) {
+                        if (numberField1.text.toString() != "" && numberField1.text.toString() != "-" && numberField1.text.toString()
+                                .toInt() >= 0 && numberField1.text.toString()
+                                .toInt() <= data[numberPicker.value - 1].toInt()
+                        ) {
+                            numberField2.hint =
+                                (data[numberPicker.value - 1].toInt() - numberField1.text.toString()
+                                    .toInt()).toString()
                         } else {
                             numberField1.hint = "0"
                             numberField2.hint = "0"
                         }
                     }
-                    if (numberField2.text.toString().isNotEmpty() && numberField2.text.toString().toInt() > 0) {
-                        if (numberField2.text.toString() != "" && numberField2.text.toString() != "-" && numberField2.text.toString().toInt() >= 0 && numberField2.text.toString().toInt() <= data[numberPicker.value - 1].toInt()) {
-                            numberField1.hint = (data[numberPicker.value - 1].toInt() - numberField2.text.toString().toInt()).toString()
+                    if (numberField2.text.toString().isNotEmpty() && numberField2.text.toString()
+                            .toInt() > 0
+                    ) {
+                        if (numberField2.text.toString() != "" && numberField2.text.toString() != "-" && numberField2.text.toString()
+                                .toInt() >= 0 && numberField2.text.toString()
+                                .toInt() <= data[numberPicker.value - 1].toInt()
+                        ) {
+                            numberField1.hint =
+                                (data[numberPicker.value - 1].toInt() - numberField2.text.toString()
+                                    .toInt()).toString()
                         } else {
                             numberField1.hint = "0"
                             numberField2.hint = "0"
@@ -103,18 +157,35 @@ class Fragment2x2 : CyaneaFragment() {
         }
         numberPicker.setOnValueChangedListener { picker: NumberPicker, _: Int, _: Int ->
             try {
-                if (!(numberField1.text.toString().isEmpty() && numberField2.text.toString().isEmpty()) || !(numberField1.text.toString().isNotEmpty() && numberField2.text.toString().isNotEmpty())) {
-                    if (numberField1.text.toString().isNotEmpty() && numberField1.text.toString().toInt() > 0) {
-                        if (numberField1.text.toString() != "" && numberField1.text.toString() != "-" && numberField1.text.toString().toInt() >= 0 && numberField1.text.toString().toInt() <= data[picker.value - 1].toInt()) {
-                            numberField2.hint = (data[picker.value - 1].toInt() - numberField1.text.toString().toInt()).toString()
+                if (!(numberField1.text.toString().isEmpty() && numberField2.text.toString()
+                        .isEmpty()) || !(numberField1.text.toString()
+                        .isNotEmpty() && numberField2.text.toString().isNotEmpty())
+                ) {
+                    if (numberField1.text.toString().isNotEmpty() && numberField1.text.toString()
+                            .toInt() > 0
+                    ) {
+                        if (numberField1.text.toString() != "" && numberField1.text.toString() != "-" && numberField1.text.toString()
+                                .toInt() >= 0 && numberField1.text.toString()
+                                .toInt() <= data[picker.value - 1].toInt()
+                        ) {
+                            numberField2.hint =
+                                (data[picker.value - 1].toInt() - numberField1.text.toString()
+                                    .toInt()).toString()
                         } else {
                             numberField1.hint = "0"
                             numberField2.hint = "0"
                         }
                     }
-                    if (numberField2.text.toString().isNotEmpty() && numberField2.text.toString().toInt() > 0) {
-                        if (numberField2.text.toString() != "" && numberField2.text.toString() != "-" && numberField2.text.toString().toInt() >= 0 && numberField2.text.toString().toInt() <= data[picker.value - 1].toInt()) {
-                            numberField1.hint = (data[picker.value - 1].toInt() - numberField2.text.toString().toInt()).toString()
+                    if (numberField2.text.toString().isNotEmpty() && numberField2.text.toString()
+                            .toInt() > 0
+                    ) {
+                        if (numberField2.text.toString() != "" && numberField2.text.toString() != "-" && numberField2.text.toString()
+                                .toInt() >= 0 && numberField2.text.toString()
+                                .toInt() <= data[picker.value - 1].toInt()
+                        ) {
+                            numberField1.hint =
+                                (data[picker.value - 1].toInt() - numberField2.text.toString()
+                                    .toInt()).toString()
                         } else {
                             numberField1.hint = "0"
                             numberField2.hint = "0"
@@ -130,18 +201,35 @@ class Fragment2x2 : CyaneaFragment() {
                     numberField2.hint = data[view.value - 1].toInt().toString()
                 } else if (numberField2.text.toString() == "0") {
                     numberField1.hint = data[view.value - 1].toInt().toString()
-                } else if (!(numberField1.text.toString().isEmpty() && numberField2.text.toString().isEmpty()) || !(numberField1.text.toString().isNotEmpty() && numberField2.text.toString().isNotEmpty())) {
-                    if (numberField1.text.toString().isNotEmpty() && numberField1.text.toString().toInt() > 0) {
-                        if (numberField1.text.toString() != "" && numberField1.text.toString() != "-" && numberField1.text.toString().toInt() >= 0 && numberField1.text.toString().toInt() <= data[view.value - 1].toInt()) {
-                            numberField2.hint = (data[view.value - 1].toInt() - numberField1.text.toString().toInt()).toString()
+                } else if (!(numberField1.text.toString().isEmpty() && numberField2.text.toString()
+                        .isEmpty()) || !(numberField1.text.toString()
+                        .isNotEmpty() && numberField2.text.toString().isNotEmpty())
+                ) {
+                    if (numberField1.text.toString().isNotEmpty() && numberField1.text.toString()
+                            .toInt() > 0
+                    ) {
+                        if (numberField1.text.toString() != "" && numberField1.text.toString() != "-" && numberField1.text.toString()
+                                .toInt() >= 0 && numberField1.text.toString()
+                                .toInt() <= data[view.value - 1].toInt()
+                        ) {
+                            numberField2.hint =
+                                (data[view.value - 1].toInt() - numberField1.text.toString()
+                                    .toInt()).toString()
                         } else {
                             numberField1.hint = "0"
                             numberField2.hint = "0"
                         }
                     }
-                    if (numberField2.text.toString().isNotEmpty() && numberField2.text.toString().toInt() > 0) {
-                        if (numberField2.text.toString() != "" && numberField2.text.toString() != "-" && numberField2.text.toString().toInt() >= 0 && numberField2.text.toString().toInt() <= data[view.value - 1].toInt()) {
-                            numberField1.hint = (data[view.value - 1].toInt() - numberField2.text.toString().toInt()).toString()
+                    if (numberField2.text.toString().isNotEmpty() && numberField2.text.toString()
+                            .toInt() > 0
+                    ) {
+                        if (numberField2.text.toString() != "" && numberField2.text.toString() != "-" && numberField2.text.toString()
+                                .toInt() >= 0 && numberField2.text.toString()
+                                .toInt() <= data[view.value - 1].toInt()
+                        ) {
+                            numberField1.hint =
+                                (data[view.value - 1].toInt() - numberField2.text.toString()
+                                    .toInt()).toString()
                         } else {
                             numberField1.hint = "0"
                             numberField2.hint = "0"
@@ -156,8 +244,13 @@ class Fragment2x2 : CyaneaFragment() {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
                 try {
-                    if (numberField1.text.toString() != "" && numberField1.text.toString() != "-" && numberField1.text.toString().toInt() >= 0 && numberField1.text.toString().toInt() <= data[numberPicker.value - 1].toInt()) {
-                        numberField2.hint = (data[numberPicker.value - 1].toInt() - numberField1.text.toString().toInt()).toString()
+                    if (numberField1.text.toString() != "" && numberField1.text.toString() != "-" && numberField1.text.toString()
+                            .toInt() >= 0 && numberField1.text.toString()
+                            .toInt() <= data[numberPicker.value - 1].toInt()
+                    ) {
+                        numberField2.hint =
+                            (data[numberPicker.value - 1].toInt() - numberField1.text.toString()
+                                .toInt()).toString()
                     } else {
                         numberField1.hint = "0"
                         numberField2.hint = "0"
@@ -173,8 +266,13 @@ class Fragment2x2 : CyaneaFragment() {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
                 try {
-                    if (numberField2.text.toString() != "" && numberField2.text.toString() != "-" && numberField2.text.toString().toInt() >= 0 && numberField2.text.toString().toInt() <= data[numberPicker.value - 1].toInt()) {
-                        numberField1.hint = (data[numberPicker.value - 1].toInt() - numberField2.text.toString().toInt()).toString()
+                    if (numberField2.text.toString() != "" && numberField2.text.toString() != "-" && numberField2.text.toString()
+                            .toInt() >= 0 && numberField2.text.toString()
+                            .toInt() <= data[numberPicker.value - 1].toInt()
+                    ) {
+                        numberField1.hint =
+                            (data[numberPicker.value - 1].toInt() - numberField2.text.toString()
+                                .toInt()).toString()
                     } else {
                         numberField1.hint = "0"
                         numberField2.hint = "0"
@@ -189,28 +287,36 @@ class Fragment2x2 : CyaneaFragment() {
         numberField1.setOnEditorActionListener { _, _, _ ->
             onClick()
             val inputMethodManager = requireActivity().getSystemService(
-                    Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                Activity.INPUT_METHOD_SERVICE
+            ) as InputMethodManager
             inputMethodManager.hideSoftInputFromWindow(
-                    requireActivity().currentFocus!!.windowToken, 0)
+                requireActivity().currentFocus!!.windowToken, 0
+            )
         }
         numberField2.setOnEditorActionListener { _, _, _ ->
             onClick()
             val inputMethodManager = requireActivity().getSystemService(
-                    Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                Activity.INPUT_METHOD_SERVICE
+            ) as InputMethodManager
             inputMethodManager.hideSoftInputFromWindow(
-                    requireActivity().currentFocus!!.windowToken, 0)
+                requireActivity().currentFocus!!.windowToken, 0
+            )
         }
         name1.setOnEditorActionListener { _, _, _ ->
             val inputMethodManager = requireActivity().getSystemService(
-                    Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                Activity.INPUT_METHOD_SERVICE
+            ) as InputMethodManager
             inputMethodManager.hideSoftInputFromWindow(
-                    requireActivity().currentFocus!!.windowToken, 0)
+                requireActivity().currentFocus!!.windowToken, 0
+            )
         }
         name2.setOnEditorActionListener { _, _, _ ->
             val inputMethodManager = requireActivity().getSystemService(
-                    Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                Activity.INPUT_METHOD_SERVICE
+            ) as InputMethodManager
             inputMethodManager.hideSoftInputFromWindow(
-                    requireActivity().currentFocus!!.windowToken, 0)
+                requireActivity().currentFocus!!.windowToken, 0
+            )
         }
         loadText()
         val pref = PreferenceManager.getDefaultSharedPreferences(requireActivity())
@@ -218,14 +324,20 @@ class Fragment2x2 : CyaneaFragment() {
         numberPicker.setSelectedTypeface(Typeface.createFromAsset(requireContext().assets, font))
         numberPicker.typeface = Typeface.createFromAsset(requireContext().assets, font)
 
+        view.fadInAnimation(700)
+        activateNames(view)
         return view
     }
 
     private fun onClick() {
-        val imm = requireActivity().applicationContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm =
+            requireActivity().applicationContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         if (imm.isAcceptingText) {
             assert(imm != null)
-            imm.hideSoftInputFromWindow(requireActivity().currentFocus!!.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+            imm.hideSoftInputFromWindow(
+                requireActivity().currentFocus!!.windowToken,
+                InputMethodManager.HIDE_NOT_ALWAYS
+            )
         }
         if (!(numberField1.text.toString() == "" && numberField2.text.toString() == "")) {
             try {
@@ -233,11 +345,13 @@ class Fragment2x2 : CyaneaFragment() {
                 val prev2 = resultField2.text.toString().toInt()
                 val now1: Int
                 val now2: Int
-                if (numberField1.text.toString() != "") now1 = numberField1.text.toString().toInt() else {
+                if (numberField1.text.toString() != "") now1 =
+                    numberField1.text.toString().toInt() else {
                     now1 = numberField1.hint.toString().toInt()
                     numberField1.setText(numberField1.hint.toString())
                 }
-                if (numberField2.text.toString() != "") now2 = numberField2.text.toString().toInt() else {
+                if (numberField2.text.toString() != "") now2 =
+                    numberField2.text.toString().toInt() else {
                     now2 = numberField2.hint.toString().toInt()
                     numberField2.setText(numberField2.hint.toString())
                 }
@@ -287,11 +401,15 @@ class Fragment2x2 : CyaneaFragment() {
                 counterBolt2.count = 0
 
                 CoroutineScope(mainActivity.coroutineContext).launch {
-                    mainActivity.dao.setEndTime(mainActivity.gameWithGamers.game.id!!, System.currentTimeMillis())
+                    mainActivity.dao.setEndTime(
+                        mainActivity.gameWithGamers.game.id!!,
+                        System.currentTimeMillis()
+                    )
                     mainActivity.dao.addGameToInactive(mainActivity.gameWithGamers.game.id!!)
                     mainActivity.initGame()
                 }
                 messageBoxInstance.dismiss()
+                mainActivity.showRateDialog()
             } catch (ignored: Exception) {
             }
         }
@@ -320,7 +438,16 @@ class Fragment2x2 : CyaneaFragment() {
     override fun onResume() {
         super.onResume()
         loadText()
-        setBoltButtons(PreferenceManager.getDefaultSharedPreferences(requireContext()).getBoolean("hasBolt", false))
+        setBoltButtons(
+            PreferenceManager.getDefaultSharedPreferences(requireContext())
+                .getBoolean("hasBolt", false)
+        )
+        val sPref = requireContext().getSharedPreferences("Save.txt", Context.MODE_PRIVATE)
+        val type = sPref.getString("type", "1")
+        if (type != "1") {
+            box1.labelText = getString(R.string.gamer1)
+            box2.labelText = getString(R.string.gamer2)
+        }
     }
 
     private fun saveText() {
@@ -354,46 +481,134 @@ class Fragment2x2 : CyaneaFragment() {
         else
             mainActivity.gameWithGamers.gamers[1].bolts!!
 
-        setBoltButtons(PreferenceManager.getDefaultSharedPreferences(requireContext()).getBoolean("hasBolt", false))
+        setBoltButtons(
+            PreferenceManager.getDefaultSharedPreferences(requireContext())
+                .getBoolean("hasBolt", false)
+        )
     }
 
     private fun setBoltButtons(hasBolt: Boolean) {
         setVisibleBolt(hasBolt)
         if (hasBolt) {
             counterBolt1.setOnClickListener {
-                val valueOfMinus = PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("valueOfMinus", "-100")!!
+                val valueOfMinus = PreferenceManager.getDefaultSharedPreferences(requireContext())
+                    .getString("valueOfMinus", "-100")!!
                 counterBolt1.increase()
-                if (counterBolt1.count == PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("countOfNails", "3")!!.toInt()) {
+                if (counterBolt1.count == PreferenceManager.getDefaultSharedPreferences(
+                        requireContext()
+                    ).getString("countOfNails", "3")!!.toInt()
+                ) {
                     counterBolt1.count = 0
                     if (resultField1.text.toString() == "")
                         resultField1.setTextAnimation(valueOfMinus, 200)
                     else
-                        resultField1.setTextAnimation((resultField1.text.toString().toInt() + valueOfMinus.toInt()).toString(), 200)
+                        resultField1.setTextAnimation(
+                            (resultField1.text.toString()
+                                .toInt() + valueOfMinus.toInt()).toString(), 200
+                        )
+
+                    if (PreferenceManager.getDefaultSharedPreferences(requireContext())
+                            .getBoolean("addOnBolt", false)
+                    ) {
+                        resultField2.setTextAnimation(
+                            (resultField2.text.toString()
+                                .toInt() + data[numberPicker.value - 1].toInt()).toString(), 200
+                        )
+                        mainActivity.gameWithGamers.gamers[1].gameScore!!.add(data[numberPicker.value - 1])
+                    } else
+                        mainActivity.gameWithGamers.gamers[1].gameScore!!.add("0")
 
                     mainActivity.gameWithGamers.gamers[0].gameScore!!.add(valueOfMinus)
-                    mainActivity.gameWithGamers.gamers[1].gameScore!!.add("0")
+                } else if (PreferenceManager.getDefaultSharedPreferences(requireContext())
+                        .getBoolean("addOnBolt", false)
+                ) {
+                    resultField2.setTextAnimation(
+                        (resultField2.text.toString()
+                            .toInt() + data[numberPicker.value - 1].toInt()).toString(), 200
+                    )
+                    mainActivity.gameWithGamers.gamers[1].gameScore!!.add(data[numberPicker.value - 1])
+                    mainActivity.gameWithGamers.gamers[0].gameScore!!.add("0")
                 }
             }
+        }
 
-            counterBolt2.setOnClickListener {
-                val valueOfMinus = PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("valueOfMinus", "-100")!!
-                counterBolt2.increase()
-                if (counterBolt2.count == PreferenceManager.getDefaultSharedPreferences(requireContext()).getString("countOfNails", "3")!!.toInt()) {
-                    counterBolt2.count = 0
-                    if (resultField2.text.toString() == "")
-                        resultField2.setTextAnimation(valueOfMinus, 200)
-                    else
-                        resultField2.setTextAnimation((resultField2.text.toString().toInt() + valueOfMinus.toInt()).toString(), 200)
+        counterBolt2.setOnClickListener {
+            val valueOfMinus = PreferenceManager.getDefaultSharedPreferences(requireContext())
+                .getString("valueOfMinus", "-100")!!
+            counterBolt2.increase()
+            if (counterBolt2.count == PreferenceManager.getDefaultSharedPreferences(requireContext())
+                    .getString("countOfNails", "3")!!.toInt()
+            ) {
+                counterBolt2.count = 0
+                if (resultField2.text.toString() == "")
+                    resultField2.setTextAnimation(valueOfMinus, 200)
+                else
+                    resultField2.setTextAnimation(
+                        (resultField2.text.toString().toInt() + valueOfMinus.toInt()).toString(),
+                        200
+                    )
 
+                if (PreferenceManager.getDefaultSharedPreferences(requireContext())
+                        .getBoolean("addOnBolt", false)
+                ) {
+                    resultField1.setTextAnimation(
+                        (resultField1.text.toString()
+                            .toInt() + data[numberPicker.value - 1].toInt()).toString(), 200
+                    )
+                    mainActivity.gameWithGamers.gamers[0].gameScore!!.add(data[numberPicker.value - 1])
+                } else
                     mainActivity.gameWithGamers.gamers[0].gameScore!!.add("0")
-                    mainActivity.gameWithGamers.gamers[1].gameScore!!.add(valueOfMinus)
-                }
+
+                mainActivity.gameWithGamers.gamers[1].gameScore!!.add(valueOfMinus)
+            } else if (PreferenceManager.getDefaultSharedPreferences(requireContext())
+                    .getBoolean("addOnBolt", false)
+            ) {
+                resultField1.setTextAnimation(
+                    (resultField1.text.toString()
+                        .toInt() + data[numberPicker.value - 1].toInt()).toString(), 200
+                )
+                mainActivity.gameWithGamers.gamers[0].gameScore!!.add(data[numberPicker.value - 1])
+                mainActivity.gameWithGamers.gamers[1].gameScore!!.add("0")
             }
         }
     }
 
+
     private fun setVisibleBolt(hasBolt: Boolean) {
         counterBolt1.isVisible = hasBolt
         counterBolt2.isVisible = hasBolt
+    }
+
+    val activateNames = { _: View ->
+        box1.hasFocus = true
+        box2.hasFocus = true
+        box2.clearFocus()
+    }
+
+    val longClickListener = View.OnLongClickListener { v: View ->
+        val item = ClipData.Item((v as TextView).x.toString() as CharSequence)
+        val dragData = ClipData(
+            v as? CharSequence,
+            arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN),
+            item
+        )
+
+        val myShadow = MyDragShadowBuilder(v)
+
+        if (android.os.Build.VERSION.SDK_INT <= 23) {
+            v.startDrag(
+                dragData,
+                myShadow,
+                null,
+                0
+            )
+        } else {
+            v.startDragAndDrop(
+                dragData,
+                myShadow,
+                null,
+                0
+            )
+        }
     }
 }

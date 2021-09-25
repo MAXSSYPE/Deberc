@@ -17,55 +17,56 @@
          ads:adUnitId="ca-app-pub-5807744662830254/7731288859" />
  -->
     <LinearLayout
+        android:id="@+id/names"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <EditText
             android:id="@+id/name1"
-            android:maxLength="5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8sp"
             android:layout_weight="1"
             android:hint="@string/gamer1"
-            android:inputType="textPersonName"
+            android:inputType="textCapSentences"
+            android:maxLength="5"
             android:textAlignment="center"
             android:textSize="14sp" />
 
         <EditText
             android:id="@+id/name2"
-            android:maxLength="5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8sp"
             android:layout_weight="1"
             android:hint="@string/gamer2"
-            android:inputType="textPersonName"
+            android:inputType="textCapSentences"
+            android:maxLength="5"
             android:textAlignment="center"
             android:textSize="14sp" />
 
         <EditText
             android:id="@+id/name3"
-            android:maxLength="5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8sp"
             android:layout_weight="1"
             android:hint="@string/gamer3"
-            android:inputType="textPersonName"
+            android:inputType="textCapSentences"
+            android:maxLength="5"
             android:textAlignment="center"
             android:textSize="14sp" />
 
         <EditText
             android:id="@+id/name4"
-            android:maxLength="5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8sp"
             android:layout_weight="1"
             android:hint="@string/gamer4"
-            android:inputType="textPersonName"
+            android:inputType="textCapSentences"
+            android:maxLength="5"
             android:textAlignment="center"
             android:textSize="14sp" />
 
@@ -80,6 +81,7 @@
         android:textSize="28sp" />
 
     <LinearLayout
+        android:id="@+id/results"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -134,6 +136,7 @@
         android:textSize="28sp" />
 
     <LinearLayout
+        android:id="@+id/numbers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">

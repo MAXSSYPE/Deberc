@@ -130,6 +130,7 @@ class MenuActivity : CyaneaAppCompatActivity() {
                 findPreference<SwitchPreference>("hasBolt")!!.isChecked
             findPreference<DropDownPreference>("countOfNails")!!.isVisible = hasBolt
             findPreference<DropDownPreference>("valueOfMinus")!!.isVisible = hasBolt
+            findPreference<SwitchPreference>("addOnBolt")!!.isVisible = hasBolt
         }
     }
 
