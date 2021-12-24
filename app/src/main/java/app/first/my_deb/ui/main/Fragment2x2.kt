@@ -121,8 +121,9 @@ class Fragment2x2 : CyaneaFragment() {
                         .isEmpty()) || !(numberField1.text.toString()
                         .isNotEmpty() && numberField2.text.toString().isNotEmpty())
                 ) {
-                    if (numberField1.text.toString().isNotEmpty() && numberField1.text.toString()
-                            .toInt() > 0
+                    if (numberField1.text.toString().isNotEmpty() && (numberField1.text.toString()
+                            .toInt() > 0 || numberField1.text.toString()
+                            .toInt() < 0)
                     ) {
                         if (numberField1.text.toString() != "" && numberField1.text.toString() != "-" && numberField1.text.toString()
                                 .toInt() >= 0 && numberField1.text.toString()
@@ -131,14 +132,18 @@ class Fragment2x2 : CyaneaFragment() {
                             numberField2.hint =
                                 (data[numberPicker.value - 1].toInt() - numberField1.text.toString()
                                     .toInt()).toString()
+                        } else if (numberField1.text.toString().toInt() < 0) {
+                            numberField2.hint =
+                                data[numberPicker.value - 1]
                         } else {
                             numberField1.hint = "0"
                             numberField2.hint = "0"
                         }
                     }
-                    if (numberField2.text.toString().isNotEmpty() && numberField2.text.toString()
-                            .toInt() > 0
-                    ) {
+                    if (numberField2.text.toString().isNotEmpty() && (numberField2.text.toString()
+                            .toInt() > 0 || numberField2.text.toString()
+                            .toInt() < 0)
+                                ) {
                         if (numberField2.text.toString() != "" && numberField2.text.toString() != "-" && numberField2.text.toString()
                                 .toInt() >= 0 && numberField2.text.toString()
                                 .toInt() <= data[numberPicker.value - 1].toInt()
@@ -146,6 +151,9 @@ class Fragment2x2 : CyaneaFragment() {
                             numberField1.hint =
                                 (data[numberPicker.value - 1].toInt() - numberField2.text.toString()
                                     .toInt()).toString()
+                        } else if (numberField2.text.toString().toInt() < 0) {
+                            numberField1.hint =
+                                data[numberPicker.value - 1]
                         } else {
                             numberField1.hint = "0"
                             numberField2.hint = "0"
@@ -161,8 +169,9 @@ class Fragment2x2 : CyaneaFragment() {
                         .isEmpty()) || !(numberField1.text.toString()
                         .isNotEmpty() && numberField2.text.toString().isNotEmpty())
                 ) {
-                    if (numberField1.text.toString().isNotEmpty() && numberField1.text.toString()
-                            .toInt() > 0
+                    if (numberField1.text.toString().isNotEmpty() && (numberField1.text.toString()
+                            .toInt() > 0 || numberField1.text.toString()
+                            .toInt() < 0)
                     ) {
                         if (numberField1.text.toString() != "" && numberField1.text.toString() != "-" && numberField1.text.toString()
                                 .toInt() >= 0 && numberField1.text.toString()
@@ -171,13 +180,17 @@ class Fragment2x2 : CyaneaFragment() {
                             numberField2.hint =
                                 (data[picker.value - 1].toInt() - numberField1.text.toString()
                                     .toInt()).toString()
+                        } else if (numberField1.text.toString().toInt() < 0) {
+                            numberField2.hint =
+                                data[numberPicker.value - 1]
                         } else {
                             numberField1.hint = "0"
                             numberField2.hint = "0"
                         }
                     }
-                    if (numberField2.text.toString().isNotEmpty() && numberField2.text.toString()
-                            .toInt() > 0
+                    if (numberField2.text.toString().isNotEmpty() && (numberField2.text.toString()
+                            .toInt() > 0 || numberField2.text.toString()
+                            .toInt() < 0)
                     ) {
                         if (numberField2.text.toString() != "" && numberField2.text.toString() != "-" && numberField2.text.toString()
                                 .toInt() >= 0 && numberField2.text.toString()
@@ -186,6 +199,9 @@ class Fragment2x2 : CyaneaFragment() {
                             numberField1.hint =
                                 (data[picker.value - 1].toInt() - numberField2.text.toString()
                                     .toInt()).toString()
+                        } else if (numberField2.text.toString().toInt() < 0) {
+                            numberField1.hint =
+                                data[numberPicker.value - 1]
                         } else {
                             numberField1.hint = "0"
                             numberField2.hint = "0"
@@ -205,8 +221,9 @@ class Fragment2x2 : CyaneaFragment() {
                         .isEmpty()) || !(numberField1.text.toString()
                         .isNotEmpty() && numberField2.text.toString().isNotEmpty())
                 ) {
-                    if (numberField1.text.toString().isNotEmpty() && numberField1.text.toString()
-                            .toInt() > 0
+                    if (numberField1.text.toString().isNotEmpty() && (numberField1.text.toString()
+                            .toInt() > 0 || numberField1.text.toString()
+                            .toInt() < 0)
                     ) {
                         if (numberField1.text.toString() != "" && numberField1.text.toString() != "-" && numberField1.text.toString()
                                 .toInt() >= 0 && numberField1.text.toString()
@@ -215,13 +232,17 @@ class Fragment2x2 : CyaneaFragment() {
                             numberField2.hint =
                                 (data[view.value - 1].toInt() - numberField1.text.toString()
                                     .toInt()).toString()
+                        } else if (numberField1.text.toString().toInt() < 0) {
+                            numberField2.hint =
+                                data[numberPicker.value - 1]
                         } else {
                             numberField1.hint = "0"
                             numberField2.hint = "0"
                         }
                     }
-                    if (numberField2.text.toString().isNotEmpty() && numberField2.text.toString()
-                            .toInt() > 0
+                    if (numberField2.text.toString().isNotEmpty() && (numberField2.text.toString()
+                            .toInt() > 0 || numberField2.text.toString()
+                            .toInt() < 0)
                     ) {
                         if (numberField2.text.toString() != "" && numberField2.text.toString() != "-" && numberField2.text.toString()
                                 .toInt() >= 0 && numberField2.text.toString()
@@ -230,6 +251,9 @@ class Fragment2x2 : CyaneaFragment() {
                             numberField1.hint =
                                 (data[view.value - 1].toInt() - numberField2.text.toString()
                                     .toInt()).toString()
+                        } else if (numberField2.text.toString().toInt() < 0) {
+                            numberField1.hint =
+                                data[numberPicker.value - 1]
                         } else {
                             numberField1.hint = "0"
                             numberField2.hint = "0"
@@ -251,6 +275,9 @@ class Fragment2x2 : CyaneaFragment() {
                         numberField2.hint =
                             (data[numberPicker.value - 1].toInt() - numberField1.text.toString()
                                 .toInt()).toString()
+                    } else if (numberField1.text.toString().toInt() < 0) {
+                        numberField2.hint =
+                            data[numberPicker.value - 1]
                     } else {
                         numberField1.hint = "0"
                         numberField2.hint = "0"
@@ -273,6 +300,9 @@ class Fragment2x2 : CyaneaFragment() {
                         numberField1.hint =
                             (data[numberPicker.value - 1].toInt() - numberField2.text.toString()
                                 .toInt()).toString()
+                    } else if (numberField2.text.toString().toInt() < 0) {
+                        numberField1.hint =
+                            data[numberPicker.value - 1]
                     } else {
                         numberField1.hint = "0"
                         numberField2.hint = "0"
@@ -333,11 +363,12 @@ class Fragment2x2 : CyaneaFragment() {
         val imm =
             requireActivity().applicationContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         if (imm.isAcceptingText) {
-            assert(imm != null)
-            imm.hideSoftInputFromWindow(
-                requireActivity().currentFocus!!.windowToken,
-                InputMethodManager.HIDE_NOT_ALWAYS
-            )
+            if (imm != null && requireActivity().currentFocus != null) {
+                imm.hideSoftInputFromWindow(
+                    requireActivity().currentFocus!!.windowToken,
+                    InputMethodManager.HIDE_NOT_ALWAYS
+                )
+            }
         }
         if (!(numberField1.text.toString() == "" && numberField2.text.toString() == "")) {
             try {
@@ -365,7 +396,9 @@ class Fragment2x2 : CyaneaFragment() {
                 mainActivity.gameWithGamers.gamers[1].score = resultField2.text.toString().toInt()
 
                 numberField1.setText("")
+                numberField1.hint = "0"
                 numberField2.setText("")
+                numberField2.hint = "0"
                 numberPicker.value = 1
             } catch (ignored: Exception) {
             }

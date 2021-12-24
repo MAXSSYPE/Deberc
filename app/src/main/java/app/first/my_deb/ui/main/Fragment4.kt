@@ -170,8 +170,12 @@ class Fragment4 : CyaneaFragment() {
     private fun onClick() {
         val imm = requireActivity().applicationContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         if (imm.isAcceptingText) {
-            assert(imm != null)
-            imm.hideSoftInputFromWindow(requireActivity().currentFocus!!.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+            if (imm != null && requireActivity().currentFocus != null) {
+                imm.hideSoftInputFromWindow(
+                    requireActivity().currentFocus!!.windowToken,
+                    InputMethodManager.HIDE_NOT_ALWAYS
+                )
+            }
         }
         if (!(numberField1.text.toString() == "" && numberField2.text.toString() == "" && numberField3.text.toString() == "" && numberField4.text.toString() == "")) try {
             val prev1 = resultField1.text.toString().toInt()
