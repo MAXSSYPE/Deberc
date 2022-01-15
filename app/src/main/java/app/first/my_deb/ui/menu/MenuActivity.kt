@@ -143,7 +143,9 @@ class MenuActivity : CyaneaAppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
+        startActivity(Intent(this, MainActivity::class.java))
         overridePendingTransition(R.anim.appear, R.anim.disappear)
+        finish()
     }
 
     override fun attachBaseContext(newBase: Context) {

@@ -45,6 +45,7 @@
             android:layout_marginTop="10sp"
             android:layout_marginRight="20sp"
             android:textSize="20sp"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:text="@string/no"/>
         <Button
             android:id="@+id/message_box_yes"

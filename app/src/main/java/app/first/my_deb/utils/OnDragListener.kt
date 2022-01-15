@@ -19,7 +19,7 @@ import studio.carbonylgroup.textfieldboxes.ExtendedEditText
 import studio.carbonylgroup.textfieldboxes.TextFieldBoxes
 import kotlin.math.roundToInt
 
-class OnDragListener(var mainActivity: MainActivity, var view: View, var func: (View) -> Unit) : View.OnDragListener {
+class OnDragListener(var mainActivity: MainActivity, var view: View, val boxes: List<TextFieldBoxes>, var func: (List<TextFieldBoxes>) -> Unit) : View.OnDragListener {
 
     override fun onDrag(v: View, event: DragEvent): Boolean {
         val results = view.findViewById(R.id.results) as LinearLayout
@@ -97,7 +97,7 @@ class OnDragListener(var mainActivity: MainActivity, var view: View, var func: (
                             }
                         }
 
-                        func(view)
+                        func(boxes)
                         if ((numbers.getChildAt(1) is NumberPicker)) {
                             if (indexOfAboveView > 0) indexOfAboveView++
                             if (indexOfDroppedView > 0) indexOfDroppedView++

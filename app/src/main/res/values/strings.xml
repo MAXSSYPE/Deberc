@@ -35,6 +35,7 @@
     <string name="on">On</string>
     <string name="off">Off</string>
     <string name="restore_game">Restore game?</string>
+    <string name="picker">Number picker</string>
 
 
     <string name="onboarding_title1">Welcome to FAQ!</string>

@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.content.ClipData
 import android.content.ClipDescription
 import android.content.Context
+import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.Editable
@@ -21,11 +22,10 @@ import androidx.core.view.isVisible
 import androidx.preference.PreferenceManager
 import app.first.my_deb.MainActivity
 import app.first.my_deb.R
-import app.first.my_deb.utils.MyDragShadowBuilder
-import app.first.my_deb.utils.OnDragListener
-import app.first.my_deb.utils.fadInAnimation
-import app.first.my_deb.utils.setTextAnimation
+import app.first.my_deb.ui.menu.MenuActivity
+import app.first.my_deb.utils.*
 import com.andremion.counterfab.CounterFab
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.jaredrummler.cyanea.app.CyaneaFragment
 import com.shawnlin.numberpicker.NumberPicker
 import kotlinx.coroutines.CoroutineScope
@@ -89,8 +89,22 @@ class Fragment2x2 : CyaneaFragment() {
 
         resultField1.setOnLongClickListener(longClickListener)
         resultField2.setOnLongClickListener(longClickListener)
-        resultField1.setOnDragListener(OnDragListener(mainActivity, view, activateNames))
-        resultField2.setOnDragListener(OnDragListener(mainActivity, view, activateNames))
+        resultField1.setOnDragListener(
+            OnDragListener(
+                mainActivity,
+                view,
+                arrayListOf(box1, box2),
+                activateNames
+            )
+        )
+        resultField2.setOnDragListener(
+            OnDragListener(
+                mainActivity,
+                view,
+                arrayListOf(box1, box2),
+                activateNames
+            )
+        )
 
         newButton = view.findViewById(R.id.button_new)
         newButton.setOnClickListener {
@@ -115,13 +129,15 @@ class Fragment2x2 : CyaneaFragment() {
         numberPicker.minValue = 1
         numberPicker.maxValue = 19
         numberPicker.displayedValues = data
+        numberPicker.visibility = View.VISIBLE
         numberPicker.setOnClickListener {
             try {
                 if (!(numberField1.text.toString().isEmpty() && numberField2.text.toString()
                         .isEmpty()) || !(numberField1.text.toString()
                         .isNotEmpty() && numberField2.text.toString().isNotEmpty())
                 ) {
-                    if (numberField1.text.toString().isNotEmpty() && (numberField1.text.toString()
+                    if (numberField1.text.toString()
+                            .isNotEmpty() && (numberField1.text.toString()
                             .toInt() > 0 || numberField1.text.toString()
                             .toInt() < 0)
                     ) {
@@ -140,10 +156,11 @@ class Fragment2x2 : CyaneaFragment() {
                             numberField2.hint = "0"
                         }
                     }
-                    if (numberField2.text.toString().isNotEmpty() && (numberField2.text.toString()
+                    if (numberField2.text.toString()
+                            .isNotEmpty() && (numberField2.text.toString()
                             .toInt() > 0 || numberField2.text.toString()
                             .toInt() < 0)
-                                ) {
+                    ) {
                         if (numberField2.text.toString() != "" && numberField2.text.toString() != "-" && numberField2.text.toString()
                                 .toInt() >= 0 && numberField2.text.toString()
                                 .toInt() <= data[numberPicker.value - 1].toInt()
@@ -169,7 +186,8 @@ class Fragment2x2 : CyaneaFragment() {
                         .isEmpty()) || !(numberField1.text.toString()
                         .isNotEmpty() && numberField2.text.toString().isNotEmpty())
                 ) {
-                    if (numberField1.text.toString().isNotEmpty() && (numberField1.text.toString()
+                    if (numberField1.text.toString()
+                            .isNotEmpty() && (numberField1.text.toString()
                             .toInt() > 0 || numberField1.text.toString()
                             .toInt() < 0)
                     ) {
@@ -188,7 +206,8 @@ class Fragment2x2 : CyaneaFragment() {
                             numberField2.hint = "0"
                         }
                     }
-                    if (numberField2.text.toString().isNotEmpty() && (numberField2.text.toString()
+                    if (numberField2.text.toString()
+                            .isNotEmpty() && (numberField2.text.toString()
                             .toInt() > 0 || numberField2.text.toString()
                             .toInt() < 0)
                     ) {
@@ -217,11 +236,13 @@ class Fragment2x2 : CyaneaFragment() {
                     numberField2.hint = data[view.value - 1].toInt().toString()
                 } else if (numberField2.text.toString() == "0") {
                     numberField1.hint = data[view.value - 1].toInt().toString()
-                } else if (!(numberField1.text.toString().isEmpty() && numberField2.text.toString()
+                } else if (!(numberField1.text.toString()
+                        .isEmpty() && numberField2.text.toString()
                         .isEmpty()) || !(numberField1.text.toString()
                         .isNotEmpty() && numberField2.text.toString().isNotEmpty())
                 ) {
-                    if (numberField1.text.toString().isNotEmpty() && (numberField1.text.toString()
+                    if (numberField1.text.toString()
+                            .isNotEmpty() && (numberField1.text.toString()
                             .toInt() > 0 || numberField1.text.toString()
                             .toInt() < 0)
                     ) {
@@ -240,7 +261,8 @@ class Fragment2x2 : CyaneaFragment() {
                             numberField2.hint = "0"
                         }
                     }
-                    if (numberField2.text.toString().isNotEmpty() && (numberField2.text.toString()
+                    if (numberField2.text.toString()
+                            .isNotEmpty() && (numberField2.text.toString()
                             .toInt() > 0 || numberField2.text.toString()
                             .toInt() < 0)
                     ) {
@@ -265,7 +287,14 @@ class Fragment2x2 : CyaneaFragment() {
         }
 
         numberField1.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+            override fun beforeTextChanged(
+                charSequence: CharSequence,
+                i: Int,
+                i1: Int,
+                i2: Int
+            ) {
+            }
+
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
                 try {
                     if (numberField1.text.toString() != "" && numberField1.text.toString() != "-" && numberField1.text.toString()
@@ -290,7 +319,14 @@ class Fragment2x2 : CyaneaFragment() {
         })
 
         numberField2.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+            override fun beforeTextChanged(
+                charSequence: CharSequence,
+                i: Int,
+                i1: Int,
+                i2: Int
+            ) {
+            }
+
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
                 try {
                     if (numberField2.text.toString() != "" && numberField2.text.toString() != "-" && numberField2.text.toString()
@@ -355,7 +391,18 @@ class Fragment2x2 : CyaneaFragment() {
         numberPicker.typeface = Typeface.createFromAsset(requireContext().assets, font)
 
         view.fadInAnimation(700)
-        activateNames(view)
+        activateNames(arrayListOf(box1, box2))
+
+        val calculatorFab: FloatingActionButton = view.findViewById(R.id.calculator_fab)
+        calculatorFab.setOnClickListener {
+            mainActivity.onCalcClick()
+        }
+        val menuFab: FloatingActionButton = view.findViewById(R.id.menu_fab)
+        menuFab.setOnClickListener {
+            startActivity(Intent(mainActivity, MenuActivity::class.java))
+            mainActivity.overridePendingTransition(R.anim.appear, R.anim.disappear)
+            mainActivity.finish()
+        }
         return view
     }
 
@@ -610,12 +657,6 @@ class Fragment2x2 : CyaneaFragment() {
     private fun setVisibleBolt(hasBolt: Boolean) {
         counterBolt1.isVisible = hasBolt
         counterBolt2.isVisible = hasBolt
-    }
-
-    val activateNames = { _: View ->
-        box1.hasFocus = true
-        box2.hasFocus = true
-        box2.clearFocus()
     }
 
     val longClickListener = View.OnLongClickListener { v: View ->

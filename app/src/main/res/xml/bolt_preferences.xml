@@ -1,43 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto">
-        <PreferenceCategory android:title="@string/bolt">
-            <SwitchPreference
-                android:defaultValue="false"
-                android:key="hasBolt"
-                android:summaryOn="@string/on"
-                android:summaryOff="@string/off"/>
+    <PreferenceCategory android:title="@string/bolt">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="hasBolt"
+            android:summaryOff="@string/off"
+            android:summaryOn="@string/on" />
 
-            <DropDownPreference
-                android:defaultValue="3"
-                android:key="countOfNails"
-                android:summary="%s"
-                android:title="@string/countOfNails"
-                android:entries="@array/countOfNails"
-                android:entryValues="@array/countOfNails"
-                android:dependency="hasBolt"
-                custom:isPreferenceVisible="false">
-            </DropDownPreference>
+        <DropDownPreference
+            android:defaultValue="3"
+            android:dependency="hasBolt"
+            android:entries="@array/countOfNails"
+            android:entryValues="@array/countOfNails"
+            android:key="countOfNails"
+            android:summary="%s"
+            android:title="@string/countOfNails"
+            custom:isPreferenceVisible="false" />
 
-            <DropDownPreference
-                android:defaultValue="-100"
-                android:key="valueOfMinus"
-                android:summary="%s"
-                android:title="@string/valueOfMinus"
-                android:entries="@array/valueOfMinus"
-                android:entryValues="@array/valueOfMinus"
-                android:dependency="hasBolt"
-                custom:isPreferenceVisible="false">
-            </DropDownPreference>
+        <DropDownPreference
+            android:defaultValue="-100"
+            android:dependency="hasBolt"
+            android:entries="@array/valueOfMinus"
+            android:entryValues="@array/valueOfMinus"
+            android:key="valueOfMinus"
+            android:summary="%s"
+            android:title="@string/valueOfMinus"
+            custom:isPreferenceVisible="false" />
 
-            <SwitchPreference
-                android:defaultValue="false"
-                android:key="addOnBolt"
-                android:title="@string/addOnBolt"
-                android:dependency="hasBolt"
-                custom:isPreferenceVisible="false">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="hasBolt"
+            android:key="addOnBolt"
+            android:title="@string/addOnBolt"
+            custom:isPreferenceVisible="false">
 
-            </SwitchPreference>
+        </SwitchPreference>
 
-        </PreferenceCategory>
+    </PreferenceCategory>
 </PreferenceScreen>

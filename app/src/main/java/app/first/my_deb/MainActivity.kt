@@ -70,16 +70,6 @@ class MainActivity : CyaneaAppCompatActivity(), CalcDialog.CalcDialogCallback {
             override fun onTabReselected(tab: TabLayout.Tab) {}
         })
         tabs.getTabAt(1)!!.select()
-
-        val calculatorFab: FloatingActionButton = findViewById(R.id.calculator_fab)
-        calculatorFab.setOnClickListener {
-            onCalcClick()
-        }
-        val menuFab: FloatingActionButton = findViewById(R.id.menu_fab)
-        menuFab.setOnClickListener {
-            startActivity(Intent(this@MainActivity, MenuActivity::class.java))
-            this@MainActivity.overridePendingTransition(R.anim.appear, R.anim.disappear)
-        }
         initGame()
     }
 
@@ -93,7 +83,7 @@ class MainActivity : CyaneaAppCompatActivity(), CalcDialog.CalcDialogCallback {
         }
     }
 
-    private fun onCalcClick() {
+    fun onCalcClick() {
         calcDialog.settings.setExpressionShown(true).initialValue = value
         calcDialog.show(supportFragmentManager, "calc_dialog")
     }
