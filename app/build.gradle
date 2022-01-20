@@ -8,8 +8,8 @@ android {
         applicationId "app.first.my_deb"
         minSdkVersion 23
         targetSdkVersion 31
-        versionCode 27
-        versionName "6.4"
+        versionCode 28
+        versionName "6.4.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         resConfigs("en", "ua", "es", "fr", "it", "de" , "bg", "pl", "ru")
     }
@@ -62,6 +62,7 @@ dependencies {
     implementation 'com.github.sephiroth74:NumberSlidingPicker:1.0.3'
     implementation 'com.github.andremion:counterfab:1.2.2'
     implementation "androidx.leanback:leanback:1.2.0-alpha01"
+    implementation 'androidx.work:work-runtime:2.8.0-alpha01'
 }
 apply plugin: 'com.google.gms.google-services'
 repositories {
