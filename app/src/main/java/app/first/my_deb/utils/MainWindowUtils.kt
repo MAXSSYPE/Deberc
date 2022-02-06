@@ -25,9 +25,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import studio.carbonylgroup.textfieldboxes.TextFieldBoxes
 
-class MainWindowUtils {
-}
-
 fun onNewClick(
     activity: Activity,
     mainActivity: MainActivity,
@@ -100,10 +97,9 @@ fun onClick(
 
     if (numberFields.filter { it.text.toString() == "" }.size != numberFields.size)
         try {
-            var prevInt: Int
-            var nowInt = 0
             for (i in numberFields.indices) {
-                prevInt = resultFields[i].text.toString().toInt()
+                var nowInt = 0
+                val prevInt = resultFields[i].text.toString().toInt()
                 if (numberFields[i].text.toString() != "")
                     nowInt = numberFields[i].text.toString().toInt()
 

@@ -8,10 +8,10 @@ android {
         applicationId "app.first.my_deb"
         minSdkVersion 23
         targetSdkVersion 31
-        versionCode 28
-        versionName "6.4.1"
+        versionCode 29
+        versionName "6.4.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        resConfigs("en", "ua", "es", "fr", "it", "de" , "bg", "pl", "ru")
+        resConfigs 'en', 'ua', 'es', 'fr', 'it', 'de', 'bg', 'pl', 'ru'
     }
     buildTypes {
         release {
