@@ -49,7 +49,7 @@ class OnBoardingFragment : OnboardingSupportFragment() {
         super.onFinishFragment()
         val sharedPreferencesEditor: SharedPreferences.Editor =
             PreferenceManager.getDefaultSharedPreferences(
-                activity
+                requireContext()
             ).edit()
         sharedPreferencesEditor.putBoolean(COMPLETED_ONBOARDING, true)
         sharedPreferencesEditor.apply()

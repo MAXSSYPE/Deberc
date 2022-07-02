@@ -11,6 +11,7 @@ import androidx.preference.PreferenceManager
 import app.first.my_deb.MainActivity
 import app.first.my_deb.R
 import app.first.my_deb.utils.AppFontManager
+import com.google.ads.mediation.admob.AdMobAdapter
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
@@ -45,7 +46,10 @@ class ScoreFragment2x2 : CyaneaFragment() {
         val mAdView = requireView().findViewById<AdView>(R.id.adView)
         MobileAds.initialize(requireContext()) { }
 
-        val adRequest = AdRequest.Builder().build()
+        val extras = Bundle()
+        extras.putString("max_ad_content_rating", "MA")
+
+        val adRequest = AdRequest.Builder().addNetworkExtrasBundle(AdMobAdapter::class.java, extras).build()
         mAdView.loadAd(adRequest)
     }
 
