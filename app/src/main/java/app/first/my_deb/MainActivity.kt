@@ -112,9 +112,9 @@ class MainActivity : CyaneaAppCompatActivity(), CalcDialog.CalcDialogCallback {
                 gameWithGamers.gamers = gameWithGamers.gamers.sortedBy { it.number }
             }
 
-            println("test " + dao.getInactiveGames())
+            /*println("test " + dao.getInactiveGames())
             println("active " + dao.getActiveGame("1"))
-            println("game " + gameWithGamers)
+            println("game " + gameWithGamers)*/
         }.join()
     }
 

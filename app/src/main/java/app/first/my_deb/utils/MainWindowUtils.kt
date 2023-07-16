@@ -127,9 +127,9 @@ fun saveText(
         mainActivity.gameWithGamers.gamers[i].score = resultFields[i].text.toString().toInt()
         mainActivity.gameWithGamers.gamers[i].lastRoundScore = numberFields[i].text.toString()
         mainActivity.gameWithGamers.gamers[i].bolts = counterBolts[i].count
-        CoroutineScope(mainActivity.coroutineContext).launch {
-            mainActivity.dao.upsertByReplacementGame(mainActivity.gameWithGamers)
-        }
+    }
+    CoroutineScope(mainActivity.coroutineContext).launch {
+        mainActivity.dao.upsertByReplacementGame(mainActivity.gameWithGamers)
     }
 }
 
