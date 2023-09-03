@@ -202,10 +202,6 @@ class HistoryRecyclerViewAdapter(
                 activity.gameWithGamers.game.endTimestamp =  System.currentTimeMillis()
                 activity.dao.upsertByReplacementGame(activity.gameWithGamers)
                 activity.dao.makeGameActive(gameWithGamers.game.id!!)
-                activity.dao.setEndTime(
-                    gameWithGamers.game.id!!,
-                    System.currentTimeMillis()
-                )
 
                 when (gameWithGamers.game.type) {
                     "1" -> {
