@@ -522,12 +522,6 @@ class Fragment2x2 : CyaneaFragment() {
             PreferenceManager.getDefaultSharedPreferences(requireContext())
                 .getBoolean("hasBolt", false)
         )
-        val sPref = requireContext().getSharedPreferences("Save.txt", Context.MODE_PRIVATE)
-        val type = sPref.getString("type", "1")
-        if (type != "1") {
-            box1.labelText = getString(R.string.gamer1)
-            box2.labelText = getString(R.string.gamer2)
-        }
     }
 
     private fun saveText() {

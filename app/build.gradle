@@ -6,13 +6,13 @@ plugins {
 }
 
 android {
-    compileSdkVersion 33
+    compileSdk 34
     defaultConfig {
         applicationId "app.first.my_deb"
         minSdkVersion 23
-        targetSdkVersion 33
-        versionCode 31
-        versionName "6.4.4"
+        targetSdkVersion 34
+        versionCode 32
+        versionName "6.4.5"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         resourceConfigurations += ['en', 'UA', 'es', 'fr', 'it', 'de', 'bg', 'pl', 'ru']
     }

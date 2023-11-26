@@ -36,7 +36,7 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager)
                 two = if (type == null || type == "" || type == "1") {
                     Fragment2x2()
                 } else if (type == "2") {
-                    Fragment2x2()
+                    Fragment2()
                 } else if (type == "3") {
                     Fragment3()
                 } else if (type == "4") {
