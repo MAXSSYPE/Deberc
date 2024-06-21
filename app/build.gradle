@@ -59,7 +59,8 @@ dependencies {
     implementation 'com.maltaisn:calcdialog:2.2.2'
     implementation 'com.github.HITGIF:TextFieldBoxes:1.3.0'
     implementation 'com.github.evozi:Cyanea:1.0.6'
-    implementation 'com.google.android.play:core:1.10.3'
+    implementation("com.google.android.play:review:2.0.1")
+    implementation("com.google.android.play:review-ktx:2.0.1")
     implementation 'com.github.sephiroth74:NumberSlidingPicker:1.0.3'
     implementation 'com.github.andremion:counterfab:1.2.2'
     implementation 'androidx.leanback:leanback:1.2.0-alpha02'

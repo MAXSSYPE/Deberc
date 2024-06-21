@@ -2,30 +2,40 @@ package app.first.my_deb
 
 
 import android.app.AlertDialog
-import android.content.*
+import android.content.Context
+import android.content.Intent
 import android.graphics.Rect
 import android.os.Build
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.MotionEvent
+import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
 import androidx.preference.PreferenceManager
 import androidx.viewpager.widget.ViewPager
-import app.first.my_deb.database.*
+import app.first.my_deb.database.Dao
+import app.first.my_deb.database.DatabaseHelper
+import app.first.my_deb.database.GameEntity
+import app.first.my_deb.database.GameWithGamers
+import app.first.my_deb.database.GamerEntity
 import app.first.my_deb.ui.ftu.OnBoardingActivity
 import app.first.my_deb.ui.main.SectionsPagerAdapter
-import app.first.my_deb.ui.menu.MenuActivity
 import app.first.my_deb.utils.AppFontManager
 import app.first.my_deb.utils.ContextWrapper
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
-import com.google.android.play.core.review.ReviewInfo
+import com.google.android.play.core.review.ReviewException
 import com.google.android.play.core.review.ReviewManagerFactory
-import com.google.android.play.core.tasks.Task
+import com.google.android.play.core.review.model.ReviewErrorCode
 import com.jaredrummler.cyanea.app.CyaneaAppCompatActivity
 import com.maltaisn.calcdialog.CalcDialog
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import studio.carbonylgroup.textfieldboxes.ExtendedEditText
 import java.math.BigDecimal
 import kotlin.coroutines.CoroutineContext
@@ -230,21 +240,14 @@ class MainActivity : CyaneaAppCompatActivity(), CalcDialog.CalcDialogCallback {
         }*/
     }
 
-    fun showRateDialog() {
-        val manager = ReviewManagerFactory.create(this)
-        val request: Task<ReviewInfo> = manager.requestReviewFlow()
+    fun showRateDialog(context: Context) {
+        val manager = ReviewManagerFactory.create(context)
+        val request = manager.requestReviewFlow()
         request.addOnCompleteListener { task ->
-            try {
-                if (task.isSuccessful) {
-                    val reviewInfo: ReviewInfo = task.result
-                    val flow: Task<Void> = manager.launchReviewFlow(this, reviewInfo)
-                    flow.addOnCompleteListener {
-
-                    }
-                } else {
-
-                }
-            } catch (ex: Exception) {
+            if (task.isSuccessful) {
+                val reviewInfo = task.result
+            } else {
+                @ReviewErrorCode val reviewErrorCode = (task.getException() as ReviewException).errorCode
             }
         }
     }

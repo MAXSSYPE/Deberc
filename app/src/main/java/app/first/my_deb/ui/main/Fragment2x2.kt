@@ -489,7 +489,7 @@ class Fragment2x2 : CyaneaFragment() {
                     mainActivity.initGame()
                 }
                 messageBoxInstance.dismiss()
-                mainActivity.showRateDialog()
+                mainActivity.showRateDialog(activity!!.applicationContext)
             } catch (ignored: Exception) {
             }
         }
