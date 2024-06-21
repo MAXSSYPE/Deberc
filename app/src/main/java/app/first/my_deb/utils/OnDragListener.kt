@@ -8,29 +8,35 @@ import android.graphics.drawable.ColorDrawable
 import android.view.DragEvent
 import android.view.View
 import android.widget.*
+import androidx.lifecycle.lifecycleScope
 import app.first.my_deb.MainActivity
 import app.first.my_deb.R
 import com.andremion.counterfab.CounterFab
 import com.shawnlin.numberpicker.NumberPicker
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import studio.carbonylgroup.textfieldboxes.ExtendedEditText
 import studio.carbonylgroup.textfieldboxes.TextFieldBoxes
 import kotlin.math.roundToInt
 
-class OnDragListener(var mainActivity: MainActivity, var view: View, val boxes: List<TextFieldBoxes>, var func: (List<TextFieldBoxes>) -> Unit) : View.OnDragListener {
+class OnDragListener(
+    var mainActivity: MainActivity,
+    var view: View,
+    val boxes: List<TextFieldBoxes>,
+    var func: (List<TextFieldBoxes>) -> Unit
+) : View.OnDragListener {
 
     override fun onDrag(v: View, event: DragEvent): Boolean {
-        val results = view.findViewById(R.id.results) as LinearLayout
-        val names = view.findViewById(R.id.names) as LinearLayout
-        val numbers = view.findViewById(R.id.numbers) as LinearLayout
+        val results = view.findViewById<LinearLayout>(R.id.results)
+        val names = view.findViewById<LinearLayout>(R.id.names)
+        val numbers = view.findViewById<LinearLayout>(R.id.numbers)
         var indexOfAboveView = results.getIndexOfViewByCoordinates(v.x, v.y)!!
         return when (event.action) {
             DragEvent.ACTION_DRAG_STARTED -> {
                 v.invalidate()
                 true
             }
+
             DragEvent.ACTION_DRAG_ENTERED -> {
                 v.invalidate()
                 true
@@ -44,37 +50,54 @@ class OnDragListener(var mainActivity: MainActivity, var view: View, val boxes: 
                 v.invalidate()
                 true
             }
+
             DragEvent.ACTION_DROP -> {
-                val dropped = results.getViewByCoordinates(event.clipData.getItemAt(0).text.toString().toFloat(), v.y)
+                val dropped = results.getViewByCoordinates(
+                    event.clipData.getItemAt(0).text.toString().toFloat(), v.y
+                )
                 if (dropped != null) {
-                    var indexOfDroppedView = results.getIndexOfViewByCoordinates(event.clipData.getItemAt(0).text.toString().toFloat(), v.y)
+                    var indexOfDroppedView = results.getIndexOfViewByCoordinates(
+                        event.clipData.getItemAt(0).text.toString().toFloat(), v.y
+                    )
                     if (indexOfDroppedView != null && results.getChildAt(indexOfDroppedView) != null) {
-                        mainActivity.gameWithGamers.gamers[indexOfAboveView].id = mainActivity.gameWithGamers.gamers[indexOfDroppedView].id.also {
-                            mainActivity.gameWithGamers.gamers[indexOfDroppedView].id = mainActivity.gameWithGamers.gamers[indexOfAboveView].id
-                        }
+                        mainActivity.gameWithGamers.gamers[indexOfAboveView].id =
+                            mainActivity.gameWithGamers.gamers[indexOfDroppedView].id.also {
+                                mainActivity.gameWithGamers.gamers[indexOfDroppedView].id =
+                                    mainActivity.gameWithGamers.gamers[indexOfAboveView].id
+                            }
 
-                        mainActivity.gameWithGamers.gamers[indexOfAboveView].bolts = mainActivity.gameWithGamers.gamers[indexOfDroppedView].bolts.also {
-                            mainActivity.gameWithGamers.gamers[indexOfDroppedView].bolts = mainActivity.gameWithGamers.gamers[indexOfAboveView].bolts
-                        }
+                        mainActivity.gameWithGamers.gamers[indexOfAboveView].bolts =
+                            mainActivity.gameWithGamers.gamers[indexOfDroppedView].bolts.also {
+                                mainActivity.gameWithGamers.gamers[indexOfDroppedView].bolts =
+                                    mainActivity.gameWithGamers.gamers[indexOfAboveView].bolts
+                            }
 
-                        mainActivity.gameWithGamers.gamers[indexOfAboveView].gameScore = mainActivity.gameWithGamers.gamers[indexOfDroppedView].gameScore.also {
-                            mainActivity.gameWithGamers.gamers[indexOfDroppedView].gameScore = mainActivity.gameWithGamers.gamers[indexOfAboveView].gameScore
-                        }
+                        mainActivity.gameWithGamers.gamers[indexOfAboveView].gameScore =
+                            mainActivity.gameWithGamers.gamers[indexOfDroppedView].gameScore.also {
+                                mainActivity.gameWithGamers.gamers[indexOfDroppedView].gameScore =
+                                    mainActivity.gameWithGamers.gamers[indexOfAboveView].gameScore
+                            }
 
-                        mainActivity.gameWithGamers.gamers[indexOfAboveView].lastRoundScore = mainActivity.gameWithGamers.gamers[indexOfDroppedView].lastRoundScore.also {
-                            mainActivity.gameWithGamers.gamers[indexOfDroppedView].lastRoundScore = mainActivity.gameWithGamers.gamers[indexOfAboveView].lastRoundScore
-                        }
+                        mainActivity.gameWithGamers.gamers[indexOfAboveView].lastRoundScore =
+                            mainActivity.gameWithGamers.gamers[indexOfDroppedView].lastRoundScore.also {
+                                mainActivity.gameWithGamers.gamers[indexOfDroppedView].lastRoundScore =
+                                    mainActivity.gameWithGamers.gamers[indexOfAboveView].lastRoundScore
+                            }
 
-                        mainActivity.gameWithGamers.gamers[indexOfAboveView].name = mainActivity.gameWithGamers.gamers[indexOfDroppedView].name.also {
-                            mainActivity.gameWithGamers.gamers[indexOfDroppedView].name = mainActivity.gameWithGamers.gamers[indexOfAboveView].name
-                        }
+                        mainActivity.gameWithGamers.gamers[indexOfAboveView].name =
+                            mainActivity.gameWithGamers.gamers[indexOfDroppedView].name.also {
+                                mainActivity.gameWithGamers.gamers[indexOfDroppedView].name =
+                                    mainActivity.gameWithGamers.gamers[indexOfAboveView].name
+                            }
 
-                        mainActivity.gameWithGamers.gamers[indexOfAboveView].score = mainActivity.gameWithGamers.gamers[indexOfDroppedView].score.also {
-                            mainActivity.gameWithGamers.gamers[indexOfDroppedView].score = mainActivity.gameWithGamers.gamers[indexOfAboveView].score
-                        }
+                        mainActivity.gameWithGamers.gamers[indexOfAboveView].score =
+                            mainActivity.gameWithGamers.gamers[indexOfDroppedView].score.also {
+                                mainActivity.gameWithGamers.gamers[indexOfDroppedView].score =
+                                    mainActivity.gameWithGamers.gamers[indexOfAboveView].score
+                            }
 
-                        CoroutineScope(mainActivity.coroutineContext).launch {
-                            mainActivity.saveText()
+                        mainActivity.lifecycleScope.launch {
+                            mainActivity.saveGame()
                         }
 
                         (results.getChildAt(indexOfDroppedView) as TextView).text =
@@ -86,8 +109,14 @@ class OnDragListener(var mainActivity: MainActivity, var view: View, val boxes: 
                         val aboveName = names.getChildAt(indexOfAboveView)
                         val droppedName = names.getChildAt(indexOfDroppedView)
                         if (aboveName is TextFieldBoxes && droppedName is TextFieldBoxes) {
-                            val score1 = ((droppedName.findViewById<RelativeLayout>(R.id.text_field_boxes_input_layout)).getChildAt(0) as ExtendedEditText)
-                            val score2 = ((aboveName.findViewById<RelativeLayout>(R.id.text_field_boxes_input_layout)).getChildAt(0) as ExtendedEditText)
+                            val score1 =
+                                ((droppedName.findViewById<RelativeLayout>(R.id.text_field_boxes_input_layout)).getChildAt(
+                                    0
+                                ) as ExtendedEditText)
+                            val score2 =
+                                ((aboveName.findViewById<RelativeLayout>(R.id.text_field_boxes_input_layout)).getChildAt(
+                                    0
+                                ) as ExtendedEditText)
                             score1.text = score2.text.also {
                                 score2.text = score1.text
                             }
@@ -133,9 +162,9 @@ class OnDragListener(var mainActivity: MainActivity, var view: View, val boxes: 
                                     ) as CounterFab).count
                             }
 
-
                         runBlocking {
-                            println("treeeee " + mainActivity.dao.getActiveGame("1")) }
+                            println("treeeee " + mainActivity.dao.getActiveGame("1"))
+                        }
                     }
                 }
 
@@ -148,11 +177,13 @@ class OnDragListener(var mainActivity: MainActivity, var view: View, val boxes: 
                 when (event.result) {
                     true -> {
                     }
+
                     else -> {
                     }
                 }
                 true
             }
+
             else -> {
                 false
             }

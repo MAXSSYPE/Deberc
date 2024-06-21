@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.lifecycle.lifecycleScope
 import app.first.my_deb.MainActivity
 import app.first.my_deb.R
 import app.first.my_deb.ui.menu.MenuActivity
@@ -15,6 +16,7 @@ import app.first.my_deb.utils.*
 import com.andremion.counterfab.CounterFab
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.jaredrummler.cyanea.app.CyaneaFragment
+import kotlinx.coroutines.launch
 import studio.carbonylgroup.textfieldboxes.TextFieldBoxes
 
 class Fragment4 : CyaneaFragment() {
@@ -66,7 +68,8 @@ class Fragment4 : CyaneaFragment() {
             names,
             counterBolts,
             newButton,
-            addButton
+            addButton,
+            viewLifecycleOwner.lifecycleScope
         )
         setupNumberFields(requireActivity(), mainActivity, resultFields, numberFields)
         setupNamesAndResults(
@@ -104,24 +107,12 @@ class Fragment4 : CyaneaFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        saveText(
-            mainActivity,
-            resultFields,
-            numberFields,
-            names,
-            counterBolts
-        )
+        saveTextWithLifecycleScope()
     }
 
     override fun onPause() {
         super.onPause()
-        saveText(
-            mainActivity,
-            resultFields,
-            numberFields,
-            names,
-            counterBolts
-        )
+        saveTextWithLifecycleScope()
     }
 
     override fun onResume() {
@@ -133,6 +124,17 @@ class Fragment4 : CyaneaFragment() {
             numberFields,
             names,
             counterBolts
+        )
+    }
+
+    private fun saveTextWithLifecycleScope() {
+        saveText(
+            mainActivity,
+            resultFields,
+            numberFields,
+            names,
+            counterBolts,
+            viewLifecycleOwner.lifecycleScope
         )
     }
 }

@@ -5,8 +5,6 @@ import android.app.AlertDialog
 import android.content.ClipData
 import android.content.ClipDescription
 import android.content.Context
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -20,7 +18,6 @@ import androidx.preference.PreferenceManager
 import app.first.my_deb.MainActivity
 import app.first.my_deb.R
 import com.andremion.counterfab.CounterFab
-import com.shawnlin.numberpicker.NumberPicker
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import studio.carbonylgroup.textfieldboxes.TextFieldBoxes
@@ -31,7 +28,8 @@ fun onNewClick(
     resultFields: List<TextView>,
     numberFields: List<EditText>,
     names: List<TextView>,
-    counterBolts: List<CounterFab>
+    counterBolts: List<CounterFab>,
+    coroutineScope: CoroutineScope
 ) {
     val messageBoxView =
         LayoutInflater.from(activity).inflate(R.layout.message_box, null)
@@ -48,12 +46,12 @@ fun onNewClick(
     val buttonYes = messageBoxView.findViewById<Button>(R.id.message_box_yes)
     buttonYes.setOnClickListener {
         try {
-            saveText(mainActivity, resultFields, numberFields, names, counterBolts)
+            saveText(mainActivity, resultFields, numberFields, names, counterBolts, coroutineScope)
             resultFields.filter { it.text != "0" }.forEach { it.setTextAnimation("0") }
             numberFields.filter { it.text.toString() != "" }.forEach { it.setTextAnimation("") }
             counterBolts.forEach { it.count = 0 }
 
-            CoroutineScope(mainActivity.coroutineContext).launch {
+            coroutineScope.launch {
                 mainActivity.dao.setEndTime(
                     mainActivity.gameWithGamers.game.id!!,
                     System.currentTimeMillis()
@@ -120,7 +118,8 @@ fun saveText(
     resultFields: List<TextView>,
     numberFields: List<EditText>,
     names: List<TextView>,
-    counterBolts: List<CounterFab>
+    counterBolts: List<CounterFab>,
+    coroutineScope: CoroutineScope
 ) {
     for (i in resultFields.indices) {
         mainActivity.gameWithGamers.gamers[i].name = names[i].text.toString()
@@ -128,7 +127,7 @@ fun saveText(
         mainActivity.gameWithGamers.gamers[i].lastRoundScore = numberFields[i].text.toString()
         mainActivity.gameWithGamers.gamers[i].bolts = counterBolts[i].count
     }
-    CoroutineScope(mainActivity.coroutineContext).launch {
+    coroutineScope.launch {
         mainActivity.dao.upsertByReplacementGame(mainActivity.gameWithGamers)
     }
 }
@@ -233,7 +232,8 @@ fun setupButtons(
     names: List<TextView>,
     counterBolts: List<CounterFab>,
     newButton: Button,
-    addButton: Button
+    addButton: Button,
+    coroutineScope: CoroutineScope
 ) {
     newButton.setOnClickListener {
         onNewClick(
@@ -242,7 +242,8 @@ fun setupButtons(
             resultFields,
             numberFields,
             names,
-            counterBolts
+            counterBolts,
+            coroutineScope
         )
     }
     addButton.setOnClickListener {
