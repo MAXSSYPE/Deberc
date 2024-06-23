@@ -9,6 +9,7 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.animation.AnimationUtils
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
@@ -53,10 +54,10 @@ fun onNewClick(
 
             coroutineScope.launch {
                 mainActivity.dao.setEndTime(
-                    mainActivity.gameWithGamers.game.id!!,
+                    mainActivity.gameWithGamers!!.game.id!!,
                     System.currentTimeMillis()
                 )
-                mainActivity.dao.addGameToInactive(mainActivity.gameWithGamers.game.id!!)
+                mainActivity.dao.addGameToInactive(mainActivity.gameWithGamers!!.game.id!!)
                 mainActivity.initGame()
             }
             messageBoxInstance.dismiss()
@@ -104,8 +105,8 @@ fun onClick(
                 if (nowInt != 0)
                     resultFields[i].setTextAnimation((prevInt + nowInt).toString(), 200)
 
-                mainActivity.gameWithGamers.gamers[i].gameScore!!.add(nowInt.toString())
-                mainActivity.gameWithGamers.gamers[i].score =
+                mainActivity.gameWithGamers!!.gamers[i].gameScore!!.add(nowInt.toString())
+                mainActivity.gameWithGamers!!.gamers[i].score =
                     resultFields[i].text.toString().toInt()
                 numberFields[i].setText("")
             }
@@ -122,13 +123,13 @@ fun saveText(
     coroutineScope: CoroutineScope
 ) {
     for (i in resultFields.indices) {
-        mainActivity.gameWithGamers.gamers[i].name = names[i].text.toString()
-        mainActivity.gameWithGamers.gamers[i].score = resultFields[i].text.toString().toInt()
-        mainActivity.gameWithGamers.gamers[i].lastRoundScore = numberFields[i].text.toString()
-        mainActivity.gameWithGamers.gamers[i].bolts = counterBolts[i].count
+        mainActivity.gameWithGamers!!.gamers[i].name = names[i].text.toString()
+        mainActivity.gameWithGamers!!.gamers[i].score = resultFields[i].text.toString().toInt()
+        mainActivity.gameWithGamers!!.gamers[i].lastRoundScore = numberFields[i].text.toString()
+        mainActivity.gameWithGamers!!.gamers[i].bolts = counterBolts[i].count
     }
     coroutineScope.launch {
-        mainActivity.dao.upsertByReplacementGame(mainActivity.gameWithGamers)
+        mainActivity.dao.upsertByReplacementGame(mainActivity.gameWithGamers!!)
     }
 }
 
@@ -141,13 +142,13 @@ fun loadText(
     counterBolts: List<CounterFab>
 ) {
     for (i in resultFields.indices) {
-        names[i].text = mainActivity.gameWithGamers.gamers[i].name
-        resultFields[i].text = mainActivity.gameWithGamers.gamers[i].score.toString()
-        numberFields[i].setText(mainActivity.gameWithGamers.gamers[i].lastRoundScore)
-        counterBolts[i].count = if (mainActivity.gameWithGamers.gamers[i].bolts == null)
+        names[i].text = mainActivity.gameWithGamers!!.gamers[i].name
+        resultFields[i].text = mainActivity.gameWithGamers!!.gamers[i].score.toString()
+        numberFields[i].setText(mainActivity.gameWithGamers!!.gamers[i].lastRoundScore)
+        counterBolts[i].count = if (mainActivity.gameWithGamers!!.gamers[i].bolts == null)
             0
         else
-            mainActivity.gameWithGamers.gamers[i].bolts!!
+            mainActivity.gameWithGamers!!.gamers[i].bolts!!
 
     }
 
@@ -187,11 +188,11 @@ fun setBoltButtons(
                                 .toInt() + valueOfMinus.toInt()).toString(), 200
                         )
 
-                    for (j in mainActivity.gameWithGamers.gamers.indices) {
+                    for (j in mainActivity.gameWithGamers!!.gamers.indices) {
                         if (i == j)
-                            mainActivity.gameWithGamers.gamers[j].gameScore!!.add(valueOfMinus)
+                            mainActivity.gameWithGamers!!.gamers[j].gameScore!!.add(valueOfMinus)
                         else
-                            mainActivity.gameWithGamers.gamers[j].gameScore!!.add("0")
+                            mainActivity.gameWithGamers!!.gamers[j].gameScore!!.add("0")
                     }
                 }
             }
@@ -208,19 +209,21 @@ fun setupNumberFields(
     resultFields: List<TextView>,
     numberFields: List<EditText>
 ) = numberFields.forEach {
-    it.setOnEditorActionListener { _: TextView?, _: Int, _: KeyEvent? ->
-        onClick(
-            activity,
-            mainActivity,
-            resultFields,
-            numberFields
-        )
-        val inputMethodManager = activity.getSystemService(
-            Activity.INPUT_METHOD_SERVICE
-        ) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(
-            activity.currentFocus!!.windowToken, 0
-        )
+    it.setOnEditorActionListener { _, actionId, event ->
+        if (actionId == EditorInfo.IME_ACTION_DONE ||
+            (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN)
+        ) {
+            onClick(activity, mainActivity, resultFields, numberFields)
+            val inputMethodManager = activity.getSystemService(
+                Activity.INPUT_METHOD_SERVICE
+            ) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(
+                activity.currentFocus!!.windowToken, 0
+            )
+            true
+        } else {
+            false
+        }
     }
 }
 

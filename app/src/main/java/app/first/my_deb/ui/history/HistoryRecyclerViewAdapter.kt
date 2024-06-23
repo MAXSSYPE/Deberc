@@ -10,11 +10,12 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import app.first.my_deb.MainActivity
 import app.first.my_deb.R
 import app.first.my_deb.database.GameWithGamers
-import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
@@ -45,8 +46,8 @@ class HistoryRecyclerViewAdapter(
                 holder.score2.text = item.gamers[1].score.toString()
 
                 holder.linearLayoutMain.weightSum = 2f
-                holder.linearLayout3 = null
-                holder.linearLayout4 = null
+                holder.linearLayout3?.isVisible = false
+                holder.linearLayout4?.isVisible = false
             }
 
             "3" -> {
@@ -54,15 +55,16 @@ class HistoryRecyclerViewAdapter(
                     item.gamers[0].name!!.ifBlank { context.getString(R.string.gamer1) }
                 holder.name2.text =
                     item.gamers[1].name!!.ifBlank { context.getString(R.string.gamer2) }
-                holder.name3.text =
+                holder.name3!!.text =
                     item.gamers[2].name!!.ifBlank { context.getString(R.string.gamer3) }
 
-                holder.score1.text = item.gamers[0].score!!.toString()
-                holder.score2.text = item.gamers[1].score!!.toString()
-                holder.score3.text = item.gamers[2].score!!.toString()
+                holder.score1.text = item.gamers[0].score.toString()
+                holder.score2.text = item.gamers[1].score.toString()
+                holder.score3!!.text = item.gamers[2].score.toString()
 
                 holder.linearLayoutMain.weightSum = 3f
-                holder.linearLayout3 = null
+                holder.linearLayout3?.isVisible = true
+                holder.linearLayout4?.isVisible = false
             }
 
             "4" -> {
@@ -70,15 +72,19 @@ class HistoryRecyclerViewAdapter(
                     item.gamers[0].name!!.ifBlank { context.getString(R.string.gamer1) }
                 holder.name2.text =
                     item.gamers[1].name!!.ifBlank { context.getString(R.string.gamer2) }
-                holder.name3.text =
+                holder.name3!!.text =
                     item.gamers[2].name!!.ifBlank { context.getString(R.string.gamer3) }
-                holder.name4.text =
+                holder.name4!!.text =
                     item.gamers[3].name!!.ifBlank { context.getString(R.string.gamer4) }
 
                 holder.score1.text = item.gamers[0].score.toString()
                 holder.score2.text = item.gamers[1].score.toString()
-                holder.score3.text = item.gamers[2].score.toString()
-                holder.score4.text = item.gamers[3].score.toString()
+                holder.score3!!.text = item.gamers[2].score.toString()
+                holder.score4!!.text = item.gamers[3].score.toString()
+
+                holder.linearLayoutMain.weightSum = 4f
+                holder.linearLayout3?.isVisible = true
+                holder.linearLayout4?.isVisible = true
             }
         }
 
@@ -93,12 +99,12 @@ class HistoryRecyclerViewAdapter(
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val name1: TextView = view.findViewById(R.id.name1)
         val name2: TextView = view.findViewById(R.id.name2)
-        val name3: TextView = view.findViewById(R.id.name3)
-        val name4: TextView = view.findViewById(R.id.name4)
+        val name3: TextView? = view.findViewById(R.id.name3)
+        val name4: TextView? = view.findViewById(R.id.name4)
         val score1: TextView = view.findViewById(R.id.score1)
         val score2: TextView = view.findViewById(R.id.score2)
-        val score3: TextView = view.findViewById(R.id.score3)
-        val score4: TextView = view.findViewById(R.id.score4)
+        val score3: TextView? = view.findViewById(R.id.score3)
+        val score4: TextView? = view.findViewById(R.id.score4)
         val timeStart: TextView = view.findViewById(R.id.time_start)
         val timeEnd: TextView = view.findViewById(R.id.time_end)
         val restore: Button = view.findViewById(R.id.button_restore)
@@ -146,9 +152,9 @@ class HistoryRecyclerViewAdapter(
         val buttonYes = messageBoxView.findViewById<Button>(R.id.message_box_yes)
         buttonYes.setOnClickListener {
             activity.lifecycleScope.launch {
-                activity.gameWithGamers.game.isActive = false
-                activity.gameWithGamers.game.endTimestamp = System.currentTimeMillis()
-                activity.dao.upsertByReplacementGame(activity.gameWithGamers)
+                activity.gameWithGamers!!.game.isActive = false
+                activity.gameWithGamers!!.game.endTimestamp = System.currentTimeMillis()
+                activity.dao.upsertByReplacementGame(activity.gameWithGamers!!)
                 activity.dao.makeGameActive(gameWithGamers.game.id!!)
 
                 val sPref: SharedPreferences =

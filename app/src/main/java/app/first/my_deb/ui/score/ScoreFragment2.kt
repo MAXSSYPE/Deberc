@@ -53,16 +53,16 @@ class ScoreFragment2 : CyaneaFragment() {
     }
 
     private fun loadTable() {
-        val pl1 = mainActivity.gameWithGamers.gamers[0].gameScore
-        val pl2 = mainActivity.gameWithGamers.gamers[1].gameScore
-        val pl1Name: String = if (mainActivity.gameWithGamers.gamers[0].name == null || mainActivity.gameWithGamers.gamers[0].name == "")
+        val pl1 = mainActivity.gameWithGamers!!.gamers[0].gameScore
+        val pl2 = mainActivity.gameWithGamers!!.gamers[1].gameScore
+        val pl1Name: String = if (mainActivity.gameWithGamers!!.gamers[0].name == null || mainActivity.gameWithGamers!!.gamers[0].name == "")
             getString(R.string.gamer1)
         else
-            mainActivity.gameWithGamers.gamers[0].name!!
-        val pl2Name: String = if (mainActivity.gameWithGamers.gamers[1].name == null || mainActivity.gameWithGamers.gamers[1].name == "")
+            mainActivity.gameWithGamers!!.gamers[0].name!!
+        val pl2Name: String = if (mainActivity.gameWithGamers!!.gamers[1].name == null || mainActivity.gameWithGamers!!.gamers[1].name == "")
             getString(R.string.gamer2)
         else
-            mainActivity.gameWithGamers.gamers[1].name!!
+            mainActivity.gameWithGamers!!.gamers[1].name!!
 
         val header = DataTableHeader.Builder()
                 .item(pl1Name, 1)

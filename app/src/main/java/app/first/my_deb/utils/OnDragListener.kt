@@ -60,40 +60,40 @@ class OnDragListener(
                         event.clipData.getItemAt(0).text.toString().toFloat(), v.y
                     )
                     if (indexOfDroppedView != null && results.getChildAt(indexOfDroppedView) != null) {
-                        mainActivity.gameWithGamers.gamers[indexOfAboveView].id =
-                            mainActivity.gameWithGamers.gamers[indexOfDroppedView].id.also {
-                                mainActivity.gameWithGamers.gamers[indexOfDroppedView].id =
-                                    mainActivity.gameWithGamers.gamers[indexOfAboveView].id
+                        mainActivity.gameWithGamers!!.gamers[indexOfAboveView].id =
+                            mainActivity.gameWithGamers!!.gamers[indexOfDroppedView].id.also {
+                                mainActivity.gameWithGamers!!.gamers[indexOfDroppedView].id =
+                                    mainActivity.gameWithGamers!!.gamers[indexOfAboveView].id
                             }
 
-                        mainActivity.gameWithGamers.gamers[indexOfAboveView].bolts =
-                            mainActivity.gameWithGamers.gamers[indexOfDroppedView].bolts.also {
-                                mainActivity.gameWithGamers.gamers[indexOfDroppedView].bolts =
-                                    mainActivity.gameWithGamers.gamers[indexOfAboveView].bolts
+                        mainActivity.gameWithGamers!!.gamers[indexOfAboveView].bolts =
+                            mainActivity.gameWithGamers!!.gamers[indexOfDroppedView].bolts.also {
+                                mainActivity.gameWithGamers!!.gamers[indexOfDroppedView].bolts =
+                                    mainActivity.gameWithGamers!!.gamers[indexOfAboveView].bolts
                             }
 
-                        mainActivity.gameWithGamers.gamers[indexOfAboveView].gameScore =
-                            mainActivity.gameWithGamers.gamers[indexOfDroppedView].gameScore.also {
-                                mainActivity.gameWithGamers.gamers[indexOfDroppedView].gameScore =
-                                    mainActivity.gameWithGamers.gamers[indexOfAboveView].gameScore
+                        mainActivity.gameWithGamers!!.gamers[indexOfAboveView].gameScore =
+                            mainActivity.gameWithGamers!!.gamers[indexOfDroppedView].gameScore.also {
+                                mainActivity.gameWithGamers!!.gamers[indexOfDroppedView].gameScore =
+                                    mainActivity.gameWithGamers!!.gamers[indexOfAboveView].gameScore
                             }
 
-                        mainActivity.gameWithGamers.gamers[indexOfAboveView].lastRoundScore =
-                            mainActivity.gameWithGamers.gamers[indexOfDroppedView].lastRoundScore.also {
-                                mainActivity.gameWithGamers.gamers[indexOfDroppedView].lastRoundScore =
-                                    mainActivity.gameWithGamers.gamers[indexOfAboveView].lastRoundScore
+                        mainActivity.gameWithGamers!!.gamers[indexOfAboveView].lastRoundScore =
+                            mainActivity.gameWithGamers!!.gamers[indexOfDroppedView].lastRoundScore.also {
+                                mainActivity.gameWithGamers!!.gamers[indexOfDroppedView].lastRoundScore =
+                                    mainActivity.gameWithGamers!!.gamers[indexOfAboveView].lastRoundScore
                             }
 
-                        mainActivity.gameWithGamers.gamers[indexOfAboveView].name =
-                            mainActivity.gameWithGamers.gamers[indexOfDroppedView].name.also {
-                                mainActivity.gameWithGamers.gamers[indexOfDroppedView].name =
-                                    mainActivity.gameWithGamers.gamers[indexOfAboveView].name
+                        mainActivity.gameWithGamers!!.gamers[indexOfAboveView].name =
+                            mainActivity.gameWithGamers!!.gamers[indexOfDroppedView].name.also {
+                                mainActivity.gameWithGamers!!.gamers[indexOfDroppedView].name =
+                                    mainActivity.gameWithGamers!!.gamers[indexOfAboveView].name
                             }
 
-                        mainActivity.gameWithGamers.gamers[indexOfAboveView].score =
-                            mainActivity.gameWithGamers.gamers[indexOfDroppedView].score.also {
-                                mainActivity.gameWithGamers.gamers[indexOfDroppedView].score =
-                                    mainActivity.gameWithGamers.gamers[indexOfAboveView].score
+                        mainActivity.gameWithGamers!!.gamers[indexOfAboveView].score =
+                            mainActivity.gameWithGamers!!.gamers[indexOfDroppedView].score.also {
+                                mainActivity.gameWithGamers!!.gamers[indexOfDroppedView].score =
+                                    mainActivity.gameWithGamers!!.gamers[indexOfAboveView].score
                             }
 
                         mainActivity.lifecycleScope.launch {

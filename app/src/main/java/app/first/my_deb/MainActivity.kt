@@ -28,12 +28,11 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.play.core.review.ReviewException
 import com.google.android.play.core.review.ReviewManagerFactory
-import com.google.android.play.core.review.model.ReviewErrorCode
 import com.jaredrummler.cyanea.app.CyaneaAppCompatActivity
 import com.maltaisn.calcdialog.CalcDialog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import studio.carbonylgroup.textfieldboxes.ExtendedEditText
 import java.math.BigDecimal
 
@@ -46,29 +45,33 @@ class MainActivity : CyaneaAppCompatActivity(), CalcDialog.CalcDialogCallback {
     private val calcDialog = CalcDialog()
     private lateinit var databaseHelper: DatabaseHelper
     internal lateinit var dao: Dao
-    internal lateinit var gameWithGamers: GameWithGamers
+    internal var gameWithGamers: GameWithGamers? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        runBlocking {
+        lifecycleScope.launch {
             setupFont()
+            setupDatabase()
+            initGame()
+            setupViewPagerAndTabs()
         }
         setContentView(R.layout.activity_main)
-        setupDatabase()
         checkOnboarding()
-        setupViewPagerAndTabs()
-        lifecycleScope.launch { initGame() }
     }
 
     private suspend fun setupFont() {
-        val pref = PreferenceManager.getDefaultSharedPreferences(this)
-        val font = pref.getString("fonts", "@font/roboto")
-        AppFontManager(this).setFont(font)
+        withContext(Dispatchers.IO) {
+            val pref = PreferenceManager.getDefaultSharedPreferences(this@MainActivity)
+            val font = pref.getString("fonts", "@font/roboto")
+            AppFontManager(this@MainActivity).setFont(font)
+        }
     }
 
-    private fun setupDatabase() {
-        databaseHelper = DatabaseHelper(this)
-        dao = DatabaseHelper.instance.getDao()
+    private suspend fun setupDatabase() {
+        withContext(Dispatchers.IO) {
+            databaseHelper = DatabaseHelper(this@MainActivity)
+            dao = DatabaseHelper.instance.getDao()
+        }
     }
 
     private fun checkOnboarding() {
@@ -120,20 +123,22 @@ class MainActivity : CyaneaAppCompatActivity(), CalcDialog.CalcDialogCallback {
     }
 
     internal suspend fun initGame() {
-        val sPref = getSharedPreferences("Save.txt", Context.MODE_PRIVATE)
-        val type = sPref.getString("type", "1")
+        withContext(Dispatchers.IO) {
+            val sPref = getSharedPreferences("Save.txt", Context.MODE_PRIVATE)
+            val type = sPref.getString("type", "1")
 
-        type?.let {
-            if (dao.activeGameExists(it)) {
-                gameWithGamers = dao.getActiveGame(it).apply {
-                    gamers = gamers.sortedBy { gamer -> gamer.number }
-                }
-            } else {
-                gameWithGamers = createDefaultGameAndGamers(it).also { game ->
-                    dao.upsertByReplacementGame(game)
-                }.let {
-                    dao.getActiveGame(type).apply {
+            type?.let {
+                gameWithGamers = if (dao.activeGameExists(it)) {
+                    dao.getActiveGame(it).apply {
                         gamers = gamers.sortedBy { gamer -> gamer.number }
+                    }
+                } else {
+                    createDefaultGameAndGamers(it).also { game ->
+                        dao.upsertByReplacementGame(game)
+                    }.let {
+                        dao.getActiveGame(type).apply {
+                            gamers = gamers.sortedBy { gamer -> gamer.number }
+                        }
                     }
                 }
             }
@@ -175,8 +180,10 @@ class MainActivity : CyaneaAppCompatActivity(), CalcDialog.CalcDialogCallback {
     }
 
     internal fun saveGame() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            dao.upsertByReplacementGame(gameWithGamers)
+        gameWithGamers?.let {
+            lifecycleScope.launch(Dispatchers.IO) {
+                dao.upsertByReplacementGame(it)
+            }
         }
     }
 
@@ -241,7 +248,6 @@ class MainActivity : CyaneaAppCompatActivity(), CalcDialog.CalcDialogCallback {
         val manager = ReviewManagerFactory.create(context)
         manager.requestReviewFlow().addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                // val reviewInfo = task.result
                 manager.launchReviewFlow(this, task.result)
             } else {
                 val reviewErrorCode = (task.exception as? ReviewException)?.errorCode

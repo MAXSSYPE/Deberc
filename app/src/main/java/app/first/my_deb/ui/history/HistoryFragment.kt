@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +16,9 @@ import app.first.my_deb.R
 import app.first.my_deb.database.GameWithGamers
 import app.first.my_deb.utils.fadInAnimation
 import com.jaredrummler.cyanea.app.CyaneaFragment
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class HistoryFragment : CyaneaFragment() {
 
@@ -41,16 +44,19 @@ class HistoryFragment : CyaneaFragment() {
             }
         }
 
-        var games: List<GameWithGamers> = ArrayList<GameWithGamers>()
-        runBlocking {
-            games = mainActivity.dao.getInactiveGames()
-        }
-        if (view.findViewById<RecyclerView>(R.id.list).adapter == null) {
-            view.fadInAnimation(500)
-        }
-        view.findViewById<RecyclerView>(R.id.list).adapter = setAdapter(games)
-        if (games.isNullOrEmpty()) {
-            requireActivity().findViewById<TextView>(R.id.empty).visibility = View.VISIBLE
+        loadGames()
+    }
+
+    private fun loadGames() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            val games = withContext(Dispatchers.IO) {
+                mainActivity.dao.getInactiveGames()
+            }
+            if (view.findViewById<RecyclerView>(R.id.list).adapter == null) {
+                view.fadInAnimation(500)
+            }
+            view.findViewById<RecyclerView>(R.id.list).adapter = setAdapter(games)
+            requireActivity().findViewById<TextView>(R.id.empty).isVisible = games.isEmpty()
         }
     }
 
@@ -60,6 +66,6 @@ class HistoryFragment : CyaneaFragment() {
 
     override fun onPause() {
         super.onPause()
-        requireActivity().findViewById<TextView>(R.id.empty).visibility = View.INVISIBLE
+        requireActivity().findViewById<TextView>(R.id.empty).isVisible = false
     }
 }

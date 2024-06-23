@@ -1,6 +1,5 @@
 package app.first.my_deb.ui.main
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.ClipData
 import android.content.ClipDescription
@@ -14,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
@@ -24,7 +24,11 @@ import androidx.preference.PreferenceManager
 import app.first.my_deb.MainActivity
 import app.first.my_deb.R
 import app.first.my_deb.ui.menu.MenuActivity
-import app.first.my_deb.utils.*
+import app.first.my_deb.utils.MyDragShadowBuilder
+import app.first.my_deb.utils.OnDragListener
+import app.first.my_deb.utils.activateNames
+import app.first.my_deb.utils.fadInAnimation
+import app.first.my_deb.utils.setTextAnimation
 import com.andremion.counterfab.CounterFab
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.jaredrummler.cyanea.app.CyaneaFragment
@@ -94,6 +98,23 @@ class Fragment2x2 : CyaneaFragment() {
                 numberPicker
             )
         })
+
+        numberField1.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                onClick()
+                true
+            } else {
+                false
+            }
+        }
+        numberField2.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                onClick()
+                true
+            } else {
+                false
+            }
+        }
 
         loadText()
         setupFonts()
@@ -178,6 +199,9 @@ class Fragment2x2 : CyaneaFragment() {
             if (numberField1.text.toString().isNotEmpty()) {
                 val num = numberField1.text.toString().toInt()
                 numberField2.hint = (value - num).toString()
+            } else if (numberField2.text.toString().isNotEmpty()) {
+                val num = numberField2.text.toString().toInt()
+                numberField1.hint = (value - num).toString()
             }
         } catch (ignored: Exception) {
         }
@@ -189,11 +213,13 @@ class Fragment2x2 : CyaneaFragment() {
     }
 
     private fun onPickerScroll(view: NumberPicker) {
-        try {
-            val value = data[view.value - 1].toInt()
-            numberField1.hint = value.toString()
-            numberField2.hint = value.toString()
-        } catch (ignored: Exception) {
+        if (numberField1.text.toString().isNotEmpty() || numberField2.text.toString().isNotEmpty()) {
+            try {
+                val value = data[view.value - 1].toInt()
+                numberField1.hint = value.toString()
+                numberField2.hint = value.toString()
+            } catch (ignored: Exception) {
+            }
         }
     }
 
@@ -228,10 +254,10 @@ class Fragment2x2 : CyaneaFragment() {
 
                 if (now1 != 0) resultField1.setTextAnimation((prev1 + now1).toString(), 200)
                 if (now2 != 0) resultField2.setTextAnimation((prev2 + now2).toString(), 200)
-                mainActivity.gameWithGamers.gamers[0].gameScore!!.add(now1.toString())
-                mainActivity.gameWithGamers.gamers[1].gameScore!!.add(now2.toString())
-                mainActivity.gameWithGamers.gamers[0].score = resultField1.text.toString().toInt()
-                mainActivity.gameWithGamers.gamers[1].score = resultField2.text.toString().toInt()
+                mainActivity.gameWithGamers!!.gamers[0].gameScore!!.add(now1.toString())
+                mainActivity.gameWithGamers!!.gamers[1].gameScore!!.add(now2.toString())
+                mainActivity.gameWithGamers!!.gamers[0].score = resultField1.text.toString().toInt()
+                mainActivity.gameWithGamers!!.gamers[1].score = resultField2.text.toString().toInt()
 
                 numberField1.setText("")
                 numberField1.hint = "0"
@@ -268,10 +294,10 @@ class Fragment2x2 : CyaneaFragment() {
 
                 mainActivity.lifecycleScope.launch {
                     mainActivity.dao.setEndTime(
-                        mainActivity.gameWithGamers.game.id!!,
+                        mainActivity.gameWithGamers!!.game.id!!,
                         System.currentTimeMillis()
                     )
-                    mainActivity.dao.addGameToInactive(mainActivity.gameWithGamers.game.id!!)
+                    mainActivity.dao.addGameToInactive(mainActivity.gameWithGamers!!.game.id!!)
                     mainActivity.initGame()
                 }
                 messageBoxInstance.dismiss()
@@ -287,12 +313,12 @@ class Fragment2x2 : CyaneaFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        saveText()
+        saveTextWithLifecycleScope()
     }
 
     override fun onPause() {
         super.onPause()
-        saveText()
+        saveTextWithLifecycleScope()
     }
 
     override fun onResume() {
@@ -305,32 +331,38 @@ class Fragment2x2 : CyaneaFragment() {
     }
 
     private fun saveText() {
-        mainActivity.gameWithGamers.gamers[0].apply {
+        mainActivity.gameWithGamers!!.gamers[0].apply {
             name = name1.text.toString()
             score = resultField1.text.toString().toInt()
             lastRoundScore = numberField1.text.toString()
             bolts = counterBolt1.count
         }
-        mainActivity.gameWithGamers.gamers[1].apply {
+        mainActivity.gameWithGamers!!.gamers[1].apply {
             name = name2.text.toString()
             score = resultField2.text.toString().toInt()
             lastRoundScore = numberField2.text.toString()
             bolts = counterBolt2.count
         }
         mainActivity.lifecycleScope.launch {
-            mainActivity.dao.upsertByReplacementGame(mainActivity.gameWithGamers)
+            mainActivity.dao.upsertByReplacementGame(mainActivity.gameWithGamers!!)
+        }
+    }
+
+    private fun saveTextWithLifecycleScope() {
+        if (view != null && isAdded) {
+            saveText()
         }
     }
 
     private fun loadText() {
-        name1.text = mainActivity.gameWithGamers.gamers[0].name
-        name2.text = mainActivity.gameWithGamers.gamers[1].name
-        resultField1.text = mainActivity.gameWithGamers.gamers[0].score.toString()
-        resultField2.text = mainActivity.gameWithGamers.gamers[1].score.toString()
-        numberField1.setText(mainActivity.gameWithGamers.gamers[0].lastRoundScore)
-        numberField2.setText(mainActivity.gameWithGamers.gamers[1].lastRoundScore)
-        counterBolt1.count = mainActivity.gameWithGamers.gamers[0].bolts ?: 0
-        counterBolt2.count = mainActivity.gameWithGamers.gamers[1].bolts ?: 0
+        name1.text = mainActivity.gameWithGamers!!.gamers[0].name
+        name2.text = mainActivity.gameWithGamers!!.gamers[1].name
+        resultField1.text = mainActivity.gameWithGamers!!.gamers[0].score.toString()
+        resultField2.text = mainActivity.gameWithGamers!!.gamers[1].score.toString()
+        numberField1.setText(mainActivity.gameWithGamers!!.gamers[0].lastRoundScore)
+        numberField2.setText(mainActivity.gameWithGamers!!.gamers[1].lastRoundScore)
+        counterBolt1.count = mainActivity.gameWithGamers!!.gamers[0].bolts ?: 0
+        counterBolt2.count = mainActivity.gameWithGamers!!.gamers[1].bolts ?: 0
 
         setBoltButtons(
             PreferenceManager.getDefaultSharedPreferences(requireContext())
@@ -370,11 +402,11 @@ class Fragment2x2 : CyaneaFragment() {
                     (otherResultField.text.toString()
                         .toInt() + data[numberPicker.value - 1].toInt()).toString(), 200
                 )
-                mainActivity.gameWithGamers.gamers[1 - gamerIndex].gameScore!!.add(data[numberPicker.value - 1])
+                mainActivity.gameWithGamers!!.gamers[1 - gamerIndex].gameScore!!.add(data[numberPicker.value - 1])
             } else {
-                mainActivity.gameWithGamers.gamers[1 - gamerIndex].gameScore!!.add("0")
+                mainActivity.gameWithGamers!!.gamers[1 - gamerIndex].gameScore!!.add("0")
             }
-            mainActivity.gameWithGamers.gamers[gamerIndex].gameScore!!.add(valueOfMinus.toString())
+            mainActivity.gameWithGamers!!.gamers[gamerIndex].gameScore!!.add(valueOfMinus.toString())
         } else if (PreferenceManager.getDefaultSharedPreferences(requireContext())
                 .getBoolean("addOnBolt", false)
         ) {
@@ -383,8 +415,8 @@ class Fragment2x2 : CyaneaFragment() {
                 (otherResultField.text.toString()
                     .toInt() + data[numberPicker.value - 1].toInt()).toString(), 200
             )
-            mainActivity.gameWithGamers.gamers[1 - gamerIndex].gameScore!!.add(data[numberPicker.value - 1])
-            mainActivity.gameWithGamers.gamers[gamerIndex].gameScore!!.add("0")
+            mainActivity.gameWithGamers!!.gamers[1 - gamerIndex].gameScore!!.add(data[numberPicker.value - 1])
+            mainActivity.gameWithGamers!!.gamers[gamerIndex].gameScore!!.add("0")
         }
     }
 

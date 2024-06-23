@@ -12,11 +12,15 @@ import androidx.lifecycle.lifecycleScope
 import app.first.my_deb.MainActivity
 import app.first.my_deb.R
 import app.first.my_deb.ui.menu.MenuActivity
-import app.first.my_deb.utils.*
+import app.first.my_deb.utils.fadInAnimation
+import app.first.my_deb.utils.loadText
+import app.first.my_deb.utils.saveText
+import app.first.my_deb.utils.setupButtons
+import app.first.my_deb.utils.setupNamesAndResults
+import app.first.my_deb.utils.setupNumberFields
 import com.andremion.counterfab.CounterFab
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.jaredrummler.cyanea.app.CyaneaFragment
-import kotlinx.coroutines.launch
 import studio.carbonylgroup.textfieldboxes.TextFieldBoxes
 
 class Fragment4 : CyaneaFragment() {
@@ -128,13 +132,15 @@ class Fragment4 : CyaneaFragment() {
     }
 
     private fun saveTextWithLifecycleScope() {
-        saveText(
-            mainActivity,
-            resultFields,
-            numberFields,
-            names,
-            counterBolts,
-            viewLifecycleOwner.lifecycleScope
-        )
+        if (view != null && isAdded) {
+            saveText(
+                mainActivity,
+                resultFields,
+                numberFields,
+                names,
+                counterBolts,
+                viewLifecycleOwner.lifecycleScope
+            )
+        }
     }
 }

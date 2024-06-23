@@ -2,15 +2,12 @@ package app.first.my_deb.ui.score
 
 import android.graphics.Typeface
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import app.first.my_deb.MainActivity
 import app.first.my_deb.R
-import app.first.my_deb.utils.AppFontManager
 import com.google.ads.mediation.admob.AdMobAdapter
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
@@ -19,7 +16,6 @@ import com.jaredrummler.cyanea.app.CyaneaFragment
 import ir.androidexception.datatable.DataTable
 import ir.androidexception.datatable.model.DataTableHeader
 import ir.androidexception.datatable.model.DataTableRow
-import java.util.*
 
 
 class ScoreFragment2x2 : CyaneaFragment() {
@@ -59,16 +55,16 @@ class ScoreFragment2x2 : CyaneaFragment() {
     }
 
     private fun loadTable() {
-        val pl1 = mainActivity.gameWithGamers.gamers[0].gameScore
-        val pl2 = mainActivity.gameWithGamers.gamers[1].gameScore
-        val pl1Name: String = if (mainActivity.gameWithGamers.gamers[0].name == null || mainActivity.gameWithGamers.gamers[0].name == "")
+        val pl1 = mainActivity.gameWithGamers!!.gamers[0].gameScore
+        val pl2 = mainActivity.gameWithGamers!!.gamers[1].gameScore
+        val pl1Name: String = if (mainActivity.gameWithGamers!!.gamers[0].name == null || mainActivity.gameWithGamers!!.gamers[0].name == "")
             getString(R.string.team1)
         else
-            mainActivity.gameWithGamers.gamers[0].name!!
-        val pl2Name: String = if (mainActivity.gameWithGamers.gamers[1].name == null || mainActivity.gameWithGamers.gamers[1].name == "")
+            mainActivity.gameWithGamers!!.gamers[0].name!!
+        val pl2Name: String = if (mainActivity.gameWithGamers!!.gamers[1].name == null || mainActivity.gameWithGamers!!.gamers[1].name == "")
             getString(R.string.team2)
         else
-            mainActivity.gameWithGamers.gamers[1].name!!
+            mainActivity.gameWithGamers!!.gamers[1].name!!
 
         val header = DataTableHeader.Builder()
                 .item(pl1Name, 1)
