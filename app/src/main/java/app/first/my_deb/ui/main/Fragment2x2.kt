@@ -355,14 +355,46 @@ class Fragment2x2 : CyaneaFragment() {
     }
 
     private fun loadText() {
-        name1.text = mainActivity.gameWithGamers!!.gamers[0].name
-        name2.text = mainActivity.gameWithGamers!!.gamers[1].name
-        resultField1.text = mainActivity.gameWithGamers!!.gamers[0].score.toString()
-        resultField2.text = mainActivity.gameWithGamers!!.gamers[1].score.toString()
-        numberField1.setText(mainActivity.gameWithGamers!!.gamers[0].lastRoundScore)
-        numberField2.setText(mainActivity.gameWithGamers!!.gamers[1].lastRoundScore)
-        counterBolt1.count = mainActivity.gameWithGamers!!.gamers[0].bolts ?: 0
-        counterBolt2.count = mainActivity.gameWithGamers!!.gamers[1].bolts ?: 0
+        mainActivity.gameWithGamers?.let { gameWithGamers ->
+            val gamers = gameWithGamers.gamers
+            if (gamers.isNotEmpty()) {
+                gamers.getOrNull(0)?.let { gamer1 ->
+                    name1.text = gamer1.name ?: ""
+                    resultField1.text = gamer1.score.toString()
+                    numberField1.setText(gamer1.lastRoundScore ?: "")
+                    counterBolt1.count = gamer1.bolts ?: 0
+                }
+
+                gamers.getOrNull(1)?.let { gamer2 ->
+                    name2.text = gamer2.name ?: ""
+                    resultField2.text = gamer2.score.toString()
+                    numberField2.setText(gamer2.lastRoundScore ?: "")
+                    counterBolt2.count = gamer2.bolts ?: 0
+                }
+            } else {
+                // Handle the case where the gamers list is empty
+                name1.text = ""
+                resultField1.text = "0"
+                numberField1.setText("")
+                counterBolt1.count = 0
+
+                name2.text = ""
+                resultField2.text = "0"
+                numberField2.setText("")
+                counterBolt2.count = 0
+            }
+        } ?: run {
+            // Handle the case where gameWithGamers is null
+            name1.text = ""
+            resultField1.text = "0"
+            numberField1.setText("")
+            counterBolt1.count = 0
+
+            name2.text = ""
+            resultField2.text = "0"
+            numberField2.setText("")
+            counterBolt2.count = 0
+        }
 
         setBoltButtons(
             PreferenceManager.getDefaultSharedPreferences(requireContext())
