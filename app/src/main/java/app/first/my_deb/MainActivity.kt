@@ -49,13 +49,13 @@ class MainActivity : CyaneaAppCompatActivity(), CalcDialog.CalcDialogCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
         lifecycleScope.launch {
             setupFont()
             setupDatabase()
             initGame()
             setupViewPagerAndTabs()
         }
-        setContentView(R.layout.activity_main)
         checkOnboarding()
     }
 

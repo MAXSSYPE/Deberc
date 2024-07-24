@@ -32,9 +32,7 @@ fun onNewClick(
     counterBolts: List<CounterFab>,
     coroutineScope: CoroutineScope
 ) {
-    val messageBoxView =
-        LayoutInflater.from(activity).inflate(R.layout.message_box, null)
-
+    val messageBoxView = LayoutInflater.from(activity).inflate(R.layout.message_box, null)
     val messageBoxBuilder = AlertDialog.Builder(activity).setView(messageBoxView)
 
     val header = messageBoxView.findViewById<TextView>(R.id.message_box_header)
@@ -72,9 +70,6 @@ fun onNewClick(
     }
 
     messageBoxInstance.window?.setBackgroundDrawableResource(R.drawable.message_background)
-    /*messageBoxView.setOnClickListener(){
-        messageBoxInstance.dismiss()
-    }*/
 }
 
 fun onClick(
@@ -85,33 +80,32 @@ fun onClick(
 ) {
     val imm =
         activity.applicationContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-    if (imm.isAcceptingText) {
-        if (imm != null && activity.currentFocus != null) {
-            imm.hideSoftInputFromWindow(
-                activity.currentFocus!!.windowToken,
-                InputMethodManager.HIDE_NOT_ALWAYS
-            )
-        }
+    if (imm.isAcceptingText && activity.currentFocus != null) {
+        imm.hideSoftInputFromWindow(
+            activity.currentFocus!!.windowToken,
+            InputMethodManager.HIDE_NOT_ALWAYS
+        )
     }
 
-    if (numberFields.filter { it.text.toString() == "" }.size != numberFields.size)
+    if (numberFields.any { it.text.toString().isNotEmpty() }) {
         try {
             for (i in numberFields.indices) {
                 var nowInt = 0
-                val prevInt = resultFields[i].text.toString().toInt()
-                if (numberFields[i].text.toString() != "")
+                val prevInt = resultFields[i].text.toString().toIntOrNull() ?: 0
+                if (numberFields[i].text.toString().isNotEmpty())
                     nowInt = numberFields[i].text.toString().toInt()
 
                 if (nowInt != 0)
                     resultFields[i].setTextAnimation((prevInt + nowInt).toString(), 200)
 
-                mainActivity.gameWithGamers!!.gamers[i].gameScore!!.add(nowInt.toString())
+                mainActivity.gameWithGamers!!.gamers[i].gameScore?.add(nowInt.toString())
                 mainActivity.gameWithGamers!!.gamers[i].score =
                     resultFields[i].text.toString().toInt()
                 numberFields[i].setText("")
             }
         } catch (ignored: Exception) {
         }
+    }
 }
 
 fun saveText(
@@ -123,10 +117,12 @@ fun saveText(
     coroutineScope: CoroutineScope
 ) {
     for (i in resultFields.indices) {
-        mainActivity.gameWithGamers!!.gamers[i].name = names[i].text.toString()
-        mainActivity.gameWithGamers!!.gamers[i].score = resultFields[i].text.toString().toInt()
-        mainActivity.gameWithGamers!!.gamers[i].lastRoundScore = numberFields[i].text.toString()
-        mainActivity.gameWithGamers!!.gamers[i].bolts = counterBolts[i].count
+        mainActivity.gameWithGamers!!.gamers[i].apply {
+            name = names[i].text.toString()
+            score = resultFields[i].text.toString().toIntOrNull() ?: 0
+            lastRoundScore = numberFields[i].text.toString()
+            bolts = counterBolts[i].count
+        }
     }
     coroutineScope.launch {
         mainActivity.dao.upsertByReplacementGame(mainActivity.gameWithGamers!!)
@@ -141,20 +137,19 @@ fun loadText(
     names: List<TextView>,
     counterBolts: List<CounterFab>
 ) {
-    for (i in resultFields.indices) {
-        names[i].text = mainActivity.gameWithGamers!!.gamers[i].name
-        resultFields[i].text = mainActivity.gameWithGamers!!.gamers[i].score.toString()
-        numberFields[i].setText(mainActivity.gameWithGamers!!.gamers[i].lastRoundScore)
-        counterBolts[i].count = if (mainActivity.gameWithGamers!!.gamers[i].bolts == null)
-            0
-        else
-            mainActivity.gameWithGamers!!.gamers[i].bolts!!
-
+    val gameWithGamers = mainActivity.gameWithGamers
+    if (gameWithGamers != null && gameWithGamers.gamers.size >= resultFields.size) {
+        for (i in resultFields.indices) {
+            val gamer = gameWithGamers.gamers[i]
+            names[i].text = gamer.name
+            resultFields[i].text = gamer.score.toString()
+            numberFields[i].setText(gamer.lastRoundScore)
+            counterBolts[i].count = gamer.bolts ?: 0
+        }
     }
 
     setBoltButtons(
-        PreferenceManager.getDefaultSharedPreferences(context)
-            .getBoolean("hasBolt", false),
+        PreferenceManager.getDefaultSharedPreferences(context).getBoolean("hasBolt", false),
         context,
         mainActivity,
         counterBolts,
@@ -174,25 +169,24 @@ fun setBoltButtons(
         for (i in counterBolts.indices) {
             counterBolts[i].setOnClickListener {
                 val valueOfMinus = PreferenceManager.getDefaultSharedPreferences(context)
-                    .getString("valueOfMinus", "-100")!!
+                    .getString("valueOfMinus", "-100")!!.toInt()
                 counterBolts[i].increase()
                 if (counterBolts[i].count == PreferenceManager.getDefaultSharedPreferences(context)
                         .getString("countOfNails", "3")!!.toInt()
                 ) {
                     counterBolts[i].count = 0
-                    if (resultFields[i].text.toString() == "")
-                        resultFields[i].setTextAnimation(valueOfMinus, 200)
-                    else
-                        resultFields[i].setTextAnimation(
-                            (resultFields[i].text.toString()
-                                .toInt() + valueOfMinus.toInt()).toString(), 200
-                        )
+                    val resultField = resultFields[i]
+                    resultField.setTextAnimation(
+                        ((resultField.text.toString().toIntOrNull()
+                            ?: (0 + valueOfMinus))).toString(),
+                        200
+                    )
 
                     for (j in mainActivity.gameWithGamers!!.gamers.indices) {
                         if (i == j)
-                            mainActivity.gameWithGamers!!.gamers[j].gameScore!!.add(valueOfMinus)
+                            mainActivity.gameWithGamers!!.gamers[j].gameScore?.add(valueOfMinus.toString())
                         else
-                            mainActivity.gameWithGamers!!.gamers[j].gameScore!!.add("0")
+                            mainActivity.gameWithGamers!!.gamers[j].gameScore?.add("0")
                     }
                 }
             }
@@ -214,12 +208,9 @@ fun setupNumberFields(
             (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN)
         ) {
             onClick(activity, mainActivity, resultFields, numberFields)
-            val inputMethodManager = activity.getSystemService(
-                Activity.INPUT_METHOD_SERVICE
-            ) as InputMethodManager
-            inputMethodManager.hideSoftInputFromWindow(
-                activity.currentFocus!!.windowToken, 0
-            )
+            val inputMethodManager =
+                activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(activity.currentFocus?.windowToken, 0)
             true
         } else {
             false
@@ -250,12 +241,7 @@ fun setupButtons(
         )
     }
     addButton.setOnClickListener {
-        onClick(
-            activity,
-            mainActivity,
-            resultFields,
-            numberFields
-        )
+        onClick(activity, mainActivity, resultFields, numberFields)
     }
 }
 
@@ -270,18 +256,10 @@ fun setupNamesAndResults(
 ) {
     names.forEach {
         it.setOnEditorActionListener { _, _, _ ->
-            onClick(
-                activity,
-                mainActivity,
-                resultFields,
-                numberFields
-            )
-            val inputMethodManager = activity.getSystemService(
-                Activity.INPUT_METHOD_SERVICE
-            ) as InputMethodManager
-            inputMethodManager.hideSoftInputFromWindow(
-                activity.currentFocus!!.windowToken, 0
-            )
+            onClick(activity, mainActivity, resultFields, numberFields)
+            val inputMethodManager =
+                activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(activity.currentFocus?.windowToken, 0)
         }
     }
 
@@ -298,28 +276,13 @@ fun setupNamesAndResults(
 
 val longClickListener = View.OnLongClickListener { v: View ->
     val item = ClipData.Item((v as TextView).x.toString() as CharSequence)
-    val dragData = ClipData(
-        v as? CharSequence,
-        arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN),
-        item
-    )
-
+    val dragData = ClipData(v as? CharSequence, arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN), item)
     val myShadow = MyDragShadowBuilder(v)
 
     if (android.os.Build.VERSION.SDK_INT <= 23) {
-        v.startDrag(
-            dragData,
-            myShadow,
-            null,
-            0
-        )
+        v.startDrag(dragData, myShadow, null, 0)
     } else {
-        v.startDragAndDrop(
-            dragData,
-            myShadow,
-            null,
-            0
-        )
+        v.startDragAndDrop(dragData, myShadow, null, 0)
     }
 }
 
@@ -328,4 +291,3 @@ val activateNames = { boxes: List<TextFieldBoxes> ->
     if (boxes.isNotEmpty())
         boxes.last().clearFocus()
 }
-

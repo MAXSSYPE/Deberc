@@ -25,8 +25,10 @@ class ScoreFragment3 : CyaneaFragment() {
     private lateinit var dataTable: DataTable
     private lateinit var mainActivity: MainActivity
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         val view = inflater.inflate(R.layout.fragment_score, container, false)
         mainActivity = activity as MainActivity
         dataTable = view.findViewById(R.id.data_table)
@@ -45,7 +47,8 @@ class ScoreFragment3 : CyaneaFragment() {
         val extras = Bundle()
         extras.putString("max_ad_content_rating", "MA")
 
-        val adRequest = AdRequest.Builder().addNetworkExtrasBundle(AdMobAdapter::class.java, extras).build()
+        val adRequest =
+            AdRequest.Builder().addNetworkExtrasBundle(AdMobAdapter::class.java, extras).build()
         mAdView.loadAd(adRequest)
     }
 
@@ -58,31 +61,34 @@ class ScoreFragment3 : CyaneaFragment() {
         val pl1 = mainActivity.gameWithGamers!!.gamers[0].gameScore
         val pl2 = mainActivity.gameWithGamers!!.gamers[1].gameScore
         val pl3 = mainActivity.gameWithGamers!!.gamers[2].gameScore
-        val pl1Name: String = if (mainActivity.gameWithGamers!!.gamers[0].name == null || mainActivity.gameWithGamers!!.gamers[0].name == "")
-            getString(R.string.gamer1)
-        else
-            mainActivity.gameWithGamers!!.gamers[0].name!!
-        val pl2Name: String = if (mainActivity.gameWithGamers!!.gamers[1].name == null || mainActivity.gameWithGamers!!.gamers[1].name == "")
-            getString(R.string.gamer2)
-        else
-            mainActivity.gameWithGamers!!.gamers[1].name!!
-        val pl3Name: String = if (mainActivity.gameWithGamers!!.gamers[2].name == null || mainActivity.gameWithGamers!!.gamers[2].name == "")
-            getString(R.string.gamer3)
-        else
-            mainActivity.gameWithGamers!!.gamers[2].name!!
+        val pl1Name: String =
+            if (mainActivity.gameWithGamers!!.gamers[0].name == null || mainActivity.gameWithGamers!!.gamers[0].name == "")
+                getString(R.string.gamer1)
+            else
+                mainActivity.gameWithGamers!!.gamers[0].name!!
+        val pl2Name: String =
+            if (mainActivity.gameWithGamers!!.gamers[1].name == null || mainActivity.gameWithGamers!!.gamers[1].name == "")
+                getString(R.string.gamer2)
+            else
+                mainActivity.gameWithGamers!!.gamers[1].name!!
+        val pl3Name: String =
+            if (mainActivity.gameWithGamers!!.gamers[2].name == null || mainActivity.gameWithGamers!!.gamers[2].name == "")
+                getString(R.string.gamer3)
+            else
+                mainActivity.gameWithGamers!!.gamers[2].name!!
 
         val header = DataTableHeader.Builder()
-                .item(pl1Name, 1)
-                .item(pl2Name, 1)
-                .item(pl3Name, 1).build()
+            .item(pl1Name, 1)
+            .item(pl2Name, 1)
+            .item(pl3Name, 1).build()
 
         val rows = ArrayList<DataTableRow>()
         if (pl1 != null && pl2 != null && pl3 != null && pl1.isNotEmpty() && pl2.isNotEmpty() && pl3.isNotEmpty()) {
             for (i in pl1.indices) {
                 val row = DataTableRow.Builder()
-                        .value(pl1[i])
-                        .value(pl2[i])
-                        .value(pl3[i]).build()
+                    .value(pl1[i])
+                    .value(pl2[i])
+                    .value(pl3[i]).build()
                 rows.add(row)
             }
         }
