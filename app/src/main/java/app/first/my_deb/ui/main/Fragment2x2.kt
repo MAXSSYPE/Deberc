@@ -1,5 +1,6 @@
 package app.first.my_deb.ui.main
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.ClipData
 import android.content.ClipDescription
@@ -13,7 +14,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
@@ -24,17 +24,14 @@ import androidx.preference.PreferenceManager
 import app.first.my_deb.MainActivity
 import app.first.my_deb.R
 import app.first.my_deb.ui.menu.MenuActivity
-import app.first.my_deb.utils.MyDragShadowBuilder
-import app.first.my_deb.utils.OnDragListener
-import app.first.my_deb.utils.activateNames
-import app.first.my_deb.utils.fadInAnimation
-import app.first.my_deb.utils.setTextAnimation
+import app.first.my_deb.utils.*
 import com.andremion.counterfab.CounterFab
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.jaredrummler.cyanea.app.CyaneaFragment
 import com.shawnlin.numberpicker.NumberPicker
 import kotlinx.coroutines.launch
 import studio.carbonylgroup.textfieldboxes.TextFieldBoxes
+
 
 class Fragment2x2 : CyaneaFragment() {
 
@@ -71,60 +68,9 @@ class Fragment2x2 : CyaneaFragment() {
         resultField2 = view.findViewById(R.id.resultField2)
         name1 = view.findViewById(R.id.name1)
         name2 = view.findViewById(R.id.name2)
-        box1 = view.findViewById(R.id.box1) as TextFieldBoxes
-        box2 = view.findViewById(R.id.box2) as TextFieldBoxes
+        box1 = view.findViewById(R.id.box1)!!
+        box2 = view.findViewById(R.id.box2)!!
 
-        setupViewListeners(view)
-
-        numberPicker = view.findViewById(R.id.number_picker)
-        numberPicker.minValue = 1
-        numberPicker.maxValue = data.size
-        numberPicker.displayedValues = data
-        numberPicker.visibility = View.VISIBLE
-        numberPicker.setOnValueChangedListener { picker, _, _ -> onPickerValueChange(picker) }
-        numberPicker.setOnScrollListener { view, _ -> onPickerScroll(view) }
-
-        numberField1.addTextChangedListener(createTextWatcher {
-            updateHints(
-                numberField1,
-                numberField2,
-                numberPicker
-            )
-        })
-        numberField2.addTextChangedListener(createTextWatcher {
-            updateHints(
-                numberField2,
-                numberField1,
-                numberPicker
-            )
-        })
-
-        numberField1.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                onClick()
-                true
-            } else {
-                false
-            }
-        }
-        numberField2.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                onClick()
-                true
-            } else {
-                false
-            }
-        }
-
-        loadText()
-        setupFonts()
-        view.fadInAnimation(700)
-        activateNames(arrayListOf(box1, box2))
-
-        return view
-    }
-
-    private fun setupViewListeners(view: View) {
         resultField1.setOnLongClickListener(longClickListener)
         resultField2.setOnLongClickListener(longClickListener)
         resultField1.setOnDragListener(
@@ -145,117 +91,338 @@ class Fragment2x2 : CyaneaFragment() {
         )
 
         newButton = view.findViewById(R.id.button_new)
-        newButton.setOnClickListener { onNewClick() }
+        newButton.setOnClickListener {
+            onNewClick()
+        }
         addButton = view.findViewById(R.id.button_add)
-        addButton.setOnClickListener { onClick() }
+        addButton.setOnClickListener {
+            onClick()
+        }
         resultField1.setOnClickListener {
-            it.startAnimation(
-                AnimationUtils.loadAnimation(
-                    requireContext(),
-                    R.anim.rotate
-                )
-            )
+            val animation = AnimationUtils.loadAnimation(requireContext(), R.anim.rotate)
+            resultField1.startAnimation(animation)
         }
         resultField2.setOnClickListener {
-            it.startAnimation(
-                AnimationUtils.loadAnimation(
-                    requireContext(),
-                    R.anim.rotate
-                )
-            )
+            val animation = AnimationUtils.loadAnimation(requireContext(), R.anim.rotate)
+            resultField2.startAnimation(animation)
         }
         counterBolt1 = view.findViewById(R.id.counter_bolt1) as CounterFab
         counterBolt2 = view.findViewById(R.id.counter_bolt2) as CounterFab
+        numberPicker = view.findViewById(R.id.number_picker)
+
+        numberPicker.minValue = 1
+        numberPicker.maxValue = 19
+        numberPicker.displayedValues = data
+        numberPicker.visibility = View.VISIBLE
+        numberPicker.setOnClickListener {
+            try {
+                if (!(numberField1.text.toString().isEmpty() && numberField2.text.toString()
+                        .isEmpty()) || !(numberField1.text.toString()
+                        .isNotEmpty() && numberField2.text.toString().isNotEmpty())
+                ) {
+                    if (numberField1.text.toString()
+                            .isNotEmpty() && (numberField1.text.toString()
+                            .toInt() > 0 || numberField1.text.toString()
+                            .toInt() < 0)
+                    ) {
+                        if (numberField1.text.toString() != "" && numberField1.text.toString() != "-" && numberField1.text.toString()
+                                .toInt() >= 0 && numberField1.text.toString()
+                                .toInt() <= data[numberPicker.value - 1].toInt()
+                        ) {
+                            numberField2.hint =
+                                (data[numberPicker.value - 1].toInt() - numberField1.text.toString()
+                                    .toInt()).toString()
+                        } else if (numberField1.text.toString().toInt() < 0) {
+                            numberField2.hint =
+                                data[numberPicker.value - 1]
+                        } else {
+                            numberField1.hint = "0"
+                            numberField2.hint = "0"
+                        }
+                    }
+                    if (numberField2.text.toString()
+                            .isNotEmpty() && (numberField2.text.toString()
+                            .toInt() > 0 || numberField2.text.toString()
+                            .toInt() < 0)
+                    ) {
+                        if (numberField2.text.toString() != "" && numberField2.text.toString() != "-" && numberField2.text.toString()
+                                .toInt() >= 0 && numberField2.text.toString()
+                                .toInt() <= data[numberPicker.value - 1].toInt()
+                        ) {
+                            numberField1.hint =
+                                (data[numberPicker.value - 1].toInt() - numberField2.text.toString()
+                                    .toInt()).toString()
+                        } else if (numberField2.text.toString().toInt() < 0) {
+                            numberField1.hint =
+                                data[numberPicker.value - 1]
+                        } else {
+                            numberField1.hint = "0"
+                            numberField2.hint = "0"
+                        }
+                    }
+                }
+            } catch (ignored: Exception) {
+            }
+        }
+        numberPicker.setOnValueChangedListener { picker: NumberPicker, _: Int, _: Int ->
+            try {
+                if (!(numberField1.text.toString().isEmpty() && numberField2.text.toString()
+                        .isEmpty()) || !(numberField1.text.toString()
+                        .isNotEmpty() && numberField2.text.toString().isNotEmpty())
+                ) {
+                    if (numberField1.text.toString()
+                            .isNotEmpty() && (numberField1.text.toString()
+                            .toInt() > 0 || numberField1.text.toString()
+                            .toInt() < 0)
+                    ) {
+                        if (numberField1.text.toString() != "" && numberField1.text.toString() != "-" && numberField1.text.toString()
+                                .toInt() >= 0 && numberField1.text.toString()
+                                .toInt() <= data[picker.value - 1].toInt()
+                        ) {
+                            numberField2.hint =
+                                (data[picker.value - 1].toInt() - numberField1.text.toString()
+                                    .toInt()).toString()
+                        } else if (numberField1.text.toString().toInt() < 0) {
+                            numberField2.hint =
+                                data[numberPicker.value - 1]
+                        } else {
+                            numberField1.hint = "0"
+                            numberField2.hint = "0"
+                        }
+                    }
+                    if (numberField2.text.toString()
+                            .isNotEmpty() && (numberField2.text.toString()
+                            .toInt() > 0 || numberField2.text.toString()
+                            .toInt() < 0)
+                    ) {
+                        if (numberField2.text.toString() != "" && numberField2.text.toString() != "-" && numberField2.text.toString()
+                                .toInt() >= 0 && numberField2.text.toString()
+                                .toInt() <= data[picker.value - 1].toInt()
+                        ) {
+                            numberField1.hint =
+                                (data[picker.value - 1].toInt() - numberField2.text.toString()
+                                    .toInt()).toString()
+                        } else if (numberField2.text.toString().toInt() < 0) {
+                            numberField1.hint =
+                                data[numberPicker.value - 1]
+                        } else {
+                            numberField1.hint = "0"
+                            numberField2.hint = "0"
+                        }
+                    }
+                }
+            } catch (ignored: Exception) {
+            }
+        }
+        numberPicker.setOnScrollListener { view: NumberPicker, _: Int ->
+            try {
+                if (numberField1.text.toString() == "0") {
+                    numberField2.hint = data[view.value - 1].toInt().toString()
+                } else if (numberField2.text.toString() == "0") {
+                    numberField1.hint = data[view.value - 1].toInt().toString()
+                } else if (!(numberField1.text.toString()
+                        .isEmpty() && numberField2.text.toString()
+                        .isEmpty()) || !(numberField1.text.toString()
+                        .isNotEmpty() && numberField2.text.toString().isNotEmpty())
+                ) {
+                    if (numberField1.text.toString()
+                            .isNotEmpty() && (numberField1.text.toString()
+                            .toInt() > 0 || numberField1.text.toString()
+                            .toInt() < 0)
+                    ) {
+                        if (numberField1.text.toString() != "" && numberField1.text.toString() != "-" && numberField1.text.toString()
+                                .toInt() >= 0 && numberField1.text.toString()
+                                .toInt() <= data[view.value - 1].toInt()
+                        ) {
+                            numberField2.hint =
+                                (data[view.value - 1].toInt() - numberField1.text.toString()
+                                    .toInt()).toString()
+                        } else if (numberField1.text.toString().toInt() < 0) {
+                            numberField2.hint =
+                                data[numberPicker.value - 1]
+                        } else {
+                            numberField1.hint = "0"
+                            numberField2.hint = "0"
+                        }
+                    }
+                    if (numberField2.text.toString()
+                            .isNotEmpty() && (numberField2.text.toString()
+                            .toInt() > 0 || numberField2.text.toString()
+                            .toInt() < 0)
+                    ) {
+                        if (numberField2.text.toString() != "" && numberField2.text.toString() != "-" && numberField2.text.toString()
+                                .toInt() >= 0 && numberField2.text.toString()
+                                .toInt() <= data[view.value - 1].toInt()
+                        ) {
+                            numberField1.hint =
+                                (data[view.value - 1].toInt() - numberField2.text.toString()
+                                    .toInt()).toString()
+                        } else if (numberField2.text.toString().toInt() < 0) {
+                            numberField1.hint =
+                                data[numberPicker.value - 1]
+                        } else {
+                            numberField1.hint = "0"
+                            numberField2.hint = "0"
+                        }
+                    }
+                }
+            } catch (ignored: Exception) {
+            }
+        }
+
+        numberField1.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(
+                charSequence: CharSequence,
+                i: Int,
+                i1: Int,
+                i2: Int
+            ) {
+            }
+
+            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
+                try {
+                    if (numberField1.text.toString() != "" && numberField1.text.toString() != "-" && numberField1.text.toString()
+                            .toInt() >= 0 && numberField1.text.toString()
+                            .toInt() <= data[numberPicker.value - 1].toInt()
+                    ) {
+                        numberField2.hint =
+                            (data[numberPicker.value - 1].toInt() - numberField1.text.toString()
+                                .toInt()).toString()
+                    } else if (numberField1.text.toString().toInt() < 0) {
+                        numberField2.hint =
+                            data[numberPicker.value - 1]
+                    } else {
+                        numberField1.hint = "0"
+                        numberField2.hint = "0"
+                    }
+                } catch (ignored: java.lang.Exception) {
+                }
+            }
+
+            override fun afterTextChanged(editable: Editable) {}
+        })
+
+        numberField2.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(
+                charSequence: CharSequence,
+                i: Int,
+                i1: Int,
+                i2: Int
+            ) {
+            }
+
+            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
+                try {
+                    if (numberField2.text.toString() != "" && numberField2.text.toString() != "-" && numberField2.text.toString()
+                            .toInt() >= 0 && numberField2.text.toString()
+                            .toInt() <= data[numberPicker.value - 1].toInt()
+                    ) {
+                        numberField1.hint =
+                            (data[numberPicker.value - 1].toInt() - numberField2.text.toString()
+                                .toInt()).toString()
+                    } else if (numberField2.text.toString().toInt() < 0) {
+                        numberField1.hint =
+                            data[numberPicker.value - 1]
+                    } else {
+                        numberField1.hint = "0"
+                        numberField2.hint = "0"
+                    }
+                } catch (ignored: java.lang.Exception) {
+                }
+            }
+
+            override fun afterTextChanged(editable: Editable) {}
+        })
+
+        numberField1.setOnEditorActionListener { _, _, _ ->
+            onClick()
+            val inputMethodManager = requireActivity().getSystemService(
+                Activity.INPUT_METHOD_SERVICE
+            ) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(
+                requireActivity().currentFocus!!.windowToken, 0
+            )
+        }
+        numberField2.setOnEditorActionListener { _, _, _ ->
+            onClick()
+            val inputMethodManager = requireActivity().getSystemService(
+                Activity.INPUT_METHOD_SERVICE
+            ) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(
+                requireActivity().currentFocus!!.windowToken, 0
+            )
+        }
+        name1.setOnEditorActionListener { _, _, _ ->
+            val inputMethodManager = requireActivity().getSystemService(
+                Activity.INPUT_METHOD_SERVICE
+            ) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(
+                requireActivity().currentFocus!!.windowToken, 0
+            )
+        }
+        name2.setOnEditorActionListener { _, _, _ ->
+            val inputMethodManager = requireActivity().getSystemService(
+                Activity.INPUT_METHOD_SERVICE
+            ) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(
+                requireActivity().currentFocus!!.windowToken, 0
+            )
+        }
+        loadText()
+        val pref = PreferenceManager.getDefaultSharedPreferences(requireActivity())
+        val font = pref.getString("fonts", "font/roboto.ttf")
+        numberPicker.setSelectedTypeface(Typeface.createFromAsset(requireContext().assets, font))
+        numberPicker.typeface = Typeface.createFromAsset(requireContext().assets, font)
+
+        view.fadInAnimation(700)
+        activateNames(arrayListOf(box1, box2))
 
         val calculatorFab: FloatingActionButton = view.findViewById(R.id.calculator_fab)
-        calculatorFab.setOnClickListener { mainActivity.onCalcClick() }
-
+        calculatorFab.setOnClickListener {
+            mainActivity.onCalcClick()
+        }
         val menuFab: FloatingActionButton = view.findViewById(R.id.menu_fab)
         menuFab.setOnClickListener {
             startActivity(Intent(mainActivity, MenuActivity::class.java))
             mainActivity.overridePendingTransition(R.anim.appear, R.anim.disappear)
             mainActivity.finish()
         }
-    }
-
-    private fun createTextWatcher(afterTextChanged: () -> Unit): TextWatcher {
-        return object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                afterTextChanged()
-            }
-
-            override fun afterTextChanged(s: Editable?) {}
-        }
-    }
-
-    private fun updateHints(
-        numberField1: EditText,
-        numberField2: EditText,
-        numberPicker: NumberPicker
-    ) {
-        try {
-            val value = data[numberPicker.value - 1].toInt()
-            if (numberField1.text.toString().isNotEmpty()) {
-                val num = numberField1.text.toString().toInt()
-                numberField2.hint = (value - num).toString()
-            } else if (numberField2.text.toString().isNotEmpty()) {
-                val num = numberField2.text.toString().toInt()
-                numberField1.hint = (value - num).toString()
-            }
-        } catch (ignored: Exception) {
-        }
-    }
-
-    private fun onPickerValueChange(picker: NumberPicker) {
-        updateHints(numberField1, numberField2, picker)
-        updateHints(numberField2, numberField1, picker)
-    }
-
-    private fun onPickerScroll(view: NumberPicker) {
-        if (numberField1.text.toString().isNotEmpty() || numberField2.text.toString().isNotEmpty()) {
-            try {
-                val value = data[view.value - 1].toInt()
-                numberField1.hint = value.toString()
-                numberField2.hint = value.toString()
-            } catch (ignored: Exception) {
-            }
-        }
-    }
-
-    private fun setupFonts() {
-        val pref = PreferenceManager.getDefaultSharedPreferences(requireActivity())
-        val font = pref.getString("fonts", "font/roboto.ttf")
-        numberPicker.setSelectedTypeface(Typeface.createFromAsset(requireContext().assets, font))
-        numberPicker.typeface = Typeface.createFromAsset(requireContext().assets, font)
+        return view
     }
 
     private fun onClick() {
         val imm =
-            requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            requireActivity().applicationContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         if (imm.isAcceptingText) {
-            imm.hideSoftInputFromWindow(
-                requireActivity().currentFocus?.windowToken,
-                InputMethodManager.HIDE_NOT_ALWAYS
-            )
+            if (requireActivity().currentFocus != null) {
+                imm.hideSoftInputFromWindow(
+                    requireActivity().currentFocus!!.windowToken,
+                    InputMethodManager.HIDE_NOT_ALWAYS
+                )
+            }
         }
-        if (numberField1.text.toString().isNotEmpty() || numberField2.text.toString()
-                .isNotEmpty()
-        ) {
+        if (!(numberField1.text.toString() == "" && numberField2.text.toString() == "")) {
             try {
                 val prev1 = resultField1.text.toString().toInt()
                 val prev2 = resultField2.text.toString().toInt()
-                val now1 =
-                    numberField1.text.toString().toIntOrNull() ?: numberField1.hint.toString()
-                        .toInt()
-                val now2 =
-                    numberField2.text.toString().toIntOrNull() ?: numberField2.hint.toString()
-                        .toInt()
-
-                if (now1 != 0) resultField1.setTextAnimation((prev1 + now1).toString(), 200)
-                if (now2 != 0) resultField2.setTextAnimation((prev2 + now2).toString(), 200)
-                mainActivity.gameWithGamers!!.gamers[0].gameScore!!.add(now1.toString())
-                mainActivity.gameWithGamers!!.gamers[1].gameScore!!.add(now2.toString())
+                val now1: Int
+                val now2: Int
+                if (numberField1.text.toString() != "") now1 =
+                    numberField1.text.toString().toInt() else {
+                    now1 = numberField1.hint.toString().toInt()
+                    numberField1.setText(numberField1.hint.toString())
+                }
+                if (numberField2.text.toString() != "") now2 =
+                    numberField2.text.toString().toInt() else {
+                    now2 = numberField2.hint.toString().toInt()
+                    numberField2.setText(numberField2.hint.toString())
+                }
+                if (now1 != 0)
+                    resultField1.setTextAnimation((prev1 + now1).toString(), 200)
+                if (now2 != 0)
+                    resultField2.setTextAnimation((prev2 + now2).toString(), 200)
+                mainActivity.gameWithGamers!!.gamers[0].gameScore!!.add(numberField1.text.toString())
+                mainActivity.gameWithGamers!!.gamers[1].gameScore!!.add(numberField2.text.toString())
                 mainActivity.gameWithGamers!!.gamers[0].score = resultField1.text.toString().toInt()
                 mainActivity.gameWithGamers!!.gamers[1].score = resultField2.text.toString().toInt()
 
@@ -280,7 +447,6 @@ class Fragment2x2 : CyaneaFragment() {
         content.text = getString(R.string.new_game)
 
         val messageBoxInstance = messageBoxBuilder.show()
-        messageBoxInstance.window?.setBackgroundDrawableResource(R.drawable.message_background)
 
         messageBoxView.findViewById<Button>(R.id.message_box_yes).setOnClickListener {
             try {
