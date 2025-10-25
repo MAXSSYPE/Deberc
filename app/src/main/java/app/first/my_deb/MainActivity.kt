@@ -8,10 +8,14 @@ import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MotionEvent
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import androidx.viewpager.widget.ViewPager
@@ -50,6 +54,26 @@ class MainActivity : CyaneaAppCompatActivity(), CalcDialog.CalcDialogCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // Enable edge-to-edge display
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        // Handle window insets to prevent navigation bar overlap
+        val rootView = findViewById<View>(android.R.id.content)
+        ViewCompat.setOnApplyWindowInsetsListener(rootView) { view, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+
+            // Apply padding to account for system bars (navigation buttons, status bar)
+            view.setPadding(
+                insets.left,
+                insets.top,
+                insets.right,
+                insets.bottom
+            )
+
+            WindowInsetsCompat.CONSUMED
+        }
+
         lifecycleScope.launch {
             setupFont()
             setupDatabase()
