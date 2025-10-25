@@ -1,20 +1,42 @@
 plugins {
     id 'com.android.application'
-    id 'kotlin-android-extensions'
     id 'kotlin-android'
-    id 'kotlin-kapt'
+    id 'com.google.devtools.ksp'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }
 
 android {
     compileSdk 34
+
+    applicationVariants.all { variant ->
+        variant.addJavaSourceFoldersToModel(
+            new File(buildDir, "generated/ksp/${variant.name}/kotlin")
+        )
+    }
+
     defaultConfig {
         applicationId "app.first.my_deb"
         minSdkVersion 23
-        targetSdkVersion 34
+        targetSdkVersion 36
         versionCode 35
-        versionName "6.5.1"
+        versionName "6.5.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         resourceConfigurations += ['en', 'UA', 'es', 'fr', 'it', 'de', 'bg', 'pl', 'ru']
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += [
+                    "room.schemaLocation":"$projectDir/schemas".toString(),
+                    "room.incremental":"true",
+                    "room.validateMigrations":"false"
+                ]
+            }
+        }
     }
     buildTypes {
         release {
@@ -22,14 +44,21 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    android {
-        compileOptions {
-            sourceCompatibility JavaVersion.VERSION_17
-            targetCompatibility JavaVersion.VERSION_17
-        }
-        kotlinOptions {
-            jvmTarget = JavaVersion.VERSION_17.toString()
-        }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+
+    ksp {
+        arg("room.schemaLocation", "$projectDir/schemas")
+        arg("room.incremental", "true")
+        arg("room.expandProjection", "true")
+        arg("room.generateKotlin", "true")
     }
 
     lint {
@@ -50,7 +79,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-process:2.5.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.0'
     implementation "androidx.cardview:cardview:1.0.0"
-    implementation 'com.google.android.gms:play-services-ads:21.0.0'
+    implementation 'com.google.android.gms:play-services-ads:23.0.0'
     implementation 'com.google.firebase:firebase-core:21.0.0'
     implementation 'com.google.code.gson:gson:2.9.0'
     implementation 'com.google.android.material:material:1.6.1'
@@ -64,12 +93,13 @@ dependencies {
     implementation 'com.github.sephiroth74:NumberSlidingPicker:1.0.3'
     implementation 'com.github.andremion:counterfab:1.2.2'
     implementation 'androidx.leanback:leanback:1.2.0-alpha02'
-    implementation "androidx.room:room-runtime:2.4.2"
-    kapt "androidx.room:room-compiler:2.4.2"
-    implementation "androidx.room:room-ktx:2.4.2"
-    implementation "androidx.room:room-rxjava2:2.4.2"
+    implementation "androidx.room:room-runtime:2.6.1"
+    ksp "androidx.room:room-compiler:2.6.1"
+    implementation "androidx.room:room-ktx:2.6.1"
+    implementation "androidx.room:room-rxjava2:2.6.1"
 }
 apply plugin: 'com.google.gms.google-services'
 repositories {
     mavenCentral()
 }
+
