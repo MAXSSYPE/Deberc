@@ -23,7 +23,7 @@ android {
         applicationId "app.first.my_deb"
         minSdkVersion 23
         targetSdkVersion 36
-        versionCode 35
+        versionCode 36
         versionName "6.5.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         resourceConfigurations += ['en', 'UA', 'es', 'fr', 'it', 'de', 'bg', 'pl', 'ru']
